@@ -32,22 +32,23 @@ PAGE_SAVE_AS='{slug}/index.html'
 
 STATIC_PATHS= ['images', 'files']
 
-#DIRECT_TEMPLATES = ('index', 'tags', 'categories', 'archives',
-                    #)
-                    # 'blog')
-INDEX_SAVE_AS = 'blog/index.html'
-#BLOG_SAVE_AS = 'blog/index.html'
+# DIRECT_TEMPLATES = ( 'index', 'tags', 'archives', 'articles')
+DIRECT_TEMPLATES = ('blog_index', 'tags', 'categories', 'archives',)
+PAGINATED_DIRECT_TEMPLATES= ('blog_index',)
+BLOG_INDEX_SAVE_AS = 'blog/index.html'
+
 #Choose the pages/articles by slug to link to in the top-bar.
 #NB there is a magic value, 'BLOG', which links to the blog index. 
-#(See blog.html template.)
-#(Site landing index.html is always linked in upper left.)
+#(See blog.html template, which has no slug as it's a direct template.)
+#Site landing page is always linked in upper left.
 TOPBAR_PAGE_LINKS = OrderedDict((
                                  ('about','About'), 
                                  ('code','Code'),
                                  ('research' ,'Research'),
                                  ('links','Links'),
-                                 ('BLOG','Tech Blog'),
+                                 ('BLOG','Blog'),
                                  ))
+
 
 # Blogroll
 # LINKS =  (('Pelican', 'http://getpelican.com/'),
