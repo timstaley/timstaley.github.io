@@ -6,10 +6,11 @@ from collections import OrderedDict
 AUTHOR = u'Tim Staley'
 SITENAME = u"Tim Staley"
 SITEURL = 'http://timstaley.test'
+SITEURL = ''
+RELATIVE_URLS = True
 
 TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
-RELATIVE_URLS = True
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None

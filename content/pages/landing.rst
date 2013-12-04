@@ -3,7 +3,8 @@ Welcome
 #######
 :url:
 :save_as: index.html
-:bgimage: not_rot_crop_1920_360.jpg
+:banner_image: not_rot_crop_1920_360.jpg
+:banner_image_height: 360
 :nofooter: x
 
 Hello! 
