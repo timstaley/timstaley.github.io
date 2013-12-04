@@ -3,7 +3,7 @@ Welcome
 #######
 :url:
 :save_as: index.html
-:bgimage: not_rot_crop2.jpg
+:bgimage: not_rot_crop_1920_360.jpg
 :nofooter: x
 
 Hello! 

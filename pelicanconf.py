@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 AUTHOR = u'Tim Staley'
 SITENAME = u"Tim Staley"
-SITEURL = 'http://www.timstaley.test'
+SITEURL = 'http://timstaley.test'
 
 TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
@@ -41,13 +41,14 @@ TAGS_SAVE_AS = 'tag/index.html'
 #NB there is a magic value, 'BLOG', which links to the blog index. 
 #(See blog.html template, which has no slug as it's a direct template.)
 #Site landing page is always linked in upper left.
-TOPBAR_PAGE_LINKS = OrderedDict((
-                                 ('about','About'), 
-                                 ('code','Code'),
-                                 ('research' ,'Research'),
-                                 ('links','Links'),
-                                 ('BLOG','Blog'),
-                                 ))
+
+DISPLAY_CATEGORIES_ON_MENU = False
+DISPLAY_PAGES_ON_MENU = False
+ARCHIVES_URL = 'blog'
+MENUITEMS = [
+             ('Research', SITEURL+'/research'), 
+             ("About Me", SITEURL+'/about'),
+             ]
 
 # Blogroll
 # LINKS =  (('Pelican', 'http://getpelican.com/'),
