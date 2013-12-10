@@ -19,11 +19,23 @@ TRANSLATION_FEED_ATOM = None
 THEME='../pelican-bootstrap3'
 BOOTSTRAP_THEME = "flatly"
 
+
+DIRECT_TEMPLATES = ('blog_index', 'tags', 'categories', 'archives',)
+PAGINATED_DIRECT_TEMPLATES= ('blog_index',)
+BLOG_INDEX_SAVE_AS = 'blog/index.html'
 # 
+ARCHIVES_URL = 'posts'
+ARCHIVES_SAVE_AS = 'posts/index.html'
+CATEGORIES_URL = 'categories'
+CATEGORIES_SAVE_AS = 'categories/index.html'
+CATEGORY_URL = 'posts/{slug}'
+CATEGORY_SAVE_AS = 'posts/{slug}/index.html'
 ARTICLE_URL='posts/{slug}'
 ARTICLE_SAVE_AS='posts/{slug}/index.html'
-CATEGORY_URL = 'category/{slug}'
-CATEGORY_SAVE_AS = 'category/{slug}/index.html'
+TAGS_URL = 'tag'
+TAGS_SAVE_AS = 'tag/index.html'
+TAG_URL = 'tag/{slug}'
+TAG_SAVE_AS = 'tag/{slug}/index.html'
 PAGE_URL='{slug}'
 PAGE_SAVE_AS='{slug}/index.html'
  
@@ -31,12 +43,6 @@ STATIC_PATHS= ['images', 'files', 'css']
 DEFAULT_DATE = 'fs'
  
 # DIRECT_TEMPLATES = ( 'index', 'tags', 'archives', 'articles')
-DIRECT_TEMPLATES = ('blog_index', 'tags', 'categories', 'archives',)
-PAGINATED_DIRECT_TEMPLATES= ('blog_index',)
-BLOG_INDEX_SAVE_AS = 'blog/index.html'
-ARCHIVES_SAVE_AS = 'posts/index.html'
-CATEGORIES_SAVE_AS = 'category/index.html'
-TAGS_SAVE_AS = 'tag/index.html'
 
 #Choose the pages/articles by slug to link to in the top-bar.
 #NB there is a magic value, 'BLOG', which links to the blog index. 
@@ -45,7 +51,7 @@ TAGS_SAVE_AS = 'tag/index.html'
 
 DISPLAY_CATEGORIES_ON_MENU = False
 DISPLAY_PAGES_ON_MENU = False
-ARCHIVES_URL = 'blog'
+BLOG_URL = 'blog'
 MENUITEMS = [
              ('Research', SITEURL+'/research'), 
              ("About Me", SITEURL+'/about'),
