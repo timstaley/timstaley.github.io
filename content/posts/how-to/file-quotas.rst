@@ -11,7 +11,9 @@ However, it's nice to have this confirmed or refuted before you dive in,
 so here are my notes. 
 All terminal commands should be performed with sudo rights. 
 
-First off::
+First off:
+
+.. code-block:: bash
 
    $ apt-get install quota quotatool
    
@@ -27,7 +29,9 @@ Now, at this point your machine *may* reboot, build the quota files all by
 itself, and bring up the login all ready to go. 
 Which is somewhat confusing, as the old-school guides dive into detail about 
 how you do that manually. Or, confusingly, it may not. 
-In which case, **DON'T PANIC!**
+In which case 
+
+**DON'T PANIC!**
 
 Simply check for 2 things:
 
@@ -35,7 +39,9 @@ Simply check for 2 things:
   in the root directory of your quota'd mount points.
 - Whether the quota service is running (try ``service quota status``).
 
-If the files are missing, you need to manually force a quotacheck::
+If the files are missing, you need to manually force a quotacheck:
+
+.. code-block:: bash
 
    $ service quota stop #Just to be certain
    $ quotacheck -avug #all, verbose, user and group quotas
@@ -43,11 +49,15 @@ If the files are missing, you need to manually force a quotacheck::
 This might take several hours on multi-terabyte RAID arrays, so you might want 
 to run it from a `screen <http://en.wikipedia.org/wiki/GNU_Screen>`_.
 
-Now just switch the service back on::
+Now just switch the service back on:
+
+.. code-block:: bash
 
    $ service quota start
 
-and give it a test run. My preferred flags are::
+and give it a test run. My preferred flags are:
+
+.. code-block:: bash
 
    $ quota -vs --show-mntpoint --hide-device
 
