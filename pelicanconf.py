@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
-from collections import OrderedDict
 
 AUTHOR = u'Tim Staley'
 SITENAME = u"Tim Staley"
-SITEURL = 'http://timstaley.test'
-SITEURL = ''
-RELATIVE_URLS = True
+#SITEURL = 'http://timstaley.co.uk'
+SITEURL = 'http://localhost'
+RELATIVE_URLS = False
 
 TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
@@ -44,11 +43,6 @@ DEFAULT_DATE = 'fs'
  
 # DIRECT_TEMPLATES = ( 'index', 'tags', 'archives', 'articles')
 
-#Choose the pages/articles by slug to link to in the top-bar.
-#NB there is a magic value, 'BLOG', which links to the blog index. 
-#(See blog.html template, which has no slug as it's a direct template.)
-#Site landing page is always linked in upper left.
-
 DISPLAY_CATEGORIES_ON_MENU = False
 DISPLAY_PAGES_ON_MENU = False
 BLOG_URL = 'blog'
@@ -57,16 +51,8 @@ MENUITEMS = [
              ("About Me", SITEURL+'/about'),
              ]
 
-# Blogroll
-# LINKS =  (('Pelican', 'http://getpelican.com/'),
-#           ('Python.org', 'http://python.org/'),
-#           ('Jinja2', 'http://jinja.pocoo.org/'),
-#           ('You can modify those links in your config file', '#'),)
-# 
-# # Social widget
-# SOCIAL = (('You can add links in your config file', '#'),
-#           ('Another social link', '#'),)
 
-DEFAULT_PAGINATION = 5
-
+DEFAULT_PAGINATION = 10
+GOOGLE_ANALYTICS = 'UA-46485279-1'
+USE_OPEN_GRAPH = False
 
