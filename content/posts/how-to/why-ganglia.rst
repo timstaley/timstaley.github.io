@@ -74,7 +74,8 @@ as a real-time dashboard.
 suggests this is both configurable and perhaps not even default anymore, 
 but who reads a bug-report when they're skimming FAQ's?)
  
-There are some slightly hazy, not particularly quantitative claims about
+There are also some slightly hazy, not particularly quantitative 
+`claims <http://www.ehow.com/info_12209999_ganglia-vs-munin.html>`_ about
 how Ganglia is supposed to be highly scalable, due to the way
 it can be configured hierarchically - nodes reporting to clusters,
 clusters reporting to grids, grids being summarised on the uber-dashboard.
@@ -91,7 +92,7 @@ space but is more focused on alerting you when things are broken, rather
 than logging history. Finally, there are some 'hot new technologies'
 in the logging/graphing space, in the form of `statsd`_ and `Graphite`_, which 
 look potentially appealing - but they're not in the standard package 
-repositories yet, and I haven't had time or inclination to investigate them.   
+repositories yet, and I haven't yet had time or inclination to investigate them.   
 
 
 .. _Cacti: http://www.cacti.net/

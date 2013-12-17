@@ -5,15 +5,18 @@ from __future__ import unicode_literals
 AUTHOR = u'Tim Staley'
 SITENAME = u"Tim Staley"
 #SITEURL = 'http://timstaley.co.uk'
-SITEURL = 'http://localhost'
+SITEURL = 'http://agrajag'
 RELATIVE_URLS = False
 
 TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
 # Feed generation is usually not desired when developing
-FEED_ALL_ATOM = None
-CATEGORY_FEED_ATOM = None
-TRANSLATION_FEED_ATOM = None
+# FEED_ALL_ATOM = None
+# CATEGORY_FEED_ATOM = None
+# TRANSLATION_FEED_ATOM = None
+
+FEED_ALL_ATOM = 'feeds/all.atom.xml'
+CATEGORY_FEED_ATOM = 'feeds/%s.atom.xml'
 
 THEME='../pelican-bootstrap3'
 BOOTSTRAP_THEME = "flatly"
