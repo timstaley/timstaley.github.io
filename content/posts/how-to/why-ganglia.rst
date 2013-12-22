@@ -3,11 +3,18 @@
 Why Ganglia?
 ############
 
-:date: 2013-12-16
+:date: 2013-12-20
 :tags: Ubuntu, Ganglia, sysadmin
 
 **Or, everything you wanted to know about setting up Ganglia, but couldn't grok 
 from the official documentation - part 1.**
+
+I recently set up `Ganglia`_ monitoring on couple of new machines
+I'm looking after. While I've used Ganglia before, I wanted to do some 
+slightly non-standard things this time around. This in turn reminded me that
+the official documentation is a bit jargon-heavy, 
+so I felt it was worth writing up my take on what you should know about it 
+as a newcomer.
 
 In this post I'll cover:
 
@@ -17,10 +24,9 @@ In this post I'll cover:
 (See `part 2 <{filename}ganglia-setup-explained.rst>`_ 
 for details on how the Ganglia utils work 
 together, and how to set up a minimal configuration.)
-
-I recently set up `Ganglia`_ monitoring on couple of new machines
-I'm looking after. Ganglia is a collection of tools for collecting performance 
-metrics on all the machines in a cluster - 
+ 
+Ganglia is an open-source collection of tools for 
+collecting performance metrics on all the machines in a cluster - 
 CPU and RAM usage, network IO, disk space remaining etc. 
 These are typically interpreted via a web-based frontend 'dashboard'
 page in your browser like so (click through for big version):
@@ -48,8 +54,8 @@ For me, this has at least three major benefits.
    about which machine they should run their data-crunching on.    
 
 
-It's worth mentioning that there are several competing (free) software packages
-that address these kind of problems, or overlap somewhat.
+It's worth mentioning that there are several competing (and also open source) 
+software packages that address these kind of problems, or overlap somewhat.
  
 As far as I can tell, `Cacti`_ and `Munin`_
 are pretty much directly comparable to Ganglia. 
@@ -82,10 +88,16 @@ clusters reporting to grids, grids being summarised on the uber-dashboard.
 Which is probably true, but it's unclear if we're talking 10's, 100's or 
 1000's of nodes before this would be an issue for Munin etc - or if that's 
 just outdated FUD and Munin scales just as well. 
- 
+
 But anyway, Ganglia works well for me - and once you understand the config files
 setting it up is very quick and easy; 
-see `part 2 <{filename}ganglia-setup-explained.rst>`_. 
+see `part 2 <{filename}ganglia-setup-explained.rst>`_.
+
+**EDIT**: On further googling, I came across this: 
+http://www.igvita.com/2010/01/28/cluster-monitoring-with-ganglia-ruby/
+- I think everything I've said here agrees with the assertions there,
+and that guy's a 'web performance engineer' at Google, so make of that what 
+you will. 
 
 While I'm here, I might as well mention `Nagios`_, which exists in a similar 
 space but is more focused on alerting you when things are broken, rather
