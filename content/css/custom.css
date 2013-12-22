@@ -12,4 +12,8 @@
 }
 
 
-
+/* Define the following if you like fixed width columns: */
+.eighty-chars {
+    width: 510px;
+    display: inline-block;
+}
