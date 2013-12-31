@@ -221,7 +221,8 @@ request updates ('poll') it via the port listed under the
 ``udp_recv_channel`` stanza. 
 You can in fact configure the node
 to just broadcast blindly at regular intervals 
-(nonzero ``send_metadata_interval``, no udp_recv_channel stanza) 
+(set ``send_metadata_interval`` to a nonzero value, 
+delete the udp_recv_channel stanza) 
 or you can rely solely on polling, but it seems sensible to have both 
 switched on. 
 See the 
