@@ -6,47 +6,46 @@ Research
 ======
 Recent
 ======
-I'm currently working on two projects:
 
-**Auto-AMI** is a programme to undertake automated systematic follow-up 
-observations of gamma-ray burst sources (GRBs). We're collaborating closely with 
-the team at the Arcminute Microkelvin Imager, Cambridge, to create a fully
-robotic system, from monitoring alert messages from the Swift satellite 
-right through to slewing the telescope. As a result we're obtaining radio data
-at very early times in the GRB afterglow evolution, and we'll shortly be 
-submitting a paper to MNRAS. If you're interested in the software used to
-automate the system, you should take a look at Comet and pysovo. 
-If you're still interested, contact me.
+Since October 2011 I've been working with the `4 Pi Sky project`_, 
+which (broadly) aims to automate both the detection and follow-up observation
+of astronomical transients, motivated in large part by the next generation
+of large radio telescopes.
+
+Nuts and bolts, transient triggers
+----------------------------------
+A fair portion of my work to date has been developing basic software 
+infrastructure, in the form of various small libraries and tools for automating 
+processing of astronomical alerts and unattended data reduction 
+(see the `code <{filename}code.rst>`_ page).
+This sort of stuff is quite fun and satisfying when done well,
+but I wouldn't really classify it as 'research' in its own right. 
+However, the efforts are beginning to bear fruit. 
+With the help of our collaborators at the MRAO, 
+since mid-2012 we have been triggering automatic observations with the 
+`AMI`_ Large Array, with one `paper`_ published and more in prep.  
  
-Data obtained with AMI is also proving a conveniently manageable dataset for 
-testing and refinement of **the Trap**, a software project I'm 
-working on in close collaboration with developers at 
-`UvA <http://www.astro.uva.nl/>`_.
-Trap is a transients detection pipeline 
+Transient discovery with the 'Trap'
+-----------------------------------
+I've also been helping with development of a software project born out of the
+`LOFAR-TKP`_ group at `UvA`_.
+The `Trap`_ is a transients detection pipeline 
 written primarily for use with data from 
-LOFAR - a low frequency radio array. LOFAR will observe at ~10s to 100s 
+`LOFAR`_ - a low frequency radio array. LOFAR will observe at ~10s to 100s 
 of megahertz rather than the usual gigahertz range, 
 giving us a new window on the radio sky.
-The pipeline 'stack' employs
-Python for data analysis, a MonetDB
-backend, and Django for driving a 
-browser-based science-user interface. 
 While LOFAR presents a particular challenge due to the sheer volume
 of data produced, the algorithms being developed are applicable to a range 
 of transient astronomy projects. 
+A paper and open-source release are in prep.
 
-More details on the transients survey can
-be found here:
+=============
+Lucky Imaging
+=============
 
-- `LOFAR-TKP science case <http://www.lofar.org/astronomy/transients-ksp/scientific-rationale/scientific-rationale>`_
-- `LOFAR-TKP technical information <http://www.lofar.org/astronomy/transients-ksp/technical-description/technical-description>`_
+**(PhD, 2007 - 2011)**
 
-
-====  
-PhD
-====
-
-**(2007 - 2011)**
+*NB link to* thesis_ *at end.*
 
 My PhD research was focused upon algorithm and software development for a 
 technique called 
@@ -78,7 +77,23 @@ I also did some work on Monte-Carlo simulation of lucky imaging data,
 both for simulation of combined adaptive-optics + lucky imaging systems, and for development 
 of more sophisticated wide-field lucky imaging algorithms.
 
-If you're interested in the details you can download my thesis. Two versions of the PDF are available:  
-`online <files/Staley_thesis_online_version.pdf>` and 
-`print <files/Staley_thesis_print_version.pdf>` 
-format.
+Thesis
+------
+
+If you're interested in the details you can download my thesis via the following
+links:
+  
+- `One page summary (tiny). <http://www.astro.soton.ac.uk/~ts3e11/files/Staley_thesis_summary.pdf>`_  
+- `Complete thesis, online format (23mb) <http://www.astro.soton.ac.uk/~ts3e11/files/Staley_thesis_online_version.pdf>`_  
+  (i.e. with hyperlinks - note these don't show up when viewed via the Chrome integrated PDF reader)
+- `Complete thesis, print format (23mb). <http://www.astro.soton.ac.uk/~ts3e11/files/Staley_thesis_print_version.pdf>`_ 
+
+.. _4 Pi Sky project: http://www.4pisky.soton.ac.uk/
+
+.. _AMI: http://www.mrao.cam.ac.uk/facilities/ami/
+.. _paper: http://ukads.nottingham.ac.uk/abs/2012arXiv1211.3115S
+
+.. _lofar-tkp: http://www.transientskp.org/
+.. _uva:  http://www.astro.uva.nl/
+.. _trap: http://docs.transientskp.org/
+.. _lofar: http://en.wikipedia.org/wiki/LOFAR
