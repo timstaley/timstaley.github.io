@@ -50,8 +50,8 @@ DISPLAY_CATEGORIES_ON_MENU = False
 DISPLAY_PAGES_ON_MENU = False
 BLOG_URL = 'blog'
 MENUITEMS = [
-             ('Research', SITEURL+'/research'), 
-             ("About Me", SITEURL+'/about'),
+             ('Research', '/research'), 
+#              ("About Me", '/about'),
              ]
 
 
