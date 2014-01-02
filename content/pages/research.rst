@@ -18,7 +18,7 @@ A fair portion of my work to date has been developing basic software
 infrastructure, in the form of various small libraries and tools for automating 
 processing of astronomical alerts and unattended data reduction 
 (see the `code <{filename}code.rst>`_ page).
-This sort of stuff is quite fun and satisfying when done well,
+This sort of stuff is quite satisfying when done well,
 but I wouldn't really classify it as 'research' in its own right. 
 However, the efforts are beginning to bear fruit. 
 With the help of our collaborators at the MRAO, 
