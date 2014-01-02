@@ -41,7 +41,7 @@ TAG_SAVE_AS = 'tag/{slug}/index.html'
 PAGE_URL='{slug}'
 PAGE_SAVE_AS='{slug}/index.html'
  
-STATIC_PATHS= ['images', 'files', 'css']
+STATIC_PATHS= ['images', 'css']
 DEFAULT_DATE = 'fs'
  
 # DIRECT_TEMPLATES = ( 'index', 'tags', 'archives', 'articles')
