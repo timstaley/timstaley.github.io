@@ -3,9 +3,9 @@ Code
 ####
 :slug: code
 
-==================
-(See also: Github)
-==================
+=====================
+(See also: `Github`_)
+=====================
 
 For a full listing of my public repositories and to see what I've been 
 doing lately, check out my `profile`_ on Github. 
@@ -68,8 +68,8 @@ develop pyds9 in the future.
 
 
 
-
-.. _profile: http://github.com/timstaley
+.. _profile: http://github.com/timstaley?tab=repositories 
+.. _Github: http://github.com/timstaley
 .. _Open Source Report Card: http://osrc.dfm.io/timstaley
 
 .. _voevent-parse: http://github.com/timstaley/voevent-parse

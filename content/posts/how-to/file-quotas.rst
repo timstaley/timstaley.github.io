@@ -61,7 +61,7 @@ and give it a test run. My preferred flags are:
 
    $ quota -vs --show-mntpoint --hide-device
 
-- you might want to alias that.
+-you might want to alias that.
 
 If you're already sharing the quota'd mounts over NFS, don't worry! 
 The quota info is exported without any further configuration. 
