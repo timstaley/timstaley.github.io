@@ -46,7 +46,7 @@ If the files are missing, you need to manually force a quotacheck:
    $ service quota stop #Just to be certain
    $ quotacheck -avug #all, verbose, user and group quotas
 
-This might take several hours on multi-terabyte RAID arrays, so you might want 
+This can take several hours on multi-terabyte RAID arrays, so you might want 
 to run it from a `screen <http://en.wikipedia.org/wiki/GNU_Screen>`_.
 
 Now just switch the service back on:
