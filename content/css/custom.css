@@ -7,6 +7,14 @@
   	white-space: pre;
 }
 
+.code {
+   
+    overflow: auto;
+  	word-wrap: normal;
+  	white-space: pre;
+}
+
+
 .nv {
     color: rgb(63, 57, 197);
 }
