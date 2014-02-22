@@ -14,6 +14,19 @@ Dan Foreman-Mackey's `Open Source Report Card`_.
 
 I've highlighted some of my repositories with brief descriptions below.
 
+===============
+General purpose
+===============
+
+`autocrunch`_
+----------------
+A python script demonstrating how to use `pyinotify`_ to monitor a local
+directory for files that have been transferred with rsync,
+then process them in a parallel fashion using a multiprocessing pool
+(via whatever python reduction process you care to define).
+This has been road-tested quite a bit, and includes decent
+logging and error handling.
+
 
 =========
 Astronomy
@@ -71,6 +84,9 @@ develop pyds9 in the future.
 .. _profile: http://github.com/timstaley?tab=repositories 
 .. _Github: http://github.com/timstaley
 .. _Open Source Report Card: http://osrc.dfm.io/timstaley
+
+.. _autocrunch: http://github.com/timstaley/autocrunch
+.. _pyinotify: http://github.com/seb-m/pyinotify
 
 .. _voevent-parse: http://github.com/timstaley/voevent-parse
 .. _lxml: http://lxml.de/
