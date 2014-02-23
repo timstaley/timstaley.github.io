@@ -22,7 +22,7 @@ THEME='../pelican-bootstrap3'
 BOOTSTRAP_THEME = "flatly"
 
 
-DIRECT_TEMPLATES = ('blog_index', 'tags', 'categories', 'archives',)
+DIRECT_TEMPLATES = ('blog_index', 'tags', 'archives',)
 PAGINATED_DIRECT_TEMPLATES= ('blog_index',)
 BLOG_INDEX_SAVE_AS = 'blog/index.html'
 # 
