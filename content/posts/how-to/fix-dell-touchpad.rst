@@ -4,7 +4,7 @@ Fix your Dell laptop touchpad in Ubuntu
 #######################################
 
 :date: 2013-02-15
-:tags: Ubuntu, Xubuntu, Dell, touchpad
+:tags: how to, Ubuntu, Xubuntu, Dell, touchpad
 
 Just testing a shiny new Dell Precision M4700, which is great... 
 except the trackpad isn't recognized in Xubuntu 12.04, 

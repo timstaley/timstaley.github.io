@@ -3,7 +3,7 @@ John Carmack on the sociology of programming
 ############################################
 :slug: carmack-on-sociology
 :date: 2013-08-23
-:category: reposts
+:tags: reposts
 
 There's a nice blog post 
 `here <http://blogs.uw.edu/ajko/2012/08/22/john-carmack-discusses-the-art-and-science-of-software-engineering/>`_ 

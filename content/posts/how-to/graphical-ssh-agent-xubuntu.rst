@@ -4,7 +4,7 @@ Graphical ssh-agent prompting in Xubuntu
 ########################################
 
 :date: 2014-01-15
-:tags: Xubuntu, ssh
+:tags: how to, Xubuntu, ssh
 
 One of the fallbacks / features (depending on your preference) of using XFCE over the standard Ubuntu interface is that you don't get per-session ssh-agent handling (via a graphical interface) out-of-the-box, meaning you must manually fire up ssh-agent every time you login on your desktop. A minor annoyance, granted, but I remember it grating slightly after migrating from a pleasingly automated Ubuntu 10.04/Gnome setup. 
 

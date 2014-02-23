@@ -3,7 +3,7 @@
 Setting up disk quotas with Ubuntu 12.04
 ########################################
 :date: 2013-07-24
-:tags: Ubuntu, sysadmin
+:tags: how to, Ubuntu, sysadmin
 
 There seems to be very little information on the web about setting up disk 
 quotas, presumably because it's perceived as being trivial. 

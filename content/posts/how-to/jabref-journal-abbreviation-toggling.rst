@@ -4,7 +4,7 @@ Managing journal abbreviations with Jabref
 ##########################################
 
 :date: 2012-09-24
-:tags: LaTeX, astronomy
+:tags: how to, LaTeX, astronomy
 
 If you're writing any kind of scientific paper in LaTeX, 
 it will save you time in the long run if you use a reference manager. 

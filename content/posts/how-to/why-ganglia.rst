@@ -4,7 +4,7 @@ Why Ganglia?
 ############
 
 :date: 2013-12-20
-:tags: Ubuntu, Ganglia, sysadmin, monitoring
+:tags: how to, Ubuntu, Ganglia, sysadmin, monitoring
 
 **Or, everything you wanted to know about setting up Ganglia, but couldn't grok 
 from the official documentation - part 1.**

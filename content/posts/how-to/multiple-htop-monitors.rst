@@ -4,7 +4,7 @@ Cluster monitoring via multiple htop instances
 ##############################################
 
 :date: 2013-02-17
-:tags: sysadmin, monitoring
+:tags: how to, sysadmin, monitoring
 
 For cluster-usage monitoring I've mostly been using Ganglia, as covered 
 `here <{filename}why-ganglia.rst>`_.

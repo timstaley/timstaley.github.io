@@ -2,7 +2,7 @@
 Automated incoming file processing with python
 ##############################################
 
-:date: 2013-11-01
+:date: 2014-02-23
 :tags: python, file monitoring, automation
 
 :status: draft
