@@ -25,3 +25,9 @@
     width: 510px;
     display: inline-block;
 }
+
+/* No footer currently, so add a little padding to prevent the text hitting
+rock bottom */
+.entry-content {
+    padding-bottom: 40px;
+}
