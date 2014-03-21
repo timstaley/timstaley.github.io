@@ -51,7 +51,7 @@ to keep a copy of all your favourite packages.
 
 The full details can be found
 `here <http://www.pip-installer.org/en/latest/user_guide.html#fast-local-installs>`_,
-but in short, you can just drop two scripts into the folder you want to use
+but in short, you can just drop two tiny scripts into the folder you want to use
 as your package cache directory, e.g. as ``download.sh``::
 
     #!/usr/bin/env bash
