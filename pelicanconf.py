@@ -21,6 +21,8 @@ CATEGORY_FEED_ATOM = 'feeds/%s.atom.xml'
 THEME='../pelican-bootstrap3'
 BOOTSTRAP_THEME = "flatly"
 
+STATIC_PATHS= ['images', 'css']
+CUSTOM_CSS = 'css/custom.css'
 
 DIRECT_TEMPLATES = ('blog_index', 'tags', 'archives',)
 PAGINATED_DIRECT_TEMPLATES= ('blog_index',)
@@ -41,11 +43,9 @@ TAG_SAVE_AS = 'tag/{slug}/index.html'
 PAGE_URL='{slug}'
 PAGE_SAVE_AS='{slug}/index.html'
  
-STATIC_PATHS= ['images', 'css']
 DEFAULT_DATE = 'fs'
  
 # DIRECT_TEMPLATES = ( 'index', 'tags', 'archives', 'articles')
-
 DISPLAY_CATEGORIES_ON_MENU = False
 DISPLAY_PAGES_ON_MENU = False
 BLOG_URL = 'blog'
@@ -54,6 +54,9 @@ MENUITEMS = [
              ('Code', '/code'), 
 #              ("About Me", '/about'),
              ]
+
+ARCHIVE_LINK_ON_SIDEBAR = True
+DISPLAY_TAGS_INLINE = True
 
 
 DEFAULT_PAGINATION = 10
