@@ -35,7 +35,7 @@ Contact Details
  
  
 .. _astrophysics group: http://www2.physics.ox.ac.uk/research/astrophysics
-.. _4 Pi Sky project: http://www.4pisky.soton.ac.uk/
+.. _4 Pi Sky project: http://www2.physics.ox.ac.uk/research/four-pi-sky
 .. _research software engineer: http://digital-research-2012.oerc.ox.ac.uk/papers/the-research-software-engineer
 .. _devops: http://en.wikipedia.org/wiki/DevOps
 .. _research: /research

@@ -81,14 +81,14 @@ Thesis
 ------
 
 If you're interested in the details you can download my thesis via the following
-links:
+links, or via the `arxiv <http://arxiv.org/abs/1404.5907>`_:
   
 - `One page summary (tiny). <http://www.astro.soton.ac.uk/~ts3e11/files/Staley_thesis_summary.pdf>`_  
 - `Complete thesis, online format (23mb) <http://www.astro.soton.ac.uk/~ts3e11/files/Staley_thesis_online_version.pdf>`_  
   (i.e. with hyperlinks - note these don't show up when viewed via the Chrome integrated PDF reader)
 - `Complete thesis, print format (23mb). <http://www.astro.soton.ac.uk/~ts3e11/files/Staley_thesis_print_version.pdf>`_ 
 
-.. _4 Pi Sky project: http://www.4pisky.soton.ac.uk/
+.. _4 Pi Sky project: http://www2.physics.ox.ac.uk/research/four-pi-sky
 
 .. _AMI: http://www.mrao.cam.ac.uk/facilities/ami/
 .. _paper: http://ukads.nottingham.ac.uk/abs/2012arXiv1211.3115S
