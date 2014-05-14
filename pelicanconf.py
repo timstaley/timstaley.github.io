@@ -23,6 +23,7 @@ BOOTSTRAP_THEME = "flatly"
 
 STATIC_PATHS= ['images', 'css']
 CUSTOM_CSS = 'css/custom.css'
+FAVICON = 'images/favicon.ico'
 
 DIRECT_TEMPLATES = ('blog_index', 'tags', 'archives',)
 PAGINATED_DIRECT_TEMPLATES= ('blog_index',)
