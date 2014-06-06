@@ -24,7 +24,7 @@ deployment and system administration
  
 Occasionally I find myself doing things that are mildly novel, or simply aren't
 explained very well anywhere else that I can find, and then I'll write about it,
-if I have time - hence my `blog`_.
+if I have time - see the index of posts_.
  
 ===============
 Contact Details
@@ -39,4 +39,4 @@ Contact Details
 .. _research software engineer: http://digital-research-2012.oerc.ox.ac.uk/papers/the-research-software-engineer
 .. _devops: http://en.wikipedia.org/wiki/DevOps
 .. _research: /research
-.. _blog: /blog
+.. _posts: /posts
