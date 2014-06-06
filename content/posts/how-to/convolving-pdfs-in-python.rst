@@ -24,7 +24,8 @@ my own for much of it, learning to use pandas_ as a building
 block along the way (which is awesome).
 I explored a couple of problems that fit nicely into a single
 notebook / post. So,
-`here's my take on how to convolve PDFs in python. <notebook_>`_
+`here's my take on how to convolve PDFs in python. <notebook_>`_,
+and you can find the source `here <notebook-repo_>`_.
 
 The short version is that I'd recommend two possible approaches - if your
 PDFs are one-dimensional and your transform is well behaved, roll your own
@@ -45,3 +46,4 @@ expert in the above packages, so if you know a better way, please let me know!
 .. _pandas: http://pandas.pydata.org/
 
 .. _notebook: http://nbviewer.ipython.org/github/timstaley/ipython-notebooks/blob/compiled/probabilistic_programming/convolving_distributions_illustration.ipynb
+.. _notebook-repo: https://github.com/timstaley/ipython-notebooks/blob/master/probabilistic_programming/convolving_distributions_illustration.ipynb
