@@ -16,15 +16,21 @@ which (broadly) aims to automate both the detection and follow-up observation
 of astronomical transients, motivated in large part by the next generation
 of large radio telescopes. There's more on that under `research`_.
  
-I consider myself to be a `research software engineer`_, and I'm 
-happiest when coding (mostly Python at the minute, but it varies).
-However, by necessity I've also picked up a good grounding in software 
-deployment and system administration 
-(or '`devops`_' if you're playing buzzword bingo).
- 
+Probably the best label for what I do is
+`"research software engineer" <RSE_>`_.
+I'm happiest when soaking up the details of an interesting new problem,
+plotting elegant algorithmic solutions, or simply wrapping my head around a
+novel method or library and trying to figure out where it fits into
+the proverbial toolbox.
+By necessity I've also picked up a variety of the day-to-day skills needed to
+keep a small linux cluster running, build dusty and undocumented code-packages,
+and interface with arcane pipelines built on Fortran. You can find some examples
+of my work under code_.
+
+
 Occasionally I find myself doing things that are mildly novel, or simply aren't
 explained very well anywhere else that I can find, and then I'll write about it,
-if I have time - see the index of posts_.
+if I have time - see posts_.
  
 ===============
 Contact Details
@@ -57,7 +63,7 @@ Contact Details
 
 .. _astrophysics group: http://www2.physics.ox.ac.uk/research/astrophysics
 .. _4 Pi Sky project: http://www2.physics.ox.ac.uk/research/four-pi-sky
-.. _research software engineer: http://digital-research-2012.oerc.ox.ac.uk/papers/the-research-software-engineer
-.. _devops: http://en.wikipedia.org/wiki/DevOps
+.. _RSE: http://digital-research-2012.oerc.ox.ac.uk/papers/the-research-software-engineer
 .. _research: /research
+.. _code: /code
 .. _posts: /posts
