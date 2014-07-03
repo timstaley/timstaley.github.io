@@ -28,12 +28,33 @@ if I have time - see the index of posts_.
  
 ===============
 Contact Details
-=============== 
+===============
 
-- Email: `tim.staley(at)astro.ox.ac.uk <mailto:tim.staley (no-spam-please at) astro.ox.ac.uk>`_ 
-- `Linked In <http://www.linkedin.com/pub/tim-staley/2b/630/649>`_
- 
- 
+.. raw:: html
+
+    <p>
+    <ul class="fa-ul fa-lg">
+      <li>
+        <a href="mailto:Tim Staley <tim.staley(no-spam-please-at)astro.ox.ac.uk>">
+            <i class="fa-li fa fa-envelope"></i>
+                <span style="unicode-bidi:bidi-override; direction: rtl;">
+                ku.ca.xo.ortsa@yelats.mit
+                </span>
+        </a>
+      </li>
+      <br>
+      <li><a href="http://www.linkedin.com/pub/tim-staley/2b/630/649">
+            <i class="fa-li fa fa-linkedin"></i> Linked In
+           </a>
+       </li>
+      <br>
+      <li><a href="https://twitter.com/YossariansLife">
+            <i class="fa-li fa fa-twitter"></i> Twitter
+          </a>
+      </li>
+    </ul>
+    </p>
+
 .. _astrophysics group: http://www2.physics.ox.ac.uk/research/astrophysics
 .. _4 Pi Sky project: http://www2.physics.ox.ac.uk/research/four-pi-sky
 .. _research software engineer: http://digital-research-2012.oerc.ox.ac.uk/papers/the-research-software-engineer

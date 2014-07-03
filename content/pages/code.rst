@@ -3,16 +3,22 @@ Code
 ####
 :slug: code
 
-=====================
-(See also: `Github`_)
-=====================
 
-For a full listing of my public repositories and to see what I've been 
-doing lately, check out my `profile`_ on Github. 
-If you're feeling whimsical you might like to run it through 
+.. raw:: html
+
+    <h3>(See also:
+        <a href="http://github.com/timstaley">
+            Github profile <i class="fa fa-github"></i>
+            </a> )
+    </h3>
+
+
+For a full listing of my public software projects, and to find out what I've been
+doing lately, see my `profile`_ on Github.
+If you're feeling whimsical you might like to run it through
 Dan Foreman-Mackey's `Open Source Report Card`_.
 
-I've highlighted some of my repositories with brief descriptions below.
+I've highlighted some projects with brief descriptions below.
 
 ===============
 General purpose
