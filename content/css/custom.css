@@ -27,10 +27,8 @@
 }
 
 
-/* Define the following if you like fixed width columns: */
-.custom-fixed-width {
-    width: 510px;
-    display: inline-block;
+.custom-max-width {
+    max-width: 510px;
 }
 
 /* No footer currently, so add a little padding to prevent the text hitting
