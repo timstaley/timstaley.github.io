@@ -1,11 +1,11 @@
 ########################
-Using python pip offline
+Using Python pip offline
 ########################
 
 :date: 2014-03-20
-:tags: how to, python, pip, virtualenv, offline
+:tags: how to, Python, pip, virtualenv, offline
 
-After you've been coding in python for a while, and you've been bitten by a
+After you've been coding in Python for a while, and you've been bitten by a
 few package-version incompatibility bugs, it gets to the stage where the
 **first** thing you do upon starting a new project, is fire up a new
 virtualenv_.
@@ -14,7 +14,7 @@ The second thing you (might) do is curse like a sailor upon realising
 you'll have to re-download, compile and install numpy, scipy, matplotlib, etc.
 Especially if you're on a slow connection, or worse yet, completely offline.
 
-Fortunately, the python package installer, pip_, has been coming on in
+Fortunately, the Python package installer, pip_, has been coming on in
 `leaps and bounds <http://www.pip-installer.org/en/latest/news.html>`_ recently,
 with many improvements to the package caching behaviour,
 most noticeably improved flag syntax. It's taken me a while

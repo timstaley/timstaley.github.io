@@ -1,9 +1,9 @@
 ##############################################
-Automated incoming file processing with python
+Automated incoming file processing with Python
 ##############################################
 
 :date: 2014-02-23
-:tags: how to, python, rsync, automation
+:tags: how to, Python, rsync, automation
 
 This weekend, I finally got around to spending a little time cleaning up
 a single-file `script`_ I wrote to automatically process files as they are
@@ -21,7 +21,7 @@ Handling of rsync files is a little more complex than the standard examples,
 because it creates temporary files for partial downloads, then renames them
 once the download is complete. If you only want to catch new files
 (my particular use case) then you need to track these temporary files as they
-are created and renamed - but this is easily done with a few lines of python.
+are created and renamed - but this is easily done with a few lines of Python.
 
 Anyway, for future reference: coding up custom file-tracking behaviour
 with pyinotify is not too hard:

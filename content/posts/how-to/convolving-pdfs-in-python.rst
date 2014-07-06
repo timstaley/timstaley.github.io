@@ -2,7 +2,8 @@
 Convolving PDFs in Python
 #########################
 :date: 2014-06-06
-:tags: how to, python, probabilistic programming, notebook
+:tags: how to, Python, probabilistic programming, notebook, convolution,
+    probability distribution function
 
 .. image:: {filename}/images/scipy_sum_pdfs_example.png
    :alt: Convolving PDFs: An example with a tophat and a Gaussian kernel.
@@ -24,7 +25,7 @@ my own for much of it, learning to use pandas_ as a building
 block along the way (which is awesome).
 I explored a couple of problems that fit nicely into a single
 notebook / post. So,
-`here's my take on how to convolve PDFs in python. <notebook_>`_,
+`here's my take on how to convolve PDFs in Python. <notebook_>`_,
 and you can find the source `here <notebook-repo_>`_.
 
 The short version is that I'd recommend two possible approaches - if your

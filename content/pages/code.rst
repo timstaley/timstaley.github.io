@@ -26,10 +26,12 @@ General purpose
 
 `autocrunch`_
 ----------------
-A python script demonstrating how to use `pyinotify`_ to monitor a local
+*Built with: Python, pyinotify.*
+
+A Python script demonstrating how to use `pyinotify`_ to monitor a local
 directory for files that have been transferred with rsync,
 then process them in a parallel fashion using a multiprocessing pool
-(via whatever python reduction process you care to define).
+(via whatever Python reduction process you care to define).
 This has been road-tested quite a bit, and includes decent
 logging and error handling.
 
@@ -40,6 +42,8 @@ Astronomy
 
 `voevent-parse`_
 ----------------
+*Built with: Python, LXML.*
+
 A lightweight library for parsing, manipulating, and generating 
 `VOEvent <http://www.ivoa.net/documents/VOEvent/index.html>`_ XML packets,
 (**i.e. machine-readable transient alerts**) 
@@ -60,6 +64,8 @@ definitions
  
 `drive-ami`_ / `drive-casa`_
 ----------------------------
+*Built with: Python, pexpect.*
+
 Two wrapper libraries which make heavy use of `pexpect`_ to make complex 
 scripting of astronomical data reduction tools from Python more bearable.
 The `CASA`_ package is quite widely used in the radio astronomy community
@@ -67,13 +73,16 @@ and so I hope drive-casa will be of use to others - I've put up some
 basic `docs <http://drive-casa.readthedocs.org/en/latest/>`_ 
 accordingly.
 
+
 `pyds9_ex`_
 -----------
+*Built with: Python, pyds9.*
+
 The `DS9`_ FITS file viewer is fully scriptable -
 this little known feature makes it a potentially very powerful tool for quickly 
 throwing together a GUI of sorts, allowing the user to jump around different 
 FITS images, select regions, etc. There are already
-`python bindings <http://hea-www.harvard.edu/RD/ds9/pyds9/>`_ for it, 
+`Python bindings <http://hea-www.harvard.edu/RD/ds9/pyds9/>`_ for it,
 but these are pretty low level, providing direct access to the scripting 
 interface in a command-line fashion. 
 This wrapper was a very brief attempt to provide some convenience routines 

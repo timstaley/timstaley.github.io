@@ -10,7 +10,7 @@ Storing scientific data
 A brief summary of serialization methods for scientists
 -------------------------------------------------------
 
-TODO: Add python examples / library links.
+TODO: Add Python examples / library links.
 
 The aim of this post is to give a quick overview of serialization,
 or in plain english, storing your data. 
@@ -109,7 +109,7 @@ Via the magic of pickle
 While the methods above will serve most purposes, I couldn't avoid
 mentioning pickle here. It's Python specific, so you can't use it
 to shuffle data between programming languages, but it has some very 
-neat tricks - you can pickle most things in python, including 
+neat tricks - you can pickle most things in Python, including
 complex data structures and functions. 
 So for example, you might define a bunch of Python classes to make working
 with your data easier. 
