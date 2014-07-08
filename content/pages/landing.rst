@@ -19,8 +19,8 @@ of large radio telescopes. There's more on that under `research`_.
 Probably the best label for what I do is
 `"research software engineer" <RSE_>`_.
 I'm happiest when soaking up the details of an interesting new problem,
-plotting elegant algorithmic solutions, or simply wrapping my head around a
-novel method or library and trying to figure out where it fits into
+devising a cunning plan, or simply wrapping my head around a
+new library and trying to figure out where it fits into
 the proverbial toolbox.
 By necessity I've also picked up a variety of the day-to-day skills needed to
 keep a small linux cluster running, build dusty and undocumented code-packages,
