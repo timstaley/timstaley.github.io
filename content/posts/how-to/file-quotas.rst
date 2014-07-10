@@ -3,7 +3,7 @@
 Setting up disk quotas with Ubuntu 12.04
 ########################################
 :date: 2013-07-24
-:tags: how to, Ubuntu, sysadmin
+:tags: how to, Ubuntu, sysadmin, disk quotas
 
 There seems to be very little information on the web about setting up disk 
 quotas, presumably because it's perceived as being trivial. 
@@ -35,7 +35,7 @@ You *can* check to see if it's still running, using:
 
    $ ps -ef | grep quotacheck
 
-The online option (or fallback, if the automated approach doesn't work) is to manually
+The no-reboots option (or fallback, if the automated approach doesn't work) is to manually
 shepherd your machine through the process. 
 First, you'll need to remount the disk to activate the new mount options, e.g. 
 
@@ -49,6 +49,22 @@ If the disk won't unmount cleanly,
 `determine what's blocking <http://stackoverflow.com/questions/7878707/umount-a-busy-device>`_, 
 close it, and try again.
 
+Next, (in case you rebooted but something went wrong, etc.) make sure that no 
+quota-generation commands are running in the background, 
+by stopping the service:
+
+.. code-block:: bash
+
+    $ sudo service quota stop
+
+and doing a final check for any running services:
+
+.. code-block:: bash
+
+    $ ps -ef | grep quota
+
+(You'll need to kill anything that looks like ``quotacheck`` or ``quotad``.)
+
 You can now manually run:
 
 .. code-block:: bash
@@ -56,7 +72,7 @@ You can now manually run:
    $ sudo quotacheck -avug #all, verbose, user and group quotas
 
 This will create the files *aquota.group* and *aquota.user* 
-in the root directory of your quota'd mount points.
+in the root directory for all of your quota'd mount points.
 This can take several hours on multi-terabyte RAID arrays, so you might want 
 to run it from a `screen <http://en.wikipedia.org/wiki/GNU_Screen>`_.
 
