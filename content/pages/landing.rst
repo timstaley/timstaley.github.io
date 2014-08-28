@@ -18,19 +18,25 @@ of large radio telescopes. There's more on that under `research`_.
  
 Probably the best label for what I do is
 `"research software engineer" <RSE_>`_.
-I'm happiest when soaking up the details of an interesting new problem,
-devising a cunning plan, or simply wrapping my head around a
-new library and trying to figure out where it fits into
-the proverbial toolbox.
-By necessity I've also picked up a variety of the day-to-day skills needed to
-keep a small linux cluster running, build dusty and undocumented code-packages,
-and interface with arcane pipelines built on Fortran. You can find some examples
+In practice, that means I spend my time working within a research group to
+figure out how to solve their computational problems.
+The solutions range from bolting together a web framework and some data
+visualisations, writing an interface layer to legacy code, creating
+convenience routines around a low-level library, right through to putting
+together a whole new pipeline, or even devising a novel algorithmic approach
+and then implementing accordingly.
+
+By necessity I've also picked up a variety of the day-to-day skills
+needed to keep a small linux cluster running,
+build dusty and undocumented code-packages,
+and interface with arcane pipelines built on Fortran.
+You can find some examples
 of my work under code_.
 
 
-Occasionally I find myself doing things that are mildly novel, or simply aren't
-explained very well anywhere else that I can find, and then I'll write about it,
-if I have time - see posts_.
+Occasionally I find myself doing things that I think may be of wider interest,
+or simply aren't explained very well anywhere else that I can find,
+and then I'll write about it, if I have time - see posts_.
  
 ===============
 Contact Details
