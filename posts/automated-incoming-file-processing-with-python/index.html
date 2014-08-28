@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Automated incoming file processing with Python - Tim Staley</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="http://timstaley.co.uk/images/favicon.ico" rel="icon">
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="http://timstaley.co.uk/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://timstaley.co.uk/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/style.css" type="text/css"/>
+        <link href="http://timstaley.co.uk/css/custom.css" rel="stylesheet">
+
+        <link href="http://timstaley.co.uk/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Tim Staley ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://timstaley.co.uk/" class="navbar-brand">
+Tim Staley            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="/research">Research</a></li>
+                    <li><a href="/code">Code</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://timstaley.co.uk/posts"><i class="fa fa-th-list"></i><span class="icon-label">Posts</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+<div class="col-sm-10 col-sm-offset-1 col-md-7 col-md-offset-2 ">
+  <div class="custom-max-width">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://timstaley.co.uk/posts/automated-incoming-file-processing-with-python"
+                       rel="bookmark"
+                       title="Permalink to Automated incoming file processing with Python">
+                        Automated incoming file processing with Python
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <p>This weekend, I finally got around to spending a little time cleaning up
+a single-file <a class="reference external" href="http://github.com/timstaley/autocrunch">script</a> I wrote to automatically process files as they are
+transferred into a local directory, via rsync.</p>
+<p>The fact that I was able to do this in a short script is largely thanks to
+<a class="reference external" href="http://github.com/seb-m/pyinotify">pyinotify</a>, which takes care of interfacing with the linux
+<a class="reference external" href="http://en.wikipedia.org/wiki/Inotify">internals</a> which track file changes, so the hardest part was really done for
+me - hurray for open source!</p>
+<p>That said, I would have thought rsync transfers were a prime use-case for
+this sort of tool, and yet I couldn't find any good examples on the web,
+which is why I thought it might be worth writing up (and <a class="reference external" href="https://github.com/seb-m/pyinotify/pull/65">pull-requesting</a>).
+Handling of rsync files is a little more complex than the standard examples,
+because it creates temporary files for partial downloads, then renames them
+once the download is complete. If you only want to catch new files
+(my particular use case) then you need to track these temporary files as they
+are created and renamed - but this is easily done with a few lines of Python.</p>
+<p>Anyway, for future reference: coding up custom file-tracking behaviour
+with pyinotify is not too hard:</p>
+<ol class="arabic">
+<li><p class="first">Profile your file transfer behaviour by running:</p>
+<pre class="literal-block">
+python -m pyinotify /path/to/folder_to_watch
+</pre>
+<p>Try manually transferring a single file, then pick out the sequence of
+events you want to track.</p>
+</li>
+<li><p class="first">Create a class inheriting from <tt class="docutils literal">pyinotify.ProcessEvent</tt> that will perform
+the required state-tracking and job-dispatching. Customising its behaviour
+is just a case of overriding certain class-methods.</p>
+</li>
+<li><p class="first">Profit! That's it, basically. Now you just have to plug your custom class
+into one of the standard pyinotify usage examples.</p>
+</li>
+</ol>
+<p>More details can be found at the pyinotify <a class="reference external" href="https://github.com/seb-m/pyinotify/wiki/Tutorial">tutorial</a>, in the pyinotify
+<a class="reference external" href="https://github.com/seb-m/pyinotify/tree/master/python2/examples">examples dir</a>,
+and (if you want to track rsync'ed files, or use asynchronous pool processing) by
+reading through my <a class="reference external" href="http://github.com/timstaley/autocrunch">script</a>.</p>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+  </div>
+</div>
+<div class="col-sm-6 col-sm-offset-3 col-md-3 col-md-offset-0 ">
+  <div class="panel">
+      <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default"><i class="fa fa-calendar-o"></i> Published</span>
+    <br>
+    <span class="published">
+        <time datetime="2014-02-23T00:00:00"> Sun 23 February 2014</time>
+    </span>
+
+
+
+    <br>
+<span class="label label-default"><i class="fa fa-tag"></i> Tagged</span><br>
+	<a href="http://timstaley.co.uk/tag/how-to">how to</a>
+        /
+	<a href="http://timstaley.co.uk/tag/python">Python</a>
+        /
+	<a href="http://timstaley.co.uk/tag/rsync">rsync</a>
+        /
+	<a href="http://timstaley.co.uk/tag/automation">automation</a>
+    
+</footer><!-- /.post-info -->      </div>
+  </div>
+</div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 Tim Staley
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://timstaley.co.uk/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://timstaley.co.uk/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://timstaley.co.uk/theme/js/respond.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-46485279-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+</body>
+</html>

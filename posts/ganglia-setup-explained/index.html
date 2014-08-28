@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Ganglia setup explained - Tim Staley</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="http://timstaley.co.uk/images/favicon.ico" rel="icon">
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="http://timstaley.co.uk/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://timstaley.co.uk/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/style.css" type="text/css"/>
+        <link href="http://timstaley.co.uk/css/custom.css" rel="stylesheet">
+
+        <link href="http://timstaley.co.uk/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Tim Staley ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://timstaley.co.uk/" class="navbar-brand">
+Tim Staley            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="/research">Research</a></li>
+                    <li><a href="/code">Code</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://timstaley.co.uk/posts"><i class="fa fa-th-list"></i><span class="icon-label">Posts</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+<div class="col-sm-10 col-sm-offset-1 col-md-7 col-md-offset-2 ">
+  <div class="custom-max-width">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://timstaley.co.uk/posts/ganglia-setup-explained"
+                       rel="bookmark"
+                       title="Permalink to Ganglia setup explained">
+                        Ganglia setup explained
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <p><strong>Or, everything you wanted to know about setting up Ganglia, but couldn't grok
+from the official documentation - part 2.</strong></p>
+<p>In this post I'll cover:</p>
+<ul class="simple">
+<li>What purposes the different <a class="reference external" href="http://ganglia.sourceforge.net/">Ganglia</a> utilities serve, and how they fit
+together.</li>
+<li>How to set up a minimal configuration, from apt-get install through to
+configuring Apache to serve the web interface.</li>
+</ul>
+<p>(See <a class="reference external" href="http://timstaley.co.uk/posts/why-ganglia">part 1</a>
+for a general explanation of what Ganglia is,
+and why you might want to use it.)</p>
+<p>Although Ganglia will - if you're lucky - work out of the box,
+I found it pretty difficult to get a good overview of how
+the different utilities fit together, and likewise how the various
+config file sections interact (the latter is much easier to follow when you
+have a good understanding of the former).
+After about a day of trawling over the wiki and experimenting with various
+setups, I felt I had a much better idea of what was going on and how to tweak
+it. I should also mention that the first time I tried Ganglia,
+I had zero experience with configuring a web-server, which (understandably)
+isn't covered in the quickstart guide.
+So, I thought I'd put together all the information that would have helped
+a year ago when I first got Ganglia up and running.</p>
+<p>Let's start with what the different <a class="reference external" href="http://en.wikipedia.org/wiki/Daemon_(computing)">daemons</a> actually <em>do</em>.
+There is a brief explanation on the ganglia wiki at
+<a class="reference external" href="http://sourceforge.net/apps/trac/ganglia/wiki/ganglia_documents">http://sourceforge.net/apps/trac/ganglia/wiki/ganglia_documents</a>, but it's a
+bit dense and jargon heavy -
+I've tried to expand in a more 'newbie friendly' manner below:</p>
+<dl class="docutils">
+<dt>gmond</dt>
+<dd><p class="first">Responsible for actually collecting
+all the metric information we're interested in, and forwarding it on
+to somewhere else.  Keeps state only in RAM,
+- i.e. does not save anything to disk, only knows the most recent stats.
+This is the only service that needs to be run on every node, and has
+very low CPU / RAM overheads (I never see it go about 0% CPU on <a class="reference external" href="http://htop.sourceforge.net/">htop</a>!).</p>
+<p>Communicates via two methods:</p>
+<p>(for an explanation of TCP vs UDP, see e.g.
+<a class="reference external" href="http://www.bleepingcomputer.com/tutorials/tcp-and-udp-ports-explained/">http://www.bleepingcomputer.com/tutorials/tcp-and-udp-ports-explained/</a>,
+<a class="reference external" href="http://stackoverflow.com/questions/5970383/difference-between-tcp-and-udp">http://stackoverflow.com/questions/5970383/difference-between-tcp-and-udp</a> )</p>
+<ul class="last">
+<li><dl class="first docutils">
+<dt>gmond to gmond via UDP.</dt>
+<dd><p class="first last">gmond daemons can be configured to share their state
+in a peer to peer fashion, so that when queried, one node can report
+both its own most recent metrics, and those of other nodes.
+This provides redundancy - if one node goes down
+the rest still pass their information around between them.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>gmond to &lt;X&gt; via TCP.</dt>
+<dd><p class="first last">The gmond daemons can be polled for an update via
+a TCP connection (from any program, including e.g. netcat or telnet - this
+can be useful for checking everything is up and running).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt>gstat</dt>
+<dd>A command line tool which connects to gmond (via TCP) and provides a
+quick summary of the current stats from all the nodes for which that gmond
+daemon has data.</dd>
+<dt>gmetad</dt>
+<dd>Responsible for polling gmond daemons via TCP on a
+regular basis. Records the information to disk in the form of <a class="reference external" href="http://en.wikipedia.org/wiki/Round-Robin_Database">RRD</a> files.
+Depending on how your gmond daemons are configured (whether or not they are
+set to relay their status between nodes), gmetad can either be pointed
+at one gmond daemon, and pull the entire cluster status from that one node,
+or it can pull the status from each gmond node individually. Or
+you can configure it to do both, for redundancy.</dd>
+<dt>ganglia-web</dt>
+<dd>Not a strictly essential part of the solution, but you'll probably
+want a graphical way to view your collected statistics.
+This is a web-page frontend built on PHP scripts, which queries the RRD
+files saved by gmetad.
+As far as I can tell it's stateless, i.e. the graphs are generated on the
+fly - all the persistent data is in the RRDs.
+For a live and publicly accessible example, see
+<a class="reference external" href="http://ganglia.wikimedia.org/">http://ganglia.wikimedia.org/</a> (which is currently tracking around 900 nodes).</dd>
+</dl>
+<p><strong>So, on to the configuration guide. This is tested on Ubuntu 12.04,
+but the ganglia-specific config tips should be broadly applicable.</strong></p>
+<p>First off, we need to set up gmond on each machine we want to monitor,
+(or 'node'):</p>
+<p>Start with</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install ganglia-monitor
+</pre></div>
+<p>Next we'll configure gmond via the file at <tt class="docutils literal">/etc/ganglia/gmond.conf</tt>.
+Assuming you just want the standard metrics, you only need to worry about the
+first few stanzas that control how the stats are distributed.
+By default, the ones we're interested in look like the following:</p>
+<div class="highlight"><pre>globals<span class="w"> </span>{<span class="w"></span>
+<span class="w">  </span>daemonize<span class="w"> </span>=<span class="w"> </span>yes<span class="w"></span>
+<span class="w">  </span>setuid<span class="w"> </span>=<span class="w"> </span>yes<span class="w"></span>
+<span class="w">  </span><span class="k">user</span><span class="w"> </span>=<span class="w"> </span>ganglia<span class="w"></span>
+<span class="w">  </span>debug_level<span class="w"> </span>=<span class="w"> </span><span class="m">0</span><span class="w"></span>
+<span class="w">  </span>max_udp_msg_len<span class="w"> </span>=<span class="w"> </span><span class="m">1472</span><span class="w"></span>
+<span class="w">  </span>mute<span class="w"> </span>=<span class="w"> </span>no<span class="w"></span>
+<span class="w">  </span>deaf<span class="w"> </span>=<span class="w"> </span>no<span class="w"></span>
+<span class="w">  </span>host_dmax<span class="w"> </span>=<span class="w"> </span><span class="m">0</span><span class="w"> </span>/*secs<span class="w"> </span>*/<span class="w"></span>
+<span class="w">  </span>cleanup_threshold<span class="w"> </span>=<span class="w"> </span><span class="m">300</span><span class="w"> </span>/*secs<span class="w"> </span>*/<span class="w"></span>
+<span class="w">  </span>gexec<span class="w"> </span>=<span class="w"> </span>no<span class="w"></span>
+<span class="w">  </span>send_metadata_interval<span class="w"> </span>=<span class="w"> </span><span class="m">0</span><span class="w"></span>
+}<span class="w"></span>
+
+/*<span class="w"> </span>Feel<span class="w"> </span>free<span class="w"> </span>to<span class="w"> </span>specify<span class="w"> </span>as<span class="w"> </span>many<span class="w"> </span>udp_send_channels<span class="w"> </span>as<span class="w"> </span>you<span class="w"> </span>like.<span class="w">  </span>Gmond<span class="w"></span>
+<span class="w">   </span>used<span class="w"> </span>to<span class="w"> </span>only<span class="w"> </span>support<span class="w"> </span>having<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>channel<span class="w"> </span>*/<span class="w"></span>
+udp_send_channel<span class="w"> </span>{<span class="w"></span>
+<span class="w">  </span>mcast_join<span class="w"> </span>=<span class="w"> </span><span class="mf">239.2.11.71</span><span class="w"></span>
+<span class="w">  </span><span class="k">port</span><span class="w"> </span>=<span class="w"> </span><span class="m">8649</span><span class="w"></span>
+<span class="w">  </span><span class="no">ttl</span><span class="w"> </span>=<span class="w"> </span><span class="m">1</span><span class="w"></span>
+}<span class="w"></span>
+
+/*<span class="w"> </span>You<span class="w"> </span>can<span class="w"> </span>specify<span class="w"> </span>as<span class="w"> </span>many<span class="w"> </span>udp_recv_channels<span class="w"> </span>as<span class="w"> </span>you<span class="w"> </span>like<span class="w"> </span>as<span class="w"> </span>well.<span class="w"> </span>*/<span class="w"></span>
+udp_recv_channel<span class="w"> </span>{<span class="w"></span>
+<span class="w">  </span>mcast_join<span class="w"> </span>=<span class="w"> </span><span class="mf">239.2.11.71</span><span class="w"></span>
+<span class="w">  </span><span class="k">port</span><span class="w"> </span>=<span class="w"> </span><span class="m">8649</span><span class="w"></span>
+<span class="w">  </span>bind<span class="w"> </span>=<span class="w"> </span><span class="mf">239.2.11.71</span><span class="w"></span>
+}<span class="w"></span>
+
+/*<span class="w"> </span>You<span class="w"> </span>can<span class="w"> </span>specify<span class="w"> </span>as<span class="w"> </span>many<span class="w"> </span>tcp_accept_channels<span class="w"> </span>as<span class="w"> </span>you<span class="w"> </span>like<span class="w"> </span>to<span class="w"> </span>share<span class="w"></span>
+<span class="w">   </span>an<span class="w"> </span>xml<span class="w"> </span>description<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>state<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>cluster<span class="w"> </span>*/<span class="w"></span>
+tcp_accept_channel<span class="w"> </span>{<span class="w"></span>
+<span class="w">  </span><span class="k">port</span><span class="w"> </span>=<span class="w"> </span><span class="m">8649</span><span class="w"></span>
+}<span class="w"></span>
+</pre></div>
+<p>Note the <tt class="docutils literal">udp_send_channel</tt> and <tt class="docutils literal">udp_recv_channel</tt> sections,
+which are configured to use
+<a class="reference external" href="http://en.wikipedia.org/wiki/Multicast">multicast</a> - essentially broadcasting
+their status to all other nodes configured in the same manner, to provide
+automatic discovery of new nodes.</p>
+<p>This default configuration works great if you're running on your
+own private cluster of machines, on a local network with the UDP ports
+blocked between you and the outside world. In that case, you don't even
+need to touch <tt class="docutils literal">gmond.conf</tt>.
+However, there are situations where you might not want to do things this way.
+For example, <a class="reference external" href="http://www.openscg.com/2013/06/ganglia-in-the-cloud/">multicast may be disabled on
+cloud server instances</a>.
+Another example is if you're on a large university campus network, when
+there's a significant chance you'll accidentally get cross-talk with someone
+else's ganglia cluster, or you may find that e.g. multicast works on a single
+server rack but is blocked between different server farms.
+Whatever.
+We can set up a much more finely controlled
+(although admittedly less redundant / robust) <em>unicast</em> configuration,
+very easily. Assuming you're happy with a single 'master' gmond node collecting
+data from all the others, it might look something like this:</p>
+<div class="highlight"><pre>globals<span class="w"> </span>{<span class="w"></span>
+<span class="w">  </span>daemonize<span class="w"> </span>=<span class="w"> </span>yes<span class="w"></span>
+<span class="w">  </span>setuid<span class="w"> </span>=<span class="w"> </span>yes<span class="w"></span>
+<span class="w">  </span><span class="k">user</span><span class="w"> </span>=<span class="w"> </span>ganglia<span class="w"></span>
+<span class="w">  </span>debug_level<span class="w"> </span>=<span class="w"> </span><span class="m">0</span><span class="w"></span>
+<span class="w">  </span>max_udp_msg_len<span class="w"> </span>=<span class="w"> </span><span class="m">1472</span><span class="w"></span>
+<span class="w">  </span>mute<span class="w"> </span>=<span class="w"> </span>no<span class="w"></span>
+<span class="w">  </span>deaf<span class="w"> </span>=<span class="w"> </span>no<span class="w"></span>
+<span class="w">  </span>host_dmax<span class="w"> </span>=<span class="w"> </span><span class="m">3600</span><span class="w"> </span>/*secs<span class="w"> </span>*/<span class="w"></span>
+<span class="w">  </span>cleanup_threshold<span class="w"> </span>=<span class="w"> </span><span class="m">300</span><span class="w"> </span>/*secs<span class="w"> </span>*/<span class="w"></span>
+<span class="w">  </span>gexec<span class="w"> </span>=<span class="w"> </span>no<span class="w"></span>
+<span class="w">  </span>send_metadata_interval<span class="w"> </span>=<span class="w"> </span><span class="m">30</span><span class="w"></span>
+}<span class="w"></span>
+
+
+/*<span class="w"> </span>Feel<span class="w"> </span>free<span class="w"> </span>to<span class="w"> </span>specify<span class="w"> </span>as<span class="w"> </span>many<span class="w"> </span>udp_send_channels<span class="w"> </span>as<span class="w"> </span>you<span class="w"> </span>like.<span class="w">  </span>Gmond<span class="w"></span>
+<span class="w">   </span>used<span class="w"> </span>to<span class="w"> </span>only<span class="w"> </span>support<span class="w"> </span>having<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>channel<span class="w"> </span>*/<span class="w"></span>
+udp_send_channel<span class="w"> </span>{<span class="w"></span>
+<span class="w">  </span>host<span class="w"> </span>=<span class="w"> </span>master.node.address<span class="w"></span>
+<span class="w">  </span><span class="k">port</span><span class="w"> </span>=<span class="w"> </span><span class="m">8649</span><span class="w"></span>
+}<span class="w"></span>
+
+udp_recv_channel<span class="w"> </span>{<span class="w"></span>
+<span class="w"> </span><span class="k">port</span><span class="w"> </span>=<span class="w"> </span><span class="m">8649</span><span class="w"></span>
+}<span class="w"></span>
+
+tcp_accept_channel<span class="w"> </span>{<span class="w"></span>
+<span class="w">  </span><span class="k">port</span><span class="w"> </span>=<span class="w"> </span><span class="m">8649</span><span class="w"></span>
+}<span class="w"></span>
+</pre></div>
+<p>Note that I've also tweaked the <tt class="docutils literal">host_dmax</tt> and  <tt class="docutils literal">send_metadata_interval</tt>
+settings from their defaults.</p>
+<p><strong>host_dmax</strong> simply controls how long a node remains listed once
+it stops sending out new data.
+How you set this depends if you regularly add
+temporary machines to the cluster then remove them later
+(leave it to something like an hour or they'll clutter up your stats), or
+if you have a stable cluster and you want to be reminded which machines are
+currently down (leave it set to the default of 0).</p>
+<p><strong>send_metadata_interval</strong> controls how frequently the stats
+(and <em>I'm here / I'm alive</em> status) are pushed out
+blindly over UDP to any recipients listed under <tt class="docutils literal">udp_send_channel</tt> stanzas.
+If this is left to the default of 0, then the node will only broadcast
+its presence when the daemon is started, relying on other nodes to
+request updates ('poll') it via the port listed under the
+<tt class="docutils literal">udp_recv_channel</tt> stanza.
+You can in fact configure the node
+to just broadcast blindly at regular intervals
+(set <tt class="docutils literal">send_metadata_interval</tt> to a nonzero value,
+delete the udp_recv_channel stanza)
+or you can rely solely on polling, but it seems sensible to have both
+switched on.
+See the
+<a class="reference external" href="http://sourceforge.net/apps/trac/ganglia/wiki/Gmond%203.1.x%20General%20Configuration">relevant wiki page</a>
+for more details.</p>
+<p>With that done, do a</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo service ganglia-monitor restart
+</pre></div>
+<p>on each node, then log onto the master node and try</p>
+<div class="highlight"><pre><span class="nv">$ </span>gstat -a
+</pre></div>
+<p>Which should hopefully report the current CPU / load stats of all the nodes
+in the ganglia cluster.</p>
+<p>Next we need to set up gmetad, to record the stats to disk.
+First of all, let's check that we don't have any connection issues,
+by polling the master gmond daemon manually.
+On the machine you'll be using to serve up the web-frontend
+simply run:</p>
+<div class="highlight"><pre><span class="nv">$ </span>netcat master.node.address 8649
+</pre></div>
+<p>(Assuming your gmond is configured with the default <tt class="docutils literal">tcp_accept_channel</tt>
+port, as above.)
+If you get a bunch of XML stats, congratulations, you're good to go.
+Next:</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install gmetad
+</pre></div>
+<p>then do a single line edit on <tt class="docutils literal">/etc/ganglia/gmetad.conf</tt> to tell it
+which gmond node to poll for information, e.g. something like:</p>
+<pre class="literal-block">
+data_source &quot;MyCluster&quot; 10 master.node.address
+</pre>
+<p>where 10 is simply the polling interval. If you have your gmond daemons
+set up to share data around in full-on redundancy fashion,
+you can add multiple addresses on this line -
+if gmetad can't access the first, it will try the others one-by-one until it
+gets a response.
+(More info
+<a class="reference external" href="http://sourceforge.net/apps/trac/ganglia/wiki/Ganglia%203.1.x%20Installation%20and%20Configuration#gmetad_configuration">here</a>.)</p>
+<p>Finally, we need to install the web-based frontend.
+There is a Ubuntu package for this, but it's a little dated - I much prefer the
+look and feel of the latest release. So let's grab it from GitHub:</p>
+<div class="highlight"><pre><span class="nv">$ </span>git clone git@github.com:ganglia/ganglia-web.git
+<span class="nv">$ </span><span class="nb">cd </span>ganglia-web
+<span class="nv">$ </span>sudo make install
+</pre></div>
+<p>Which will dump some config files to <tt class="docutils literal"><span class="pre">/var/lib/ganglia-web</span></tt>,
+and all the php into <tt class="docutils literal"><span class="pre">/usr/share/ganglia-webfrontend</span></tt>.</p>
+<p>Next we install Apache and the relevant supporting libraries:</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install apache2 libapache2-mod-php5 php5-gd rrdtool
+</pre></div>
+<p>Finally, we configure apache to serve the PHP pages in
+<tt class="docutils literal"><span class="pre">/usr/share/ganglia-webfrontend</span></tt>. There's an example config in the
+ganglia-web repository, called <tt class="docutils literal">apache.conf</tt>.
+Assuming you're not serving anything else from apache, the easy way to do this
+is to add a <tt class="docutils literal">&lt;VirtualHost *:80&gt;</tt> and <tt class="docutils literal">&lt;/VirtualHost&gt;</tt> at the beginning and
+end of that file, then</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo cp apache.conf /etc/apache2/sites-available/ganglia
+<span class="nv">$ </span>sudo a2dissite default
+<span class="nv">$ </span>sudo a2ensite ganglia
+<span class="nv">$ </span>sudo service apache2 reload
+</pre></div>
+<p>(If you're already serving other sites, you can just paste the contents
+of apache.conf into whatever site config you're currently running - but then
+you probably don't need me to tell you that.
+NB though, you might need to enable:</p>
+<pre class="literal-block">
+DirectoryIndex index.html index.php
+</pre>
+<p>if you've specified it to only allow:</p>
+<pre class="literal-block">
+DirectoryIndex index.html
+</pre>
+<p>previously. That caught me out.)</p>
+<p>Hopefully, you should now be able to browse to
+<tt class="docutils literal"><span class="pre">http://your.web.server/ganglia</span></tt> and
+see a bunch of performance stats.</p>
+<p>HTH.</p>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+  </div>
+</div>
+<div class="col-sm-6 col-sm-offset-3 col-md-3 col-md-offset-0 ">
+  <div class="panel">
+      <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default"><i class="fa fa-calendar-o"></i> Published</span>
+    <br>
+    <span class="published">
+        <time datetime="2013-12-21T00:00:00"> Sat 21 December 2013</time>
+    </span>
+
+
+
+    <br>
+<span class="label label-default"><i class="fa fa-tag"></i> Tagged</span><br>
+	<a href="http://timstaley.co.uk/tag/how-to">how to</a>
+        /
+	<a href="http://timstaley.co.uk/tag/ubuntu">Ubuntu</a>
+        /
+	<a href="http://timstaley.co.uk/tag/ganglia">Ganglia</a>
+        /
+	<a href="http://timstaley.co.uk/tag/sysadmin">sysadmin</a>
+        /
+	<a href="http://timstaley.co.uk/tag/monitoring">monitoring</a>
+    
+</footer><!-- /.post-info -->      </div>
+  </div>
+</div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 Tim Staley
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://timstaley.co.uk/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://timstaley.co.uk/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://timstaley.co.uk/theme/js/respond.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-46485279-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+</body>
+</html>

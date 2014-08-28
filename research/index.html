@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Research - Tim Staley</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="http://timstaley.co.uk/images/favicon.ico" rel="icon">
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="http://timstaley.co.uk/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://timstaley.co.uk/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/style.css" type="text/css"/>
+        <link href="http://timstaley.co.uk/css/custom.css" rel="stylesheet">
+
+        <link href="http://timstaley.co.uk/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Tim Staley ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://timstaley.co.uk/" class="navbar-brand">
+Tim Staley            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="/research">Research</a></li>
+                    <li><a href="/code">Code</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://timstaley.co.uk/posts"><i class="fa fa-th-list"></i><span class="icon-label">Posts</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+<div class="col-sm-10 col-sm-offset-1 col-md-7 col-md-offset-2">
+  <div class="custom-max-width">
+    <section id="content" class="body">
+        <h1 class="entry-title">Research</h1>
+        
+        <div class="entry-content">
+            <div class="section" id="recent">
+<h2>Recent</h2>
+<p>Since October 2011 I've been working with the <a class="reference external" href="http://www2.physics.ox.ac.uk/research/four-pi-sky">4 Pi Sky project</a>,
+which (broadly) aims to automate both the detection and follow-up observation
+of astronomical transients, motivated in large part by the next generation
+of large radio telescopes.</p>
+<div class="section" id="nuts-and-bolts-transient-triggers">
+<h3>Nuts and bolts, transient triggers</h3>
+<p>A fair portion of my work to date has been developing basic software
+infrastructure, in the form of various small libraries and tools for automating
+processing of astronomical alerts and unattended data reduction
+(see the <a class="reference external" href="http://timstaley.co.uk/code">code</a> page).
+This sort of stuff is quite satisfying when done well,
+but I wouldn't really classify it as 'research' in its own right.
+However, the efforts are beginning to bear fruit.
+With the help of our collaborators at the MRAO,
+since mid-2012 we have been triggering automatic observations with the
+<a class="reference external" href="http://www.mrao.cam.ac.uk/facilities/ami/">AMI</a> Large Array, with one <a class="reference external" href="http://ukads.nottingham.ac.uk/abs/2012arXiv1211.3115S">paper</a> published and more in prep.</p>
+</div>
+<div class="section" id="transient-discovery-with-the-trap">
+<h3>Transient discovery with the 'Trap'</h3>
+<p>I've also been helping with development of a software project born out of the
+<a class="reference external" href="http://www.transientskp.org/">LOFAR-TKP</a> group at <a class="reference external" href="http://www.astro.uva.nl/">UvA</a>.
+The <a class="reference external" href="http://docs.transientskp.org/">Trap</a> is a transients detection pipeline
+written primarily for use with data from
+<a class="reference external" href="http://en.wikipedia.org/wiki/LOFAR">LOFAR</a> - a low frequency radio array. LOFAR will observe at ~10s to 100s
+of megahertz rather than the usual gigahertz range,
+giving us a new window on the radio sky.
+While LOFAR presents a particular challenge due to the sheer volume
+of data produced, the algorithms being developed are applicable to a range
+of transient astronomy projects.
+A paper and open-source release are in prep.</p>
+</div>
+</div>
+<div class="section" id="lucky-imaging">
+<h2>Lucky Imaging</h2>
+<p><strong>(PhD, 2007 - 2011)</strong></p>
+<p><em>NB link to</em> <a class="reference internal" href="#thesis">thesis</a> <em>at end.</em></p>
+<p>My PhD research was focused upon algorithm and software development for a
+technique called
+<a class="reference external" href="http://www.ast.cam.ac.uk/research/lucky">lucky imaging</a>.
+Normally, ground based astronomy is limited in resolution due to time-evolving
+localised fluctuations in the refractive index of the atmosphere.
+Like grease on a camera lens, the atmospheric turbulence blurs the image in a
+long exposure.
+However, by taking very short exposures (i.e. at frame rates of around 25 frames
+per second and above),
+we can 'freeze' these atmospheric effects and pick out moments when the blurring
+is at a minimum - so called 'lucky images.' We do this by tracking a bright
+object in every frame (the 'guide star'), which we also use to align the images
+before we add them to get the final result.
+For very bright objects such as planets, you can even do this at home
+with a small telescope and a webcam.</p>
+<p>For many years the application of lucky imaging to general purpose astronomy was limited due to
+the levels of readout noise at high frame rates. However, with the development of electron-multiplying
+CCDs, photon-counting performance at high frame rates became a possibility.</p>
+<p>Over the course of my PhD I refined the data reduction techniques for lucky imaging,
+optimising both the method for tracking the guide star and the thresholding algorithm used to
+perform photon counting. I also developed a high-performance data reduction pipeline
+capable of reducing data from a multi-CCD mosaic camera at around 200 megabytes a second -
+lucky imaging with large format CCDs rapidly becomes a serious data handling challenge.</p>
+<p>I also did some work on Monte-Carlo simulation of lucky imaging data,
+both for simulation of combined adaptive-optics + lucky imaging systems, and for development
+of more sophisticated wide-field lucky imaging algorithms.</p>
+<div class="section" id="thesis">
+<h3>Thesis</h3>
+<p>If you're interested in the details you can download my thesis via the following
+links, or via the <a class="reference external" href="http://arxiv.org/abs/1404.5907">arxiv</a>:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.astro.soton.ac.uk/~ts3e11/files/Staley_thesis_summary.pdf">One page summary (tiny).</a></li>
+<li><a class="reference external" href="http://www.astro.soton.ac.uk/~ts3e11/files/Staley_thesis_online_version.pdf">Complete thesis, online format (23mb)</a>
+(i.e. with hyperlinks - note these don't show up when viewed via the Chrome integrated PDF reader)</li>
+<li><a class="reference external" href="http://www.astro.soton.ac.uk/~ts3e11/files/Staley_thesis_print_version.pdf">Complete thesis, print format (23mb).</a></li>
+</ul>
+</div>
+</div>
+
+        </div>
+    </section>
+  </div>
+</div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 Tim Staley
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://timstaley.co.uk/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://timstaley.co.uk/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://timstaley.co.uk/theme/js/respond.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-46485279-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+</body>
+</html>

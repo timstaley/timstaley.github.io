@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tim Staley</title><link href="http://timstaley.co.uk/" rel="alternate"></link><link href="http://timstaley.co.uk/feeds/reposts.atom.xml" rel="self"></link><id>http://timstaley.co.uk/</id><updated>2013-08-23T00:00:00+02:00</updated><entry><title>John Carmack on the sociology of programming</title><link href="http://timstaley.co.uk/posts/carmack-on-sociology" rel="alternate"></link><updated>2013-08-23T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2013-08-23:posts/carmack-on-sociology</id><summary type="html">&lt;p&gt;There's a nice blog post
+&lt;a class="reference external" href="http://blogs.uw.edu/ajko/2012/08/22/john-carmack-discusses-the-art-and-science-of-software-engineering/"&gt;here&lt;/a&gt;
+providing an excerpt from a keynote speech of John Carmack's,
+which I thoroughly agree with.&lt;/p&gt;
+&lt;p&gt;My favourite snippet:&lt;/p&gt;
+&lt;blockquote&gt;
+&amp;quot;There are clearly bet­ter and worse ways of doing things, but it’s
+frus­trat­ingly dif­fi­cult to quan­tify.&amp;quot;&lt;/blockquote&gt;
+&lt;p&gt;Worth a read.&lt;/p&gt;
+</summary><category term="reposts"></category></entry></feed>

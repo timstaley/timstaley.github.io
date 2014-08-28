@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tim Staley</title><link href="http://timstaley.co.uk/" rel="alternate"></link><link href="http://timstaley.co.uk/feeds/how-to.atom.xml" rel="self"></link><id>http://timstaley.co.uk/</id><updated>2014-06-06T00:00:00+02:00</updated><entry><title>Convolving PDFs in Python</title><link href="http://timstaley.co.uk/posts/convolving-pdfs-in-python" rel="alternate"></link><updated>2014-06-06T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2014-06-06:posts/convolving-pdfs-in-python</id><summary type="html">&lt;a class="reference external image-reference" href="http://timstaley.co.uk/images/scipy_sum_pdfs_example.png"&gt;&lt;img alt="Convolving PDFs: An example with a tophat and a Gaussian kernel." class="align-center" src="http://timstaley.co.uk/images/scipy_sum_pdfs_example.png" style="height: 400px;" /&gt;&lt;/a&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://nbviewer.ipython.org/github/timstaley/ipython-notebooks/blob/compiled/probabilistic_programming/convolving_distributions_illustration.ipynb"&gt;Show me the code already! (Link to online IPython Notebook.)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Recently I've been working on a project involving a bit of decision theory,
+which I hope to get finished up and published soon. In the process of figuring
+out how to calculate exactly what I need, I've also been exploring the landscape
+of probabilistic programming within Python. There are a lot of potentially
+relevant tools out there, with packages like &lt;a class="reference external" href="http://statsmodels.sourceforge.net/"&gt;Statsmodels&lt;/a&gt;, &lt;a class="reference external" href="http://scikit-learn.org/stable/"&gt;scikit-learn&lt;/a&gt;,
+and &lt;a class="reference external" href="http://pymc-devs.github.io/pymc/"&gt;PyMC&lt;/a&gt; all reaching maturity, with large feature-sets and
+pretty good documentation.
+Unfortunately, nothing did &lt;em&gt;quite&lt;/em&gt; what I wanted, so I've ended up rolling
+my own for much of it, learning to use &lt;a class="reference external" href="http://pandas.pydata.org/"&gt;pandas&lt;/a&gt; as a building
+block along the way (which is awesome).
+I explored a couple of problems that fit nicely into a single
+notebook / post. So,
+&lt;a class="reference external" href="http://nbviewer.ipython.org/github/timstaley/ipython-notebooks/blob/compiled/probabilistic_programming/convolving_distributions_illustration.ipynb"&gt;here's my take on how to convolve PDFs in Python.&lt;/a&gt;,
+and you can find the source &lt;a class="reference external" href="https://github.com/timstaley/ipython-notebooks/blob/master/probabilistic_programming/convolving_distributions_illustration.ipynb"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The short version is that I'd recommend two possible approaches - if your
+PDFs are one-dimensional and your transform is well behaved, roll your own
+SumRv (summed random variate) class using scipy.
+Otherwise, you'll probably want to run importance
+sampling and KDE-smoothing, using a weighted-KDE code like that in statsmodels.
+In my (highly un-scientific) benchmarking, the latter approach is about 5 times
+slower for a basic 1D PDF, so you could just adopt that approach anyway and keep
+things simple.&lt;/p&gt;
+&lt;p&gt;Finally, I should note that this was very much a learning exercise - I'm no
+expert in the above packages, so if you know a better way, please let me know!&lt;/p&gt;
+</summary><category term="how to"></category><category term="Python"></category><category term="probabilistic programming"></category><category term="notebook"></category><category term="convolution"></category><category term="probability distribution function"></category></entry><entry><title>Using Python pip offline</title><link href="http://timstaley.co.uk/posts/using-python-pip-offline" rel="alternate"></link><updated>2014-03-20T00:00:00+01:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2014-03-20:posts/using-python-pip-offline</id><summary type="html">&lt;p&gt;After you've been coding in Python for a while, and you've been bitten by a
+few package-version incompatibility bugs, it gets to the stage where the
+&lt;strong&gt;first&lt;/strong&gt; thing you do upon starting a new project, is fire up a new
+&lt;a class="reference external" href="http://www.virtualenv.org/en/latest/virtualenv.html"&gt;virtualenv&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The second thing you (might) do is curse like a sailor upon realising
+you'll have to re-download, compile and install numpy, scipy, matplotlib, etc.
+Especially if you're on a slow connection, or worse yet, completely offline.&lt;/p&gt;
+&lt;p&gt;Fortunately, the Python package installer, &lt;a class="reference external" href="http://www.pip-installer.org/en/latest/"&gt;pip&lt;/a&gt;, has been coming on in
+&lt;a class="reference external" href="http://www.pip-installer.org/en/latest/news.html"&gt;leaps and bounds&lt;/a&gt; recently,
+with many improvements to the package caching behaviour,
+most noticeably improved flag syntax. It's taken me a while
+to put together all the relevant details, change notes, and workflow, plus the
+&lt;a class="reference external" href="http://stackoverflow.com/questions/4806448/how-do-i-install-from-a-local-cache-with-pip"&gt;stackoverflow question&lt;/a&gt;
+is a bit outdated in places, so I thought I'd post.&lt;/p&gt;
+&lt;p&gt;First off, make sure you've got the most recent pip version (1.5.4 as of
+writing). If you're on *buntu 12.04 and previously installed it via apt-get,
+then I'd recommend:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get remove python-pip
+sudo easy_install -U pip
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;If pip was already a custom install then you're probably fine to just run&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo pip install -U pip
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;While you're at it, might as well grab the latest version of
+virtualenv, virtualenv-clone, and virtualenvwrapper:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo pip install -U virtualenv-clone virtualenvwrapper
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;That's the last sudo'ing - from here on out we keep the system clean!&lt;/p&gt;
+&lt;p&gt;So, improvement number one: with the latest pip, you can set up a cache folder
+to keep a copy of all your favourite packages.&lt;/p&gt;
+&lt;p&gt;The full details can be found
+&lt;a class="reference external" href="http://www.pip-installer.org/en/latest/user_guide.html#fast-local-installs"&gt;here&lt;/a&gt;,
+but in short, you can just drop two tiny scripts into the folder you want to use
+as your package cache directory, e.g. as &lt;tt class="docutils literal"&gt;download.sh&lt;/tt&gt;:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+#!/usr/bin/env bash
+PIP_CACHE=&amp;quot;$( cd &amp;quot;$( dirname &amp;quot;${BASH_SOURCE[0]}&amp;quot; )&amp;quot; &amp;amp;&amp;amp; pwd )&amp;quot;
+pip install --download=$PIP_CACHE $*
+&lt;/pre&gt;
+&lt;p&gt;and &lt;tt class="docutils literal"&gt;install.sh&lt;/tt&gt;:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+##!/usr/bin/env bash
+PIP_CACHE=&amp;quot;$( cd &amp;quot;$( dirname &amp;quot;${BASH_SOURCE[0]}&amp;quot; )&amp;quot; &amp;amp;&amp;amp; pwd )&amp;quot;
+echo &amp;quot;USING CACHE: ${PIP_CACHE}&amp;quot;
+pip install --no-index --find-links=file://$PIP_CACHE  $*
+&lt;/pre&gt;
+&lt;p&gt;Where the first line is just
+&lt;a class="reference external" href="http://stackoverflow.com/a/246128/725650"&gt;some bash voodoo&lt;/a&gt;
+to locate the parent directory of the shell scripts.
+Usage is then something like the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#Ahead of time&lt;/span&gt;
+&lt;span class="nb"&gt;cd &lt;/span&gt;project-folder
+~/pip_cache/download.sh -r requirements.txt
+~/pip_cache/download.sh someotherpackage
+
+&lt;span class="c"&gt;#When creating a new virtualenv offline&lt;/span&gt;
+mkvirtualenv foo
+&lt;span class="nb"&gt;cd &lt;/span&gt;project-folder
+~/pip_cache/install.sh -r requirements.txt
+~/pip_cache/install.sh someotherpackage
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;(assuming you dropped the pip scripts into &lt;em&gt;~/pip_cache&lt;/em&gt;)
+which will leave a neat selection of &lt;em&gt;tar.gz&lt;/em&gt; package tarballs in your cache
+folder.&lt;/p&gt;
+&lt;p&gt;Of course, this still leaves you with a long wait while scipy compiles, but
+this too is fixable. One option might be to inherit system-packages upon
+creating a new virtualenv, but then you're back to choosing between &lt;tt class="docutils literal"&gt;sudo pip&lt;/tt&gt;
+or ancient &lt;tt class="docutils literal"&gt;apt&lt;/tt&gt; packages.
+The more explicit, controllable approach is to
+create a 'common-core' virtualenv template containing your commonly used large
+packages, then &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;virtualenv-clone&lt;/span&gt;&lt;/tt&gt; it whenever you want to start a new project,
+e.g.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ~/.virtualenvs
+virtualenv-clone template-env some-new-env
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Note that this comes with a health warning - it seems &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;virtualenv-clone&lt;/span&gt;&lt;/tt&gt; does
+not create a full copy, instead it copies some things and symlinks others,
+so your new virtualenv will in fact be partially reliant on the template one!
+But as long as you're aware of that issue, it's a great way to save
+compile-time.&lt;/p&gt;
+&lt;p&gt;If you're going to be working offline you'll want to make sure
+you cache all &lt;em&gt;suggested&lt;/em&gt; as well as required package dependencies.
+For example, &lt;tt class="docutils literal"&gt;ipython&lt;/tt&gt; does not, by default, come with all the dependencies
+needed to run the notebook (i.e. jinja2, pyzmq, etc).
+However, you &lt;strong&gt;can&lt;/strong&gt; grab these by specifying the package name with an &lt;tt class="docutils literal"&gt;[all]&lt;/tt&gt;
+suffix, e.g.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pip install ipython&lt;span class="o"&gt;[&lt;/span&gt;all&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Oh, and one last thing. With a fresh virtualenv,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pip install scipy
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;is &lt;strong&gt;still&lt;/strong&gt; broken - it fails unless you've installed numpy first, for some
+reason. I can't be bothered to dig up the bug report.
+I'll leave you with a basic &lt;tt class="docutils literal"&gt;requirements.txt&lt;/tt&gt; for your template
+virtualenv:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+numpy
+scipy
+ipython[all]
+matplotlib
+&lt;/pre&gt;
+&lt;p&gt;Footnote: you can use a pip-cache in fully automated fashion to save repeated
+package downloads (and this has been available for a while) - simply drop the
+&lt;a class="reference external" href="http://stackoverflow.com/a/15948679/725650"&gt;relevant line&lt;/a&gt; into your
+&lt;em&gt;~/.pip/pip.conf&lt;/em&gt; file, but I prefer the methods above - these give you
+fine grained control to download and install separately, and also to
+choose to grab a fresh copy from PyPI (by reverting to usual behaviour)
+when you'd rather do so.&lt;/p&gt;
+</summary><category term="how to"></category><category term="Python"></category><category term="pip"></category><category term="virtualenv"></category><category term="offline"></category></entry><entry><title>Automated incoming file processing with Python</title><link href="http://timstaley.co.uk/posts/automated-incoming-file-processing-with-python" rel="alternate"></link><updated>2014-02-23T00:00:00+01:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2014-02-23:posts/automated-incoming-file-processing-with-python</id><summary type="html">&lt;p&gt;This weekend, I finally got around to spending a little time cleaning up
+a single-file &lt;a class="reference external" href="http://github.com/timstaley/autocrunch"&gt;script&lt;/a&gt; I wrote to automatically process files as they are
+transferred into a local directory, via rsync.&lt;/p&gt;
+&lt;p&gt;The fact that I was able to do this in a short script is largely thanks to
+&lt;a class="reference external" href="http://github.com/seb-m/pyinotify"&gt;pyinotify&lt;/a&gt;, which takes care of interfacing with the linux
+&lt;a class="reference external" href="http://en.wikipedia.org/wiki/Inotify"&gt;internals&lt;/a&gt; which track file changes, so the hardest part was really done for
+me - hurray for open source!&lt;/p&gt;
+&lt;p&gt;That said, I would have thought rsync transfers were a prime use-case for
+this sort of tool, and yet I couldn't find any good examples on the web,
+which is why I thought it might be worth writing up (and &lt;a class="reference external" href="https://github.com/seb-m/pyinotify/pull/65"&gt;pull-requesting&lt;/a&gt;).
+Handling of rsync files is a little more complex than the standard examples,
+because it creates temporary files for partial downloads, then renames them
+once the download is complete. If you only want to catch new files
+(my particular use case) then you need to track these temporary files as they
+are created and renamed - but this is easily done with a few lines of Python.&lt;/p&gt;
+&lt;p&gt;Anyway, for future reference: coding up custom file-tracking behaviour
+with pyinotify is not too hard:&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;Profile your file transfer behaviour by running:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+python -m pyinotify /path/to/folder_to_watch
+&lt;/pre&gt;
+&lt;p&gt;Try manually transferring a single file, then pick out the sequence of
+events you want to track.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;Create a class inheriting from &lt;tt class="docutils literal"&gt;pyinotify.ProcessEvent&lt;/tt&gt; that will perform
+the required state-tracking and job-dispatching. Customising its behaviour
+is just a case of overriding certain class-methods.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;Profit! That's it, basically. Now you just have to plug your custom class
+into one of the standard pyinotify usage examples.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;More details can be found at the pyinotify &lt;a class="reference external" href="https://github.com/seb-m/pyinotify/wiki/Tutorial"&gt;tutorial&lt;/a&gt;, in the pyinotify
+&lt;a class="reference external" href="https://github.com/seb-m/pyinotify/tree/master/python2/examples"&gt;examples dir&lt;/a&gt;,
+and (if you want to track rsync'ed files, or use asynchronous pool processing) by
+reading through my &lt;a class="reference external" href="http://github.com/timstaley/autocrunch"&gt;script&lt;/a&gt;.&lt;/p&gt;
+</summary><category term="how to"></category><category term="Python"></category><category term="rsync"></category><category term="automation"></category></entry><entry><title>Graphical ssh-agent prompting in Xubuntu</title><link href="http://timstaley.co.uk/posts/graphical-ssh-agent-prompting-in-xubuntu" rel="alternate"></link><updated>2014-01-15T00:00:00+01:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2014-01-15:posts/graphical-ssh-agent-prompting-in-xubuntu</id><summary type="html">&lt;p&gt;One of the fallbacks / features (depending on your preference) of using XFCE over the standard Ubuntu interface is that you don't get per-session ssh-agent handling (via a graphical interface) out-of-the-box, meaning you must manually fire up ssh-agent every time you login on your desktop. A minor annoyance, granted, but I remember it grating slightly after migrating from a pleasingly automated Ubuntu 10.04/Gnome setup.&lt;/p&gt;
+&lt;p&gt;This is easily fixed, however. The basic idea can be found
+&lt;a class="reference external" href="http://lekv.de/blog/2012/03/15/xfce-and-the-gnome-keyring-daemon-revised/"&gt;here,&lt;/a&gt; after some googling
+(and I think it was on one of the stack-exchange sites, but I've lost the link).
+However, what they don't mention is that &lt;strong&gt;this squashes ssh-agent forwarding&lt;/strong&gt;. The SSH_AUTH_SOCK environment variable is always overwritten, so if you SSH to your desktop from elsewhere (your laptop, say), then attempt to tunnel forward to a third machine, you get a graphical prompt asking you to unlock your &lt;em&gt;desktop's&lt;/em&gt; key, rather than silently forwarding the laptop's. Boo.&lt;/p&gt;
+&lt;p&gt;Fortunately, we only need to be marginally more sophisticated to make it watertight.
+Try adding this to your &lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt;:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;
+if [[ -z &amp;quot;${SSH_CONNECTION}&amp;quot; ]]; then
+        export $(gnome-keyring-daemon --start )
+fi
+&lt;/pre&gt;
+&lt;p&gt;Tested on Xubuntu 12.04.&lt;/p&gt;
+</summary><category term="how to"></category><category term="Xubuntu"></category><category term="ssh"></category></entry><entry><title>Ganglia setup explained</title><link href="http://timstaley.co.uk/posts/ganglia-setup-explained" rel="alternate"></link><updated>2013-12-21T00:00:00+01:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2013-12-21:posts/ganglia-setup-explained</id><summary type="html">&lt;p&gt;&lt;strong&gt;Or, everything you wanted to know about setting up Ganglia, but couldn't grok
+from the official documentation - part 2.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In this post I'll cover:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;What purposes the different &lt;a class="reference external" href="http://ganglia.sourceforge.net/"&gt;Ganglia&lt;/a&gt; utilities serve, and how they fit
+together.&lt;/li&gt;
+&lt;li&gt;How to set up a minimal configuration, from apt-get install through to
+configuring Apache to serve the web interface.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;(See &lt;a class="reference external" href="http://timstaley.co.uk/posts/why-ganglia"&gt;part 1&lt;/a&gt;
+for a general explanation of what Ganglia is,
+and why you might want to use it.)&lt;/p&gt;
+&lt;p&gt;Although Ganglia will - if you're lucky - work out of the box,
+I found it pretty difficult to get a good overview of how
+the different utilities fit together, and likewise how the various
+config file sections interact (the latter is much easier to follow when you
+have a good understanding of the former).
+After about a day of trawling over the wiki and experimenting with various
+setups, I felt I had a much better idea of what was going on and how to tweak
+it. I should also mention that the first time I tried Ganglia,
+I had zero experience with configuring a web-server, which (understandably)
+isn't covered in the quickstart guide.
+So, I thought I'd put together all the information that would have helped
+a year ago when I first got Ganglia up and running.&lt;/p&gt;
+&lt;p&gt;Let's start with what the different &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Daemon_(computing)"&gt;daemons&lt;/a&gt; actually &lt;em&gt;do&lt;/em&gt;.
+There is a brief explanation on the ganglia wiki at
+&lt;a class="reference external" href="http://sourceforge.net/apps/trac/ganglia/wiki/ganglia_documents"&gt;http://sourceforge.net/apps/trac/ganglia/wiki/ganglia_documents&lt;/a&gt;, but it's a
+bit dense and jargon heavy -
+I've tried to expand in a more 'newbie friendly' manner below:&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;gmond&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;Responsible for actually collecting
+all the metric information we're interested in, and forwarding it on
+to somewhere else.  Keeps state only in RAM,
+- i.e. does not save anything to disk, only knows the most recent stats.
+This is the only service that needs to be run on every node, and has
+very low CPU / RAM overheads (I never see it go about 0% CPU on &lt;a class="reference external" href="http://htop.sourceforge.net/"&gt;htop&lt;/a&gt;!).&lt;/p&gt;
+&lt;p&gt;Communicates via two methods:&lt;/p&gt;
+&lt;p&gt;(for an explanation of TCP vs UDP, see e.g.
+&lt;a class="reference external" href="http://www.bleepingcomputer.com/tutorials/tcp-and-udp-ports-explained/"&gt;http://www.bleepingcomputer.com/tutorials/tcp-and-udp-ports-explained/&lt;/a&gt;,
+&lt;a class="reference external" href="http://stackoverflow.com/questions/5970383/difference-between-tcp-and-udp"&gt;http://stackoverflow.com/questions/5970383/difference-between-tcp-and-udp&lt;/a&gt; )&lt;/p&gt;
+&lt;ul class="last"&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;gmond to gmond via UDP.&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first last"&gt;gmond daemons can be configured to share their state
+in a peer to peer fashion, so that when queried, one node can report
+both its own most recent metrics, and those of other nodes.
+This provides redundancy - if one node goes down
+the rest still pass their information around between them.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;gmond to &amp;lt;X&amp;gt; via TCP.&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first last"&gt;The gmond daemons can be polled for an update via
+a TCP connection (from any program, including e.g. netcat or telnet - this
+can be useful for checking everything is up and running).&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;dt&gt;gstat&lt;/dt&gt;
+&lt;dd&gt;A command line tool which connects to gmond (via TCP) and provides a
+quick summary of the current stats from all the nodes for which that gmond
+daemon has data.&lt;/dd&gt;
+&lt;dt&gt;gmetad&lt;/dt&gt;
+&lt;dd&gt;Responsible for polling gmond daemons via TCP on a
+regular basis. Records the information to disk in the form of &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Round-Robin_Database"&gt;RRD&lt;/a&gt; files.
+Depending on how your gmond daemons are configured (whether or not they are
+set to relay their status between nodes), gmetad can either be pointed
+at one gmond daemon, and pull the entire cluster status from that one node,
+or it can pull the status from each gmond node individually. Or
+you can configure it to do both, for redundancy.&lt;/dd&gt;
+&lt;dt&gt;ganglia-web&lt;/dt&gt;
+&lt;dd&gt;Not a strictly essential part of the solution, but you'll probably
+want a graphical way to view your collected statistics.
+This is a web-page frontend built on PHP scripts, which queries the RRD
+files saved by gmetad.
+As far as I can tell it's stateless, i.e. the graphs are generated on the
+fly - all the persistent data is in the RRDs.
+For a live and publicly accessible example, see
+&lt;a class="reference external" href="http://ganglia.wikimedia.org/"&gt;http://ganglia.wikimedia.org/&lt;/a&gt; (which is currently tracking around 900 nodes).&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;&lt;strong&gt;So, on to the configuration guide. This is tested on Ubuntu 12.04,
+but the ganglia-specific config tips should be broadly applicable.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;First off, we need to set up gmond on each machine we want to monitor,
+(or 'node'):&lt;/p&gt;
+&lt;p&gt;Start with&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install ganglia-monitor
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Next we'll configure gmond via the file at &lt;tt class="docutils literal"&gt;/etc/ganglia/gmond.conf&lt;/tt&gt;.
+Assuming you just want the standard metrics, you only need to worry about the
+first few stanzas that control how the stats are distributed.
+By default, the ones we're interested in look like the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;globals&lt;span class="w"&gt; &lt;/span&gt;{&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;daemonize&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;yes&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;setuid&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;yes&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;user&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;ganglia&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;debug_level&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;max_udp_msg_len&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1472&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;mute&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;no&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;deaf&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;no&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;host_dmax&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/*secs&lt;span class="w"&gt; &lt;/span&gt;*/&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;cleanup_threshold&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;300&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/*secs&lt;span class="w"&gt; &lt;/span&gt;*/&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;gexec&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;no&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;send_metadata_interval&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+}&lt;span class="w"&gt;&lt;/span&gt;
+
+/*&lt;span class="w"&gt; &lt;/span&gt;Feel&lt;span class="w"&gt; &lt;/span&gt;free&lt;span class="w"&gt; &lt;/span&gt;to&lt;span class="w"&gt; &lt;/span&gt;specify&lt;span class="w"&gt; &lt;/span&gt;as&lt;span class="w"&gt; &lt;/span&gt;many&lt;span class="w"&gt; &lt;/span&gt;udp_send_channels&lt;span class="w"&gt; &lt;/span&gt;as&lt;span class="w"&gt; &lt;/span&gt;you&lt;span class="w"&gt; &lt;/span&gt;like.&lt;span class="w"&gt;  &lt;/span&gt;Gmond&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;used&lt;span class="w"&gt; &lt;/span&gt;to&lt;span class="w"&gt; &lt;/span&gt;only&lt;span class="w"&gt; &lt;/span&gt;support&lt;span class="w"&gt; &lt;/span&gt;having&lt;span class="w"&gt; &lt;/span&gt;a&lt;span class="w"&gt; &lt;/span&gt;single&lt;span class="w"&gt; &lt;/span&gt;channel&lt;span class="w"&gt; &lt;/span&gt;*/&lt;span class="w"&gt;&lt;/span&gt;
+udp_send_channel&lt;span class="w"&gt; &lt;/span&gt;{&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;mcast_join&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;239.2.11.71&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;port&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;8649&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="no"&gt;ttl&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+}&lt;span class="w"&gt;&lt;/span&gt;
+
+/*&lt;span class="w"&gt; &lt;/span&gt;You&lt;span class="w"&gt; &lt;/span&gt;can&lt;span class="w"&gt; &lt;/span&gt;specify&lt;span class="w"&gt; &lt;/span&gt;as&lt;span class="w"&gt; &lt;/span&gt;many&lt;span class="w"&gt; &lt;/span&gt;udp_recv_channels&lt;span class="w"&gt; &lt;/span&gt;as&lt;span class="w"&gt; &lt;/span&gt;you&lt;span class="w"&gt; &lt;/span&gt;like&lt;span class="w"&gt; &lt;/span&gt;as&lt;span class="w"&gt; &lt;/span&gt;well.&lt;span class="w"&gt; &lt;/span&gt;*/&lt;span class="w"&gt;&lt;/span&gt;
+udp_recv_channel&lt;span class="w"&gt; &lt;/span&gt;{&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;mcast_join&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;239.2.11.71&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;port&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;8649&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;bind&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;239.2.11.71&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+}&lt;span class="w"&gt;&lt;/span&gt;
+
+/*&lt;span class="w"&gt; &lt;/span&gt;You&lt;span class="w"&gt; &lt;/span&gt;can&lt;span class="w"&gt; &lt;/span&gt;specify&lt;span class="w"&gt; &lt;/span&gt;as&lt;span class="w"&gt; &lt;/span&gt;many&lt;span class="w"&gt; &lt;/span&gt;tcp_accept_channels&lt;span class="w"&gt; &lt;/span&gt;as&lt;span class="w"&gt; &lt;/span&gt;you&lt;span class="w"&gt; &lt;/span&gt;like&lt;span class="w"&gt; &lt;/span&gt;to&lt;span class="w"&gt; &lt;/span&gt;share&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;an&lt;span class="w"&gt; &lt;/span&gt;xml&lt;span class="w"&gt; &lt;/span&gt;description&lt;span class="w"&gt; &lt;/span&gt;of&lt;span class="w"&gt; &lt;/span&gt;the&lt;span class="w"&gt; &lt;/span&gt;state&lt;span class="w"&gt; &lt;/span&gt;of&lt;span class="w"&gt; &lt;/span&gt;the&lt;span class="w"&gt; &lt;/span&gt;cluster&lt;span class="w"&gt; &lt;/span&gt;*/&lt;span class="w"&gt;&lt;/span&gt;
+tcp_accept_channel&lt;span class="w"&gt; &lt;/span&gt;{&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;port&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;8649&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+}&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Note the &lt;tt class="docutils literal"&gt;udp_send_channel&lt;/tt&gt; and &lt;tt class="docutils literal"&gt;udp_recv_channel&lt;/tt&gt; sections,
+which are configured to use
+&lt;a class="reference external" href="http://en.wikipedia.org/wiki/Multicast"&gt;multicast&lt;/a&gt; - essentially broadcasting
+their status to all other nodes configured in the same manner, to provide
+automatic discovery of new nodes.&lt;/p&gt;
+&lt;p&gt;This default configuration works great if you're running on your
+own private cluster of machines, on a local network with the UDP ports
+blocked between you and the outside world. In that case, you don't even
+need to touch &lt;tt class="docutils literal"&gt;gmond.conf&lt;/tt&gt;.
+However, there are situations where you might not want to do things this way.
+For example, &lt;a class="reference external" href="http://www.openscg.com/2013/06/ganglia-in-the-cloud/"&gt;multicast may be disabled on
+cloud server instances&lt;/a&gt;.
+Another example is if you're on a large university campus network, when
+there's a significant chance you'll accidentally get cross-talk with someone
+else's ganglia cluster, or you may find that e.g. multicast works on a single
+server rack but is blocked between different server farms.
+Whatever.
+We can set up a much more finely controlled
+(although admittedly less redundant / robust) &lt;em&gt;unicast&lt;/em&gt; configuration,
+very easily. Assuming you're happy with a single 'master' gmond node collecting
+data from all the others, it might look something like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;globals&lt;span class="w"&gt; &lt;/span&gt;{&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;daemonize&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;yes&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;setuid&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;yes&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;user&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;ganglia&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;debug_level&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;max_udp_msg_len&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1472&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;mute&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;no&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;deaf&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;no&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;host_dmax&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;3600&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/*secs&lt;span class="w"&gt; &lt;/span&gt;*/&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;cleanup_threshold&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;300&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/*secs&lt;span class="w"&gt; &lt;/span&gt;*/&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;gexec&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;no&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;send_metadata_interval&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;30&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+}&lt;span class="w"&gt;&lt;/span&gt;
+
+
+/*&lt;span class="w"&gt; &lt;/span&gt;Feel&lt;span class="w"&gt; &lt;/span&gt;free&lt;span class="w"&gt; &lt;/span&gt;to&lt;span class="w"&gt; &lt;/span&gt;specify&lt;span class="w"&gt; &lt;/span&gt;as&lt;span class="w"&gt; &lt;/span&gt;many&lt;span class="w"&gt; &lt;/span&gt;udp_send_channels&lt;span class="w"&gt; &lt;/span&gt;as&lt;span class="w"&gt; &lt;/span&gt;you&lt;span class="w"&gt; &lt;/span&gt;like.&lt;span class="w"&gt;  &lt;/span&gt;Gmond&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;used&lt;span class="w"&gt; &lt;/span&gt;to&lt;span class="w"&gt; &lt;/span&gt;only&lt;span class="w"&gt; &lt;/span&gt;support&lt;span class="w"&gt; &lt;/span&gt;having&lt;span class="w"&gt; &lt;/span&gt;a&lt;span class="w"&gt; &lt;/span&gt;single&lt;span class="w"&gt; &lt;/span&gt;channel&lt;span class="w"&gt; &lt;/span&gt;*/&lt;span class="w"&gt;&lt;/span&gt;
+udp_send_channel&lt;span class="w"&gt; &lt;/span&gt;{&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;host&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;master.node.address&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;port&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;8649&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+}&lt;span class="w"&gt;&lt;/span&gt;
+
+udp_recv_channel&lt;span class="w"&gt; &lt;/span&gt;{&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;port&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;8649&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+}&lt;span class="w"&gt;&lt;/span&gt;
+
+tcp_accept_channel&lt;span class="w"&gt; &lt;/span&gt;{&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;port&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;=&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;8649&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+}&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Note that I've also tweaked the &lt;tt class="docutils literal"&gt;host_dmax&lt;/tt&gt; and  &lt;tt class="docutils literal"&gt;send_metadata_interval&lt;/tt&gt;
+settings from their defaults.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;host_dmax&lt;/strong&gt; simply controls how long a node remains listed once
+it stops sending out new data.
+How you set this depends if you regularly add
+temporary machines to the cluster then remove them later
+(leave it to something like an hour or they'll clutter up your stats), or
+if you have a stable cluster and you want to be reminded which machines are
+currently down (leave it set to the default of 0).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;send_metadata_interval&lt;/strong&gt; controls how frequently the stats
+(and &lt;em&gt;I'm here / I'm alive&lt;/em&gt; status) are pushed out
+blindly over UDP to any recipients listed under &lt;tt class="docutils literal"&gt;udp_send_channel&lt;/tt&gt; stanzas.
+If this is left to the default of 0, then the node will only broadcast
+its presence when the daemon is started, relying on other nodes to
+request updates ('poll') it via the port listed under the
+&lt;tt class="docutils literal"&gt;udp_recv_channel&lt;/tt&gt; stanza.
+You can in fact configure the node
+to just broadcast blindly at regular intervals
+(set &lt;tt class="docutils literal"&gt;send_metadata_interval&lt;/tt&gt; to a nonzero value,
+delete the udp_recv_channel stanza)
+or you can rely solely on polling, but it seems sensible to have both
+switched on.
+See the
+&lt;a class="reference external" href="http://sourceforge.net/apps/trac/ganglia/wiki/Gmond%203.1.x%20General%20Configuration"&gt;relevant wiki page&lt;/a&gt;
+for more details.&lt;/p&gt;
+&lt;p&gt;With that done, do a&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service ganglia-monitor restart
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;on each node, then log onto the master node and try&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;gstat -a
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Which should hopefully report the current CPU / load stats of all the nodes
+in the ganglia cluster.&lt;/p&gt;
+&lt;p&gt;Next we need to set up gmetad, to record the stats to disk.
+First of all, let's check that we don't have any connection issues,
+by polling the master gmond daemon manually.
+On the machine you'll be using to serve up the web-frontend
+simply run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;netcat master.node.address 8649
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;(Assuming your gmond is configured with the default &lt;tt class="docutils literal"&gt;tcp_accept_channel&lt;/tt&gt;
+port, as above.)
+If you get a bunch of XML stats, congratulations, you're good to go.
+Next:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install gmetad
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;then do a single line edit on &lt;tt class="docutils literal"&gt;/etc/ganglia/gmetad.conf&lt;/tt&gt; to tell it
+which gmond node to poll for information, e.g. something like:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+data_source &amp;quot;MyCluster&amp;quot; 10 master.node.address
+&lt;/pre&gt;
+&lt;p&gt;where 10 is simply the polling interval. If you have your gmond daemons
+set up to share data around in full-on redundancy fashion,
+you can add multiple addresses on this line -
+if gmetad can't access the first, it will try the others one-by-one until it
+gets a response.
+(More info
+&lt;a class="reference external" href="http://sourceforge.net/apps/trac/ganglia/wiki/Ganglia%203.1.x%20Installation%20and%20Configuration#gmetad_configuration"&gt;here&lt;/a&gt;.)&lt;/p&gt;
+&lt;p&gt;Finally, we need to install the web-based frontend.
+There is a Ubuntu package for this, but it's a little dated - I much prefer the
+look and feel of the latest release. So let's grab it from GitHub:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;git clone git@github.com:ganglia/ganglia-web.git
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd &lt;/span&gt;ganglia-web
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo make install
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Which will dump some config files to &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;/var/lib/ganglia-web&lt;/span&gt;&lt;/tt&gt;,
+and all the php into &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;/usr/share/ganglia-webfrontend&lt;/span&gt;&lt;/tt&gt;.&lt;/p&gt;
+&lt;p&gt;Next we install Apache and the relevant supporting libraries:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install apache2 libapache2-mod-php5 php5-gd rrdtool
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Finally, we configure apache to serve the PHP pages in
+&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;/usr/share/ganglia-webfrontend&lt;/span&gt;&lt;/tt&gt;. There's an example config in the
+ganglia-web repository, called &lt;tt class="docutils literal"&gt;apache.conf&lt;/tt&gt;.
+Assuming you're not serving anything else from apache, the easy way to do this
+is to add a &lt;tt class="docutils literal"&gt;&amp;lt;VirtualHost *:80&amp;gt;&lt;/tt&gt; and &lt;tt class="docutils literal"&gt;&amp;lt;/VirtualHost&amp;gt;&lt;/tt&gt; at the beginning and
+end of that file, then&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo cp apache.conf /etc/apache2/sites-available/ganglia
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo a2dissite default
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo a2ensite ganglia
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service apache2 reload
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;(If you're already serving other sites, you can just paste the contents
+of apache.conf into whatever site config you're currently running - but then
+you probably don't need me to tell you that.
+NB though, you might need to enable:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+DirectoryIndex index.html index.php
+&lt;/pre&gt;
+&lt;p&gt;if you've specified it to only allow:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+DirectoryIndex index.html
+&lt;/pre&gt;
+&lt;p&gt;previously. That caught me out.)&lt;/p&gt;
+&lt;p&gt;Hopefully, you should now be able to browse to
+&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;http://your.web.server/ganglia&lt;/span&gt;&lt;/tt&gt; and
+see a bunch of performance stats.&lt;/p&gt;
+&lt;p&gt;HTH.&lt;/p&gt;
+</summary><category term="how to"></category><category term="Ubuntu"></category><category term="Ganglia"></category><category term="sysadmin"></category><category term="monitoring"></category></entry><entry><title>Why Ganglia?</title><link href="http://timstaley.co.uk/posts/why-ganglia" rel="alternate"></link><updated>2013-12-20T00:00:00+01:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2013-12-20:posts/why-ganglia</id><summary type="html">&lt;p&gt;&lt;strong&gt;Or, everything you wanted to know about setting up Ganglia, but couldn't grok
+from the official documentation - part 1.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;I recently set up &lt;a class="reference external" href="http://ganglia.sourceforge.net/"&gt;Ganglia&lt;/a&gt; monitoring on couple of new machines
+I'm looking after. While I've used Ganglia before, I wanted to do some
+slightly non-standard things this time around. This in turn reminded me that
+the official documentation is a bit jargon-heavy,
+so I felt it was worth writing up my take on what you should know about it
+as a newcomer.&lt;/p&gt;
+&lt;p&gt;In this post I'll cover:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;What &lt;a class="reference external" href="http://ganglia.sourceforge.net/"&gt;Ganglia&lt;/a&gt; is for.&lt;/li&gt;
+&lt;li&gt;Alternative cluster monitoring tools, and how they overlap.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;(See &lt;a class="reference external" href="http://timstaley.co.uk/posts/ganglia-setup-explained"&gt;part 2&lt;/a&gt;
+for details on how the Ganglia utils work
+together, and how to set up a minimal configuration.)&lt;/p&gt;
+&lt;p&gt;Ganglia is an open-source collection of tools for
+collecting performance metrics on all the machines in a cluster -
+CPU and RAM usage, network IO, disk space remaining etc.
+These are typically interpreted via a web-based frontend 'dashboard'
+page in your browser like so (click through for big version):&lt;/p&gt;
+&lt;a class="reference external image-reference" href="http://timstaley.co.uk/images/ganglia_screenshot_cmp.png"&gt;&lt;img alt="A screenshot of the Ganglia-web dashboard interface." class="align-center" src="http://timstaley.co.uk/images/ganglia_screenshot_cmp.png" style="height: 400px;" /&gt;&lt;/a&gt;
+&lt;p&gt;as well as historical graphs that allow you to inspect the metrics over a
+range of timescales, either on a single-machine basis or averaged over the
+cluster.&lt;/p&gt;
+&lt;p&gt;For me, this has at least three major benefits.&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;You can gather the data to decide e.g. whether you really need more
+processing machines, or just need better load balancing / task queueing,&lt;/li&gt;
+&lt;li&gt;When debugging unexpected program crashes, you can determine whether
+they are simply due to a lack of system resources, e.g. some process hogging
+all the RAM, or a database store filling your primary disk to 100%.&lt;/li&gt;
+&lt;li&gt;If you're not using a formal CPU allocation / queueing mechanism, you can
+just point your users at the status page and they can make an informed decision
+about which machine they should run their data-crunching on.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;It's worth mentioning that there are several competing (and also open source)
+software packages that address these kind of problems, or overlap somewhat.&lt;/p&gt;
+&lt;p&gt;As far as I can tell, &lt;a class="reference external" href="http://www.cacti.net/"&gt;Cacti&lt;/a&gt; and &lt;a class="reference external" href="http://munin-monitoring.org/"&gt;Munin&lt;/a&gt;
+are pretty much directly comparable to Ganglia.
+I can't give any first-hand impressions, and
+&lt;a class="reference external" href="https://www.google.co.uk/search?q=munin+ganglia"&gt;Googling suggests&lt;/a&gt;
+no-one has written up a particularly useful comparison, unfortunately.
+Twitter &lt;a class="reference external" href="https://twitter.com/search?q=munin%20ganglia&amp;amp;src=typd"&gt;perhaps suggests&lt;/a&gt;
+a slight favouring of Ganglia.&lt;/p&gt;
+&lt;p&gt;I will say that Munin appears to have an active Github community
+(&lt;a class="reference external" href="https://github.com/munin-monitoring/munin"&gt;402&lt;/a&gt; stars as opposed to Ganglia's
+&lt;a class="reference external" href="https://github.com/ganglia/monitor-core"&gt;128&lt;/a&gt;),
+and I was almost convinced to try it out this time around as I struggled with
+the Ganglia documentation, since the configuration looks more straightforward at
+first glance.
+However, a couple of things put me off. Firstly, the
+&lt;a class="reference external" href="http://munin-monitoring.org/wiki/faq"&gt;FAQ&lt;/a&gt; suggests
+default configuration only provides updates every 5 minutes.
+Ganglia updates about every 20 seconds, which is much better if you're using it
+as a real-time dashboard.
+(&lt;a class="reference external" href="http://munin-monitoring.org/ticket/5"&gt;Further inspection&lt;/a&gt;
+suggests this is both configurable and perhaps not even default anymore,
+but who reads a bug-report when they're skimming FAQ's?)&lt;/p&gt;
+&lt;p&gt;There are also some slightly hazy, not particularly quantitative
+&lt;a class="reference external" href="http://www.ehow.com/info_12209999_ganglia-vs-munin.html"&gt;claims&lt;/a&gt; about
+how Ganglia is supposed to be highly scalable, due to the way
+it can be configured hierarchically - nodes reporting to clusters,
+clusters reporting to grids, grids being summarised on the uber-dashboard.
+Which is probably true, but it's unclear if we're talking 10's, 100's or
+1000's of nodes before this would be an issue for Munin etc - or if that's
+just outdated FUD and Munin scales just as well.&lt;/p&gt;
+&lt;p&gt;But anyway, Ganglia works well for me - and once you understand the config files
+setting it up is very quick and easy;
+see &lt;a class="reference external" href="http://timstaley.co.uk/posts/ganglia-setup-explained"&gt;part 2&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;EDIT&lt;/strong&gt;: On further googling, I came across this:
+&lt;a class="reference external" href="http://www.igvita.com/2010/01/28/cluster-monitoring-with-ganglia-ruby/"&gt;http://www.igvita.com/2010/01/28/cluster-monitoring-with-ganglia-ruby/&lt;/a&gt;
+- I think everything I've said here agrees with the assertions there,
+and that guy's a 'web performance engineer' at Google, so make of that what
+you will.&lt;/p&gt;
+&lt;p&gt;While I'm here, I might as well mention &lt;a class="reference external" href="http://www.nagios.org/"&gt;Nagios&lt;/a&gt;, which exists in a similar
+space but is more focused on alerting you when things are broken, rather
+than logging history. Finally, there are some 'hot new technologies'
+in the logging/graphing space, in the form of &lt;a class="reference external" href="https://github.com/etsy/statsd/"&gt;statsd&lt;/a&gt; and &lt;a class="reference external" href="http://graphite.wikidot.com/faq"&gt;Graphite&lt;/a&gt;, which
+look potentially appealing - but they're not in the standard package
+repositories yet, and I haven't yet had time or inclination to investigate them.&lt;/p&gt;
+</summary><category term="how to"></category><category term="Ubuntu"></category><category term="Ganglia"></category><category term="sysadmin"></category><category term="monitoring"></category></entry><entry><title>Setting up disk quotas with Ubuntu 12.04</title><link href="http://timstaley.co.uk/posts/setting-up-disk-quotas-with-ubuntu-1204" rel="alternate"></link><updated>2013-07-24T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2013-07-24:posts/setting-up-disk-quotas-with-ubuntu-1204</id><summary type="html">&lt;p&gt;There seems to be very little information on the web about setting up disk
+quotas, presumably because it's perceived as being trivial.
+However, it's nice to have this confirmed or refuted before you dive in,
+so here are my notes.&lt;/p&gt;
+&lt;p&gt;First off:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo apt-get install quota quotatool
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now edit &lt;em&gt;/etc/fstab&lt;/em&gt;; simply add a &lt;tt class="docutils literal"&gt;,usrquota,grpquota&lt;/tt&gt; to the mount options
+as required like so:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+UUID=eafa3a88-2d0f-43c1-8992-1813ac3d530a /data1 ext4 defaults,user_xattr,usrquota,grpquota 0 2
+&lt;/pre&gt;
+&lt;p&gt;Now, you have two options.&lt;/p&gt;
+&lt;p&gt;The first is simply to reboot the machine.
+If all goes well, then the disk in question will mount with the new quota options,
+and on starting the '&lt;tt class="docutils literal"&gt;quota&lt;/tt&gt;' service will automatically build quotas, then start as normal -
+your usual Ubuntu full-automation approach.
+The only downsides to this are that you need to reboot, and unless you're paying close attention
+you won't know exactly when the quota-building is done, as it happens in the background.
+You &lt;em&gt;can&lt;/em&gt; check to see if it's still running, using:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ps -ef | grep quotacheck
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The no-reboots option (or fallback, if the automated approach doesn't work) is to manually
+shepherd your machine through the process.
+First, you'll need to remount the disk to activate the new mount options, e.g.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo umount /data1
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo mount -a
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You can call &lt;tt class="docutils literal"&gt;mount&lt;/tt&gt; again to check everything is correct.
+If the disk won't unmount cleanly,
+&lt;a class="reference external" href="http://stackoverflow.com/questions/7878707/umount-a-busy-device"&gt;determine what's blocking&lt;/a&gt;,
+close it, and try again.&lt;/p&gt;
+&lt;p&gt;Next, (in case you rebooted but something went wrong, etc.) make sure that no
+quota-generation commands are running in the background,
+by stopping the service:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service quota stop
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and doing a final check for any running services:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ps -ef | grep quota
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;(You'll need to kill anything that looks like &lt;tt class="docutils literal"&gt;quotacheck&lt;/tt&gt; or &lt;tt class="docutils literal"&gt;quotad&lt;/tt&gt;.)&lt;/p&gt;
+&lt;p&gt;You can now manually run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo quotacheck -avug &lt;span class="c"&gt;#all, verbose, user and group quotas&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This will create the files &lt;em&gt;aquota.group&lt;/em&gt; and &lt;em&gt;aquota.user&lt;/em&gt;
+in the root directory for all of your quota'd mount points.
+This can take several hours on multi-terabyte RAID arrays, so you might want
+to run it from a &lt;a class="reference external" href="http://en.wikipedia.org/wiki/GNU_Screen"&gt;screen&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Finally, just switch the quota service on:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service quota start
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and give it a test run. My preferred flags are:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;quota -vs --show-mntpoint --hide-device
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;(you might want to alias that)
+which results in something like:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+Disk quotas for user Bob (uid 1001):
+Filesystem  space   quota   limit   grace   files   quota   limit
+  /data2    359G    0K      0K      1627k       0       0
+  /data1    805G    0K      0K      68689       0       0
+&lt;/pre&gt;
+&lt;p&gt;If you're already sharing the quota'd mounts over NFS, don't worry!
+The quota info is exported without any further configuration.
+Just run the quota command from the remote machine to see details immediately.
+(Although, nothing is certain in sysadmin. It worked for me, YMMV, etc.)&lt;/p&gt;
+&lt;p&gt;Of course, if you're using it for more than simply tracking usage,
+you'll need to set up quotas and so on.
+Google &lt;em&gt;edquota&lt;/em&gt; and you should be alright at this point.&lt;/p&gt;
+</summary><category term="how to"></category><category term="Ubuntu"></category><category term="sysadmin"></category><category term="disk quotas"></category></entry><entry><title>Cluster monitoring via multiple htop instances</title><link href="http://timstaley.co.uk/posts/cluster-monitoring-via-multiple-htop-instances" rel="alternate"></link><updated>2013-02-17T00:00:00+01:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2013-02-17:posts/cluster-monitoring-via-multiple-htop-instances</id><summary type="html">&lt;p&gt;For cluster-usage monitoring I've mostly been using Ganglia, as covered
+&lt;a class="reference external" href="http://timstaley.co.uk/posts/why-ganglia"&gt;here&lt;/a&gt;.
+But while it provides a great overview, sometimes you need to drill down and
+quickly see who's running what, on which node.&lt;/p&gt;
+&lt;p&gt;For this, &lt;a class="reference external" href="http://htop.sourceforge.net/"&gt;htop&lt;/a&gt; is a great tool with minimal overheads - console friendly
+interface, tiny footprint etc.&lt;/p&gt;
+&lt;p&gt;I've put together a little script that allows the user to fire up multiple
+instances of htop, by opening multiple terminals with a 'ssh-and-run' combo
+that works well for me, so I thought I'd post it:&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="c"&gt;#!/bin/bash
+&lt;/span&gt;&lt;span class="nv"&gt;ALL_HOSTS&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;node1 node2 node3&lt;span class="o"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$# &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt; 0 &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then
+    &lt;/span&gt;&lt;span class="nv"&gt;TARGETS&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;${ALL_HOSTS[&amp;#64;]}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;else
+    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'$0:'&lt;/span&gt; &lt;span class="nv"&gt;$0&lt;/span&gt;
+    &lt;span class="nv"&gt;TARGETS&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;$&amp;#64;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;fi
+
+for &lt;/span&gt;HOST in &lt;span class="s2"&gt;&amp;quot;${TARGETS[&amp;#64;]}&amp;quot;&lt;/span&gt;; &lt;span class="k"&gt;do
+    &lt;/span&gt;gnome-terminal -t &lt;span class="nv"&gt;$HOST&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;ssh $HOST -t htop&amp;quot;&lt;/span&gt; &amp;amp;
+&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Run with no arguments, this will open up 3 child terminals and connect to the
+nodes listed as &lt;tt class="docutils literal"&gt;ALL_HOSTS&lt;/tt&gt;.
+Alternatively the user may supply a list of ssh targets as arguments.
+The tricky bit is the population and expansion of bash variable arrays -
+see &lt;a class="reference external" href="http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_10_02.html"&gt;http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_10_02.html&lt;/a&gt;
+for details.&lt;/p&gt;
+</summary><category term="how to"></category><category term="sysadmin"></category><category term="monitoring"></category></entry><entry><title>Fix your Dell laptop touchpad in Ubuntu</title><link href="http://timstaley.co.uk/posts/fix-your-dell-laptop-touchpad-in-ubuntu" rel="alternate"></link><updated>2013-02-15T00:00:00+01:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2013-02-15:posts/fix-your-dell-laptop-touchpad-in-ubuntu</id><summary type="html">&lt;p&gt;Just testing a shiny new Dell Precision M4700, which is great...
+except the trackpad isn't recognized in Xubuntu 12.04,
+resulting in no multi-touch - it's amazing how clunky resorting to scroll bars
+seems now.
+Anyway, it turns out Dell are not thoroughly supporting the 'Alps' trackpads
+used on their latest models, which is a shame, as it results in reduced
+functionality out of the box for a raft of their laptops.
+(&lt;a class="reference external" href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/606238/"&gt;See bug report&lt;/a&gt;.)&lt;/p&gt;
+&lt;p&gt;Fortunately, there is a fix (tested on Xubuntu 12.04):&lt;/p&gt;
+&lt;p&gt;First, download
+&lt;a class="reference external" href="http://www.dahetral.com/public-download/alps-psmouse-dlkm-for-3-2-and-3-5/view"&gt;psmouse-alps-1.3&lt;/a&gt;.
+Then (using sudo / root):&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Extract the folder &lt;em&gt;psmouse-alps-1.3&lt;/em&gt; to &lt;em&gt;/usr/src&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;cd to &lt;em&gt;/usr/src&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;dkms add &lt;span class="pre"&gt;psmouse-alps-1.3&lt;/span&gt;&lt;/tt&gt;&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;dkms autoinstall&lt;/tt&gt;&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;rmmod psmouse &amp;amp;&amp;amp; modprobe psmouse&lt;/tt&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;That's it! Working multitouch! :-)&lt;/p&gt;
+</summary><category term="how to"></category><category term="Ubuntu"></category><category term="Xubuntu"></category><category term="Dell"></category><category term="touchpad"></category></entry><entry><title>Managing journal abbreviations with Jabref</title><link href="http://timstaley.co.uk/posts/managing-journal-abbreviations-with-jabref" rel="alternate"></link><updated>2012-09-24T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2012-09-24:posts/managing-journal-abbreviations-with-jabref</id><summary type="html">&lt;p&gt;If you're writing any kind of scientific paper in LaTeX,
+it will save you time in the long run if you use a reference manager.
+My tool of choice is &lt;a class="reference external" href="http://jabref.sourceforge.net/"&gt;Jabref&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Many journals require you to submit references with abbreviated journal names,
+the style of which may vary from journal to journal.&lt;/p&gt;
+&lt;p&gt;Fortunately, Jabref provides an easy means of toggling your Bibtex catalogue
+journal entries between full and abbreviated form - simply navigate to
+&lt;tt class="docutils literal"&gt;Tools&lt;/tt&gt; -&amp;gt; &lt;tt class="docutils literal"&gt;Abbreviate journal names&lt;/tt&gt;.&lt;/p&gt;
+&lt;p&gt;It's also possible to use your own custom list of journal abbreviations
+(&lt;tt class="docutils literal"&gt;Options&lt;/tt&gt; -&amp;gt; &lt;tt class="docutils literal"&gt;Manage journal abbreviations&lt;/tt&gt;).
+Since I couldn't find any ready made lists of abbreviations for astronomers,
+I created a repository at
+&lt;a class="reference external" href="http://github.com/timstaley/jabref-astro-abbreviations"&gt;http://github.com/timstaley/jabref-astro-abbreviations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It's pretty minimal at present - I've only provided an incomplete list of
+abbreviations in the MNRAS style.
+But I thought I'd raise a flagpole, in case anyone else finds themselves
+wanting this functionality. It's a start. &lt;a class="reference external" href="https://help.github.com/articles/fork-a-repo"&gt;Fork me&lt;/a&gt;!&lt;/p&gt;
+</summary><category term="how to"></category><category term="LaTeX"></category><category term="astronomy"></category></entry></feed>

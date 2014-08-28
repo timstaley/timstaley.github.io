@@ -1,0 +1,38 @@
+.highlight pre {
+    background-color: #FBFFAD;
+    color: #000000;
+   
+    overflow: auto;
+  	word-wrap: normal;
+  	white-space: pre;
+}
+
+.literal-block {
+    color: #0D0D0D;
+    overflow: auto;
+  	word-wrap: normal;
+  	white-space: pre;
+}
+
+.code {
+   
+    overflow: auto;
+  	word-wrap: normal;
+  	white-space: pre;
+}
+
+
+.nv {
+    color: rgb(63, 57, 197);
+}
+
+
+.custom-max-width {
+    max-width: 510px;
+}
+
+/* No footer currently, so add a little padding to prevent the text hitting
+rock bottom */
+.entry-content {
+    padding-bottom: 40px;
+}

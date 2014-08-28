@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Code - Tim Staley</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="http://timstaley.co.uk/images/favicon.ico" rel="icon">
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="http://timstaley.co.uk/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://timstaley.co.uk/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/style.css" type="text/css"/>
+        <link href="http://timstaley.co.uk/css/custom.css" rel="stylesheet">
+
+        <link href="http://timstaley.co.uk/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Tim Staley ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://timstaley.co.uk/" class="navbar-brand">
+Tim Staley            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="/research">Research</a></li>
+                    <li><a href="/code">Code</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://timstaley.co.uk/posts"><i class="fa fa-th-list"></i><span class="icon-label">Posts</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+<div class="col-sm-10 col-sm-offset-1 col-md-7 col-md-offset-2">
+  <div class="custom-max-width">
+    <section id="content" class="body">
+        <h1 class="entry-title">Code</h1>
+        
+        <div class="entry-content">
+            <h3>(See also:
+    <a href="http://github.com/timstaley">
+        Github profile <i class="fa fa-github"></i>
+        </a> )
+</h3><p>For a full listing of my public software projects, and to find out what I've been
+doing lately, see my <a class="reference external" href="http://github.com/timstaley?tab=repositories">profile</a> on Github.
+If you're feeling whimsical you might like to run it through
+Dan Foreman-Mackey's <a class="reference external" href="http://osrc.dfm.io/timstaley">Open Source Report Card</a>.</p>
+<p>I've highlighted some projects with brief descriptions below.</p>
+<div class="section" id="sole-author-projects">
+<h2>Sole-author projects</h2>
+<p>Things I've made:</p>
+<div class="section" id="coelacanth">
+<h3><a class="reference external" href="https://github.com/timstaley/coelacanth">Coelacanth</a></h3>
+<p><em>Built with: C++, CMake, Boost, TBB, Minuit2, UNURAN, UnitTest++.</em></p>
+<p>&quot;Codes for EMCCD and Lucky-Imaging Analysis&quot;, around 15K lines of C++ code that
+grew out of my <a class="reference external" href="http://uk.arxiv.org/abs/1404.5907">PhD</a> project. The data-volumes and limited processing power
+available on-site (i.e. while up a mountain observing) required a set of
+high-performance codes for specialized data-reduction. Part of the challenge
+was to implement complex algorithms such as <a class="reference external" href="http://en.wikipedia.org/wiki/Drizzle_(image_processing)">Drizzle</a> in C++ in a maintainable
+fashion - you can see the <a class="reference external" href="https://github.com/timstaley/coelacanth/blob/ec97ae1e39de1336734b8dd09b638c616944b8e0/coela_core/src/implementation/drizzle.cc#L65">results here</a>. The final
+pipeline made use of the <a class="reference external" href="https://www.threadingbuildingblocks.org/">Thread Building Blocks</a> <a class="reference external" href="http://www.threadingbuildingblocks.org/docs/help/tbb_userguide/Working_on_the_Assembly_Line_pipeline.htm">pipeline</a> pattern
+to achieve excellent throughput.</p>
+</div>
+<div class="section" id="drive-ami-drive-casa">
+<h3><a class="reference external" href="http://github.com/timstaley/drive-ami">drive-ami</a> / <a class="reference external" href="http://github.com/timstaley/drive-casa">drive-casa</a></h3>
+<p><em>Built with: Python, pexpect.</em></p>
+<p>Two interface libraries which make heavy use of <a class="reference external" href="http://www.noah.org/wiki/pexpect">pexpect</a> to enable complex
+scripting of astronomical data reduction tools from Python.
+The <a class="reference external" href="http://casa.nrao.edu/">CASA</a> package is quite widely used in the radio astronomy community
+and so I hope drive-casa will be of use to others - I've put up some
+basic <a class="reference external" href="http://drive-casa.readthedocs.org/en/latest/">docs</a>
+accordingly.</p>
+</div>
+<div class="section" id="voevent-parse">
+<h3><a class="reference external" href="http://github.com/timstaley/voevent-parse">voevent-parse</a></h3>
+<p><em>Built with: Python, LXML.</em></p>
+<p>A lightweight library for parsing, manipulating, and generating
+<a class="reference external" href="http://www.ivoa.net/documents/VOEvent/index.html">VOEvent</a> XML packets, (<em>i.e. machine-readable transient alerts</em>)
+built on <a class="reference external" href="http://lxml.de/">lxml</a>.
+The aim of this library was to make working with VOEvent packets simpler and
+more intuitive - take a look at the
+<a class="reference external" href="https://github.com/timstaley/voevent-parse/blob/master/usage_example.py">usage</a>
+<a class="reference external" href="https://github.com/timstaley/voevent-parse/blob/master/new_voevent_example.py">examples</a>
+and judge for yourself. It's reasonably well
+<a class="reference external" href="http://voevent-parse.readthedocs.org/">documented</a>.</p>
+<p>Anyone trying to use <tt class="docutils literal">lxml.objectify</tt> and struggling with namespace handling,
+PyType annotations etc. might be interested in the first few function
+definitions
+<a class="reference external" href="https://github.com/timstaley/voevent-parse/blob/ce3728a8e189b08d378b72e97b7c4625f9051f9f/voeparse/voevent.py">here</a>.</p>
+</div>
+</div>
+<div class="section" id="collaborator-projects">
+<h2>Collaborator projects</h2>
+<p>Things I've helped other people to make:</p>
+<div class="section" id="tkp-trap">
+<h3>TKP <a class="reference external" href="http://docs.transientskp.org/">TraP</a></h3>
+<p>An astronomical transient-detection pipeline for ingesting radio-synthesis
+images. In a nutshell, we extract source intensities from images,
+then build a lightcurve catalog and search it for
+variability. This requires some fairly involved NumPy routines for the
+source-extraction (all in-house Python, at least for the first edition), and
+some hairy SQL queries for building and searching the catalogs.
+Still in <a class="reference external" href="https://twitter.com/doublestealth">double stealth</a> mode,
+but an open release and paper are in prep. See also: <a class="reference external" href="https://github.com/transientskp/banana">Banana</a>, a Django-based
+web-interface for exploring and visualising the results.</p>
+</div>
+</div>
+<div class="section" id="bric-a-brac">
+<h2>Bric-a-brac</h2>
+<p>Less substantial, but possibly still useful:</p>
+<ul>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="http://github.com/timstaley/autocrunch">autocrunch</a></dt>
+<dd><p class="first last">A Python script demonstrating how to use <a class="reference external" href="http://github.com/seb-m/pyinotify">pyinotify</a> to monitor a local
+directory for files that have been transferred with rsync,
+then process them in a parallel fashion using a multiprocessing pool
+(via whatever Python reduction process you care to define).
+This has been road-tested quite a bit, and includes decent
+logging and error handling.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://github.com/timstaley/pyds9_ex">pyds9_ex</a></dt>
+<dd><p class="first last">The <a class="reference external" href="http://hea-www.harvard.edu/RD/ds9/site/Home.html">DS9</a> FITS file viewer is fully scriptable, but only has a low-level
+interface.
+This wrapper provides some convenience routines
+around that low-level functionality.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://github.com/timstaley/python-imap-monitoring-demo">python-imap-monitoring</a></dt>
+<dd><p class="first last">Procmail for the Python + GMail generation. Monitor your GMail inbox and
+trigger Python scripts in response to special emails.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://github.com/timstaley/lofar_data_management">FSlint for humans</a></dt>
+<dd><p class="first last">Some scripts to parse the output from <a class="reference external" href="http://en.flossmanuals.net/FSlint/">FSlint</a> into a useful CSV summary,
+allowing the user to locate the largest duplicate files, and who they belong
+to, on a multi-user cluster with lots (~100's of TB) of disk space.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+
+        </div>
+    </section>
+  </div>
+</div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 Tim Staley
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://timstaley.co.uk/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://timstaley.co.uk/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://timstaley.co.uk/theme/js/respond.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-46485279-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+</body>
+</html>

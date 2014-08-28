@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Using Python pip offline - Tim Staley</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="http://timstaley.co.uk/images/favicon.ico" rel="icon">
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="http://timstaley.co.uk/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://timstaley.co.uk/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/style.css" type="text/css"/>
+        <link href="http://timstaley.co.uk/css/custom.css" rel="stylesheet">
+
+        <link href="http://timstaley.co.uk/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Tim Staley ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://timstaley.co.uk/" class="navbar-brand">
+Tim Staley            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="/research">Research</a></li>
+                    <li><a href="/code">Code</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://timstaley.co.uk/posts"><i class="fa fa-th-list"></i><span class="icon-label">Posts</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+<div class="col-sm-10 col-sm-offset-1 col-md-7 col-md-offset-2 ">
+  <div class="custom-max-width">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://timstaley.co.uk/posts/using-python-pip-offline"
+                       rel="bookmark"
+                       title="Permalink to Using Python pip offline">
+                        Using Python pip offline
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <p>After you've been coding in Python for a while, and you've been bitten by a
+few package-version incompatibility bugs, it gets to the stage where the
+<strong>first</strong> thing you do upon starting a new project, is fire up a new
+<a class="reference external" href="http://www.virtualenv.org/en/latest/virtualenv.html">virtualenv</a>.</p>
+<p>The second thing you (might) do is curse like a sailor upon realising
+you'll have to re-download, compile and install numpy, scipy, matplotlib, etc.
+Especially if you're on a slow connection, or worse yet, completely offline.</p>
+<p>Fortunately, the Python package installer, <a class="reference external" href="http://www.pip-installer.org/en/latest/">pip</a>, has been coming on in
+<a class="reference external" href="http://www.pip-installer.org/en/latest/news.html">leaps and bounds</a> recently,
+with many improvements to the package caching behaviour,
+most noticeably improved flag syntax. It's taken me a while
+to put together all the relevant details, change notes, and workflow, plus the
+<a class="reference external" href="http://stackoverflow.com/questions/4806448/how-do-i-install-from-a-local-cache-with-pip">stackoverflow question</a>
+is a bit outdated in places, so I thought I'd post.</p>
+<p>First off, make sure you've got the most recent pip version (1.5.4 as of
+writing). If you're on *buntu 12.04 and previously installed it via apt-get,
+then I'd recommend:</p>
+<div class="highlight"><pre>sudo apt-get remove python-pip
+sudo easy_install -U pip
+</pre></div>
+<p>If pip was already a custom install then you're probably fine to just run</p>
+<div class="highlight"><pre>sudo pip install -U pip
+</pre></div>
+<p>While you're at it, might as well grab the latest version of
+virtualenv, virtualenv-clone, and virtualenvwrapper:</p>
+<div class="highlight"><pre>sudo pip install -U virtualenv-clone virtualenvwrapper
+</pre></div>
+<p>That's the last sudo'ing - from here on out we keep the system clean!</p>
+<p>So, improvement number one: with the latest pip, you can set up a cache folder
+to keep a copy of all your favourite packages.</p>
+<p>The full details can be found
+<a class="reference external" href="http://www.pip-installer.org/en/latest/user_guide.html#fast-local-installs">here</a>,
+but in short, you can just drop two tiny scripts into the folder you want to use
+as your package cache directory, e.g. as <tt class="docutils literal">download.sh</tt>:</p>
+<pre class="literal-block">
+#!/usr/bin/env bash
+PIP_CACHE=&quot;$( cd &quot;$( dirname &quot;${BASH_SOURCE[0]}&quot; )&quot; &amp;&amp; pwd )&quot;
+pip install --download=$PIP_CACHE $*
+</pre>
+<p>and <tt class="docutils literal">install.sh</tt>:</p>
+<pre class="literal-block">
+##!/usr/bin/env bash
+PIP_CACHE=&quot;$( cd &quot;$( dirname &quot;${BASH_SOURCE[0]}&quot; )&quot; &amp;&amp; pwd )&quot;
+echo &quot;USING CACHE: ${PIP_CACHE}&quot;
+pip install --no-index --find-links=file://$PIP_CACHE  $*
+</pre>
+<p>Where the first line is just
+<a class="reference external" href="http://stackoverflow.com/a/246128/725650">some bash voodoo</a>
+to locate the parent directory of the shell scripts.
+Usage is then something like the following:</p>
+<div class="highlight"><pre><span class="c">#Ahead of time</span>
+<span class="nb">cd </span>project-folder
+~/pip_cache/download.sh -r requirements.txt
+~/pip_cache/download.sh someotherpackage
+
+<span class="c">#When creating a new virtualenv offline</span>
+mkvirtualenv foo
+<span class="nb">cd </span>project-folder
+~/pip_cache/install.sh -r requirements.txt
+~/pip_cache/install.sh someotherpackage
+</pre></div>
+<p>(assuming you dropped the pip scripts into <em>~/pip_cache</em>)
+which will leave a neat selection of <em>tar.gz</em> package tarballs in your cache
+folder.</p>
+<p>Of course, this still leaves you with a long wait while scipy compiles, but
+this too is fixable. One option might be to inherit system-packages upon
+creating a new virtualenv, but then you're back to choosing between <tt class="docutils literal">sudo pip</tt>
+or ancient <tt class="docutils literal">apt</tt> packages.
+The more explicit, controllable approach is to
+create a 'common-core' virtualenv template containing your commonly used large
+packages, then <tt class="docutils literal"><span class="pre">virtualenv-clone</span></tt> it whenever you want to start a new project,
+e.g.</p>
+<div class="highlight"><pre><span class="nb">cd</span> ~/.virtualenvs
+virtualenv-clone template-env some-new-env
+</pre></div>
+<p>Note that this comes with a health warning - it seems <tt class="docutils literal"><span class="pre">virtualenv-clone</span></tt> does
+not create a full copy, instead it copies some things and symlinks others,
+so your new virtualenv will in fact be partially reliant on the template one!
+But as long as you're aware of that issue, it's a great way to save
+compile-time.</p>
+<p>If you're going to be working offline you'll want to make sure
+you cache all <em>suggested</em> as well as required package dependencies.
+For example, <tt class="docutils literal">ipython</tt> does not, by default, come with all the dependencies
+needed to run the notebook (i.e. jinja2, pyzmq, etc).
+However, you <strong>can</strong> grab these by specifying the package name with an <tt class="docutils literal">[all]</tt>
+suffix, e.g.</p>
+<div class="highlight"><pre>pip install ipython<span class="o">[</span>all<span class="o">]</span>
+</pre></div>
+<p>Oh, and one last thing. With a fresh virtualenv,</p>
+<div class="highlight"><pre>pip install scipy
+</pre></div>
+<p>is <strong>still</strong> broken - it fails unless you've installed numpy first, for some
+reason. I can't be bothered to dig up the bug report.
+I'll leave you with a basic <tt class="docutils literal">requirements.txt</tt> for your template
+virtualenv:</p>
+<pre class="literal-block">
+numpy
+scipy
+ipython[all]
+matplotlib
+</pre>
+<p>Footnote: you can use a pip-cache in fully automated fashion to save repeated
+package downloads (and this has been available for a while) - simply drop the
+<a class="reference external" href="http://stackoverflow.com/a/15948679/725650">relevant line</a> into your
+<em>~/.pip/pip.conf</em> file, but I prefer the methods above - these give you
+fine grained control to download and install separately, and also to
+choose to grab a fresh copy from PyPI (by reverting to usual behaviour)
+when you'd rather do so.</p>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+  </div>
+</div>
+<div class="col-sm-6 col-sm-offset-3 col-md-3 col-md-offset-0 ">
+  <div class="panel">
+      <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default"><i class="fa fa-calendar-o"></i> Published</span>
+    <br>
+    <span class="published">
+        <time datetime="2014-03-20T00:00:00"> Thu 20 March 2014</time>
+    </span>
+
+
+
+    <br>
+<span class="label label-default"><i class="fa fa-tag"></i> Tagged</span><br>
+	<a href="http://timstaley.co.uk/tag/how-to">how to</a>
+        /
+	<a href="http://timstaley.co.uk/tag/python">Python</a>
+        /
+	<a href="http://timstaley.co.uk/tag/pip">pip</a>
+        /
+	<a href="http://timstaley.co.uk/tag/virtualenv">virtualenv</a>
+        /
+	<a href="http://timstaley.co.uk/tag/offline">offline</a>
+    
+</footer><!-- /.post-info -->      </div>
+  </div>
+</div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 Tim Staley
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://timstaley.co.uk/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://timstaley.co.uk/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://timstaley.co.uk/theme/js/respond.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-46485279-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+</body>
+</html>
