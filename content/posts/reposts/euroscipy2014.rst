@@ -3,7 +3,7 @@ EuroSciPy 2014
 ############################################
 :slug: euroscipy2014
 :date: 2014-08-31
-:tags: conferences
+:tags: conferences, Python, EuroSciPy
 
 **Some personal highlights, in five minutes or less.**
 
