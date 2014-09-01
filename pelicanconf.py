@@ -5,8 +5,9 @@ from __future__ import unicode_literals
 AUTHOR = u'Tim Staley'
 SITENAME = u"Tim Staley"
 #SITEURL = 'http://timstaley.co.uk'
-SITEURL = 'http://astro41'
+#SITEURL = 'http://astro41'
 #SITEURL = 'http://agrajag'
+SITEURL = 'http://localhost'
 RELATIVE_URLS = False
 
 TIMEZONE = 'Europe/Paris'
