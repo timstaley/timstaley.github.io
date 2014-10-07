@@ -88,7 +88,7 @@ links, or via the `arxiv <http://arxiv.org/abs/1404.5907>`_:
   (i.e. with hyperlinks - note these don't show up when viewed via the Chrome integrated PDF reader)
 - `Complete thesis, print format (23mb). <http://www.astro.soton.ac.uk/~ts3e11/files/Staley_thesis_print_version.pdf>`_ 
 
-.. _4 Pi Sky project: http://www2.physics.ox.ac.uk/research/four-pi-sky
+.. _4 Pi Sky project: http://4pisky.org
 
 .. _AMI: http://www.mrao.cam.ac.uk/facilities/ami/
 .. _paper: http://ukads.nottingham.ac.uk/abs/2012arXiv1211.3115S
