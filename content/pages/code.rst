@@ -19,6 +19,8 @@ Dan Foreman-Mackey's `Open Source Report Card`_.
 
 I've highlighted some projects with brief descriptions below.
 
+-----------
+
 Sole-author projects
 ====================
 Things I've made:
@@ -70,6 +72,8 @@ PyType annotations etc. might be interested in the first few function
 definitions
 `here <https://github.com/timstaley/voevent-parse/blob/ce3728a8e189b08d378b72e97b7c4625f9051f9f/voeparse/voevent.py>`_.
 
+-----------
+
 Collaborator projects
 =====================
 Things I've helped other people to make:
@@ -86,7 +90,7 @@ Still in `double stealth`_ mode,
 but an open release and paper are in prep. See also: Banana_, a Django-based
 web-interface for exploring and visualising the results.
 
-
+-----------
 
 Bric-a-brac
 ===========
