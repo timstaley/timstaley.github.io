@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>Setting up disk quotas with Ubuntu 12.04 - Tim Staley</title>
+    <title>Talks, VOEvents, and 4 Pi Sky - Tim Staley</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -60,83 +60,28 @@ Tim Staley            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="http://timstaley.co.uk/posts/setting-up-disk-quotas-with-ubuntu-1204"
+                    <a href="http://timstaley.co.uk/posts/talks-voevents-4pisky"
                        rel="bookmark"
-                       title="Permalink to Setting up disk quotas with Ubuntu 12.04">
-                        Setting up disk quotas with Ubuntu 12.04
+                       title="Permalink to Talks, VOEvents, and 4 Pi Sky">
+                        Talks, VOEvents, and 4 Pi Sky
                     </a>
                 </h1>
             </header>
             <div class="entry-content">
-                <p>There seems to be very little information on the web about setting up disk
-quotas, presumably because it's perceived as being trivial.
-However, it's nice to have this confirmed or refuted before you dive in,
-so here are my notes.</p>
-<p>First off:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install quota quotatool
-</pre></div>
-<p>Now edit <em>/etc/fstab</em>; simply add a <tt class="docutils literal">,usrquota,grpquota</tt> to the mount options
-as required like so:</p>
-<pre class="literal-block">
-UUID=eafa3a88-2d0f-43c1-8992-1813ac3d530a /data1 ext4 defaults,user_xattr,usrquota,grpquota 0 2
-</pre>
-<p>Now, you have two options.</p>
-<p>The first is simply to reboot the machine.
-If all goes well, then the disk in question will mount with the new quota options,
-and on starting the '<tt class="docutils literal">quota</tt>' service will automatically build quotas, then start as normal -
-your usual Ubuntu full-automation approach.
-The only downsides to this are that you need to reboot, and unless you're paying close attention
-you won't know exactly when the quota-building is done, as it happens in the background.
-You <em>can</em> check to see if it's still running, using:</p>
-<div class="highlight"><pre><span class="nv">$ </span>ps -ef | grep quotacheck
-</pre></div>
-<p>The no-reboots option (or fallback, if the automated approach doesn't work) is to manually
-shepherd your machine through the process.
-First, you'll need to remount the disk to activate the new mount options, e.g.</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo umount /data1
-<span class="nv">$ </span>sudo mount -a
-</pre></div>
-<p>You can call <tt class="docutils literal">mount</tt> again to check everything is correct.
-If the disk won't unmount cleanly,
-<a class="reference external" href="http://stackoverflow.com/questions/7878707/umount-a-busy-device">determine what's blocking</a>,
-close it, and try again.</p>
-<p>Next, (in case you rebooted but something went wrong, etc.) make sure that no
-quota-generation commands are running in the background,
-by stopping the service:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo service quota stop
-</pre></div>
-<p>and doing a final check for any running services:</p>
-<div class="highlight"><pre><span class="nv">$ </span>ps -ef | grep quota
-</pre></div>
-<p>(You'll need to kill anything that looks like <tt class="docutils literal">quotacheck</tt> or <tt class="docutils literal">quotad</tt>.)</p>
-<p>You can now manually run:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo quotacheck -avug <span class="c">#all, verbose, user and group quotas</span>
-</pre></div>
-<p>This will create the files <em>aquota.group</em> and <em>aquota.user</em>
-in the root directory for all of your quota'd mount points.
-This can take several hours on multi-terabyte RAID arrays, so you might want
-to run it from a <a class="reference external" href="http://en.wikipedia.org/wiki/GNU_Screen">screen</a>.</p>
-<p>Finally, just switch the quota service on:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo service quota start
-</pre></div>
-<p>and give it a test run. My preferred flags are:</p>
-<div class="highlight"><pre><span class="nv">$ </span>quota -vs --show-mntpoint --hide-device
-</pre></div>
-<p>(you might want to alias that)
-which results in something like:</p>
-<pre class="literal-block">
-Disk quotas for user Bob (uid 1001):
-Filesystem  space   quota   limit   grace   files   quota   limit
-  /data2    359G    0K      0K      1627k       0       0
-  /data1    805G    0K      0K      68689       0       0
-</pre>
-<p>If you're already sharing the quota'd mounts over NFS, don't worry!
-The quota info is exported without any further configuration.
-Just run the quota command from the remote machine to see details immediately.
-(Although, nothing is certain in sysadmin. It worked for me, YMMV, etc.)</p>
-<p>Of course, if you're using it for more than simply tracking usage,
-you'll need to set up quotas and so on.
-Google <em>edquota</em> and you should be alright at this point.</p>
+                <p>Not much to report here directly of late - but things have been happening
+elsewhere. I recently uploaded most of my <a class="reference external" href="http://timstaley.co.uk/talks">presentation slide decks</a>.
+If anything catches your eye and you'd like to know more, feel free to
+<a class="reference external" href="http://timstaley.co.uk/#contact-details">contact me</a>. I've also added some links making it easier to find <a class="reference external" href="http://timstaley.co.uk/research/#publications">my
+publications</a>.</p>
+<p>In a wider context, I'm currently trying to get more astronomers involved with
+the VOEvent standard, and I've written up a <a class="reference external" href="http://4pisky.org/2014/11/12/getting-started-with-voevents/">post on the 4 Pi Sky website</a>
+explaining what that is and why you should care.
+You should also check out the <a class="reference external" href="http://4pisky.org">rest of the website</a>,
+which I set up[*]. Thanks to posts from the rest of the group it's
+becoming a go-to summary of what we're trying to achieve, which is pretty neat.</p>
+<p>News on the TraP release soon, hopefully...</p>
+<p>[*] <em>Q. How many webmasters does it take to run a research-group website?
+A. None. Just get the post-doc to do it. (weeps)</em></p>
 
             </div>
             <!-- /.entry-content -->
@@ -151,20 +96,20 @@ Google <em>edquota</em> and you should be alright at this point.</p>
     <span class="label label-default"><i class="fa fa-calendar-o"></i> Published</span>
     <br>
     <span class="published">
-        <time datetime="2013-07-24T00:00:00"> Wed 24 July 2013</time>
+        <time datetime="2014-11-17T00:00:00"> Mon 17 November 2014</time>
     </span>
 
 
 
     <br>
 <span class="label label-default"><i class="fa fa-tag"></i> Tagged</span><br>
-	<a href="http://timstaley.co.uk/tag/how-to">how to</a>
+	<a href="http://timstaley.co.uk/tag/voevent">voevent</a>
         /
-	<a href="http://timstaley.co.uk/tag/ubuntu">Ubuntu</a>
+	<a href="http://timstaley.co.uk/tag/python">Python</a>
         /
-	<a href="http://timstaley.co.uk/tag/sysadmin">sysadmin</a>
+	<a href="http://timstaley.co.uk/tag/astronomy">astronomy</a>
         /
-	<a href="http://timstaley.co.uk/tag/disk-quotas">disk quotas</a>
+	<a href="http://timstaley.co.uk/tag/4pisky">4pisky</a>
     
 </footer><!-- /.post-info -->      </div>
   </div>

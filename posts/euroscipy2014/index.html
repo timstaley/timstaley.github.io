@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>EuroSciPy 2014 - Tim Staley</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="http://timstaley.co.uk/images/favicon.ico" rel="icon">
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="http://timstaley.co.uk/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://timstaley.co.uk/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/style.css" type="text/css"/>
+        <link href="http://timstaley.co.uk/css/custom.css" rel="stylesheet">
+
+        <link href="http://timstaley.co.uk/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Tim Staley ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://timstaley.co.uk/" class="navbar-brand">
+Tim Staley            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="/research">Research</a></li>
+                    <li><a href="/talks">Talks</a></li>
+                    <li><a href="/code">Code</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://timstaley.co.uk/posts"><i class="fa fa-th-list"></i><span class="icon-label">Posts</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+<div class="col-sm-10 col-sm-offset-1 col-md-7 col-md-offset-2 ">
+  <div class="custom-max-width">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://timstaley.co.uk/posts/euroscipy2014"
+                       rel="bookmark"
+                       title="Permalink to EuroSciPy 2014">
+                        EuroSciPy 2014
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <p><strong>Some personal highlights, in five minutes or less.</strong></p>
+<p>I spent the past couple of days attending the <a class="reference external" href="https://www.euroscipy.org/2014/schedule/euroscipy-2014-general-sessions/">scientific talks</a> at
+EuroSciPy 2014.
+Everything seemed to run smoothly, and hit about the right balance of
+packing a lot in without being overwhelming, so kudos to the organisers.
+I've summarised my personal highlights,
+with the relevant links in case anything piques your interest.
+(Even if no-one else reads it, at least I'll be able to find the links in six
+months.)
+I've tended towards the more generally applicable Python stuff,
+as opposed to domain-specific talks.</p>
+<p>I think all talks were recorded - if those become available I'll update the post.
+This list is simply in chronological order.</p>
+<div class="section" id="julia">
+<h2>Julia</h2>
+<p>The <a class="reference external" href="https://github.com/stevengj/Julia-EuroSciPy14">opening keynote</a> was about the <a class="reference external" href="http://www.julialang.org">Julia</a> programming language.
+While I'd heard a little about Julia
+before, this was my first proper introduction, and I'm seriously impressed.
+It seems that, even to those of us stuck in our Python mindset
+for general work, Julia provides a credible, high-level alternative to
+C / C++ / Fortran for writing high-performance inner-loop code, which is
+quite the achievement in itself. And for those who want to properly jump ship,
+you can take your Python ecosystem with you -
+the interoperability is quite amazing, including that of
+IPython Notebook / Julia-Jupyter.</p>
+</div>
+<div class="section" id="astropy">
+<h2>Astropy</h2>
+<p>While I'm reasonably familiar with <a class="reference external" href="http://www.astropy.org/">astropy</a>, it was nice to get an update,
+and a quick look at the <a class="reference external" href="http://docs.astropy.org/en/latest/units/index.html">units</a> module, which I hadn't come across before -
+I can see that being useful for a lot of complex physical simulation projects,
+not just in astronomy.
+Even more generally applicable, their <a class="reference external" href="http://spacetelescope.github.io/asv/index.html">asv</a>
+(airspeed velocity) performance testing tool looks really nice, and is
+available as a standalone package.</p>
+</div>
+<div class="section" id="sloth-hunting">
+<h2><a class="reference external" href="https://www.euroscipy.org/2014/schedule/presentation/2/">Sloth-Hunting</a></h2>
+<p>(AKA Neural Networks for Computer Vision.)</p>
+<p>Re-using a feature network (expensively) trained for cat / dog recognition,
+together with some fresh
+classifier weights for a rapid adaptation to sloth hunting. Lots of fun.
+(Ok, this was kind of specific, but who doesn't love sloths?)</p>
+</div>
+<div class="section" id="vispy">
+<h2>Vispy</h2>
+<p><a class="reference external" href="http://vispy.org/">Vispy</a> is a Python package for high-quality interactive OpenGL plotting,
+providing rich plots in two and three dimensions.
+This was the first I've heard of Vispy,
+and I'm not quite sure when I'll use it yet,
+but I'll definitely keep it in mind.
+As opposed to say, Blender, which is a largely polygonal
+(and hence pre-rendered) 3D modelling tool,
+Vispy makes extensive use of OpenGL trickery.
+This allows more efficient rich and even interactive plotting -
+for example you might graph thousands of points
+as little spheres, without actually needing (say) a hundred polygons per sphere
+- you just feed their positions and radii into the OpenGL engine.</p>
+</div>
+<div class="section" id="plotly">
+<h2>Plotly</h2>
+<p><a class="reference external" href="https://plot.ly/">Plotly</a> allows collaboration on plots <em>across different languages and tools</em>,
+which is smart. Adds a user-friendly web-interface for tweaking and annotating.
+They've also open-sourced a scientific plotting library for Javascript;
+<a class="reference external" href="https://plot.ly/javascript-graphing-library/">plotly.js</a>.
+As the speaker might have put it: sweet!</p>
+</div>
+<div class="section" id="biggus">
+<h2>Biggus</h2>
+<p><a class="reference external" href="https://github.com/SciTools/biggus">Biggus</a> provides deferred access Numpy arrays,
+allowing for (basic) lazy evaluation in Python.
+Useful for massive data arrays that might not even fit in RAM.
+I suspect I won't really understand how this works until I try using it,
+so I'm not going to attempt to explain further, but certainly worth noting.</p>
+</div>
+<div class="section" id="dill-pathos">
+<h2>Dill / Pathos</h2>
+<p>It seems <a class="reference external" href="https://www.euroscipy.org/2014/speaker/profile/62/">Mike McKerns</a> has been on a one-man <a class="reference external" href="https://www.euroscipy.org/2014/schedule/presentation/3/">mission</a> to fix heterogeneous cluster
+computing in Python.
+Interesting stuff, and definitely bookmarked for future trials.</p>
+</div>
+<div class="section" id="dynd">
+<h2>DyND</h2>
+<p>Finally, <a class="reference external" href="https://github.com/ContinuumIO/libdynd">DyND</a> provides an N-dimensional array handling library for C++, with
+Python wrappers from the get-go!
+Very excited about this, since I think it really fills a gap
+in the Python/C++ interface space.
+I've been thinking of trying <a class="reference external" href="https://github.com/ndarray/Boost.NumPy">Boost.NumPy</a> for this sort of problem,
+but using something that's a first-class
+C++ library from the start sounds like a better way of going about it.</p>
+<p>EuroSciPy is back to Cambridge in 2015 - see you there next year!</p>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+  </div>
+</div>
+<div class="col-sm-6 col-sm-offset-3 col-md-3 col-md-offset-0 ">
+  <div class="panel">
+      <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default"><i class="fa fa-calendar-o"></i> Published</span>
+    <br>
+    <span class="published">
+        <time datetime="2014-08-31T00:00:00"> Sun 31 August 2014</time>
+    </span>
+
+
+
+    <br>
+<span class="label label-default"><i class="fa fa-tag"></i> Tagged</span><br>
+	<a href="http://timstaley.co.uk/tag/conferences">conferences</a>
+        /
+	<a href="http://timstaley.co.uk/tag/python">Python</a>
+        /
+	<a href="http://timstaley.co.uk/tag/euroscipy">EuroSciPy</a>
+    
+</footer><!-- /.post-info -->      </div>
+  </div>
+</div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 Tim Staley
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://timstaley.co.uk/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://timstaley.co.uk/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://timstaley.co.uk/theme/js/respond.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-46485279-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+</body>
+</html>
