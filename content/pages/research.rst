@@ -3,7 +3,20 @@ Research
 ########
 :slug: research
 
-======
+Publications
+============
+For a full list of my publications, I suggest trying
+`this ADS author query <http://ukads.nottingham.ac.uk/cgi-bin/nph-abs_connect?return_req=no_params&author=Staley,%20T.%20D.&db_key=AST>`_
+for a reasonably comprehensive list including ASCL_ citations and Atels_,
+or see `my ORCiD entry <http://orcid.org/0000-0002-4474-5253>`_ for a
+more traditional but less frequently updated bibliography.
+
+
+.. _ASCL: http://ascl.net/
+.. _Atels: http://www.astronomerstelegram.org/
+
+--------------------
+
 Recent
 ======
 
@@ -39,7 +52,10 @@ of data produced, the algorithms being developed are applicable to a range
 of transient astronomy projects. 
 A paper and open-source release are in prep.
 
-=============
+
+--------------
+
+
 Lucky Imaging
 =============
 
