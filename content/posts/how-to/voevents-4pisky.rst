@@ -15,13 +15,12 @@ In a wider context, I'm currently trying to get more astronomers involved with
 the VOEvent standard, and I've written up a `post on the 4 Pi Sky website`_
 explaining what that is and why you should care.
 You should also check out the `rest of the website`_,
-which I set up[*]. Thanks to posts from the rest of the group it's
+which I set up. Thanks to posts from the rest of the group it's
 becoming a go-to summary of what we're trying to achieve, which is pretty neat.
 
 News on the TraP release soon, hopefully...
 
-[*] *Q. How many webmasters does it take to run a research-group website?
-A. None. Just get the post-doc to do it. (weeps)*
+
 
 
 

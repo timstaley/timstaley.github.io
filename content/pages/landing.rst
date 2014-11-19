@@ -20,11 +20,11 @@ Probably the best label for what I do is
 `"research software engineer" <RSE_>`_.
 In practice, that means I spend my time working within a research group to
 figure out how to solve their computational problems.
-The solutions range from bolting together a web framework and some data
-visualisations, writing an interface layer to legacy code, creating
-convenience routines around a low-level library, right through to putting
-together a whole new pipeline, or even devising a novel algorithmic approach
-and then implementing accordingly.
+The solutions range through bolting together a web framework and some data
+visualisations, or writing an interface layer to legacy code,
+right up to putting together a whole new pipeline.
+Some of the most rewarding projects have necessitated researching novel
+algorithmic approaches and then implementing accordingly.
 
 By necessity I've also picked up a variety of the day-to-day skills
 needed to keep a small linux cluster running,
