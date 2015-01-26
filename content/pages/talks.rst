@@ -8,33 +8,12 @@ Most of them are available online; I've listed each below with a brief summary.
 The PDF files are available in bulk
 `via github <https://github.com/timstaley/presentations>`_.
 
------------
+Jump to:
 
-Talks on software
------------------
+* `Talks on transient astronomy`_
+* `Talks on software`_
+* `Talks on lucky imaging`_
 
-A brief introduction to version control systems
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*Southampton, November 2013*
-
-.. raw:: html
-
-    <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/blob/master/2013-11_DVCS-intro_Soton/Brief_introduction_to_version_control_systems.pdf?raw=true">
-            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
-        </a>
-    </button>
-    <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/a-brief-introduction-to-version-control-systems" target="_blank">
-            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
-        </a>
-    </button>
-
-
-
-A short (fifteen minute) explanation of version control, aimed at an academic
-audience.  The goal was to introduce the underlying concepts of version control
-systems, and give an idea of when they are most useful.
 
 -----------
 
@@ -42,49 +21,87 @@ systems, and give an idea of when they are most useful.
 Talks on transient astronomy
 ------------------------------------------
 
-
-Fast radio follow-up of GRBs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*SKA-KAT offices, Capetown, November 2012*
-
-.. raw:: html
-
-    <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/blob/master/2012-11_Ami-GRBS_Capetown/Fast_radio_followup_of_GRBs.pdf?raw=true">
-            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
-        </a>
-    </button>
-    <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/fast-radio-followup-of-grbs" target="_blank">
-            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
-        </a>
-    </button>
-
-An early talk on the ALARRM_ rapid radio follow-up project, touching on the
-science of GRB progenitors and possible LOFAR transient science.
-
-.. _ALARRM: http://4pisky.org/tag/alarrm/
-
-Fast radio follow-up
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*LOFAR-TKP meeting, Amsterdam, December 2012*
+How to build a TraP: An image-plane transient-detection tool
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*Southampton lunchtime seminar / Oxford SPIMAX talk, January 2015*
 
 .. raw:: html
 
     <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/blob/master/2012-12_Fast-Radio-Followup_Amsterdam/Fast_radio_followup.pdf?raw=true">
+        <a href="https://github.com/timstaley/presentations/blob/master/2015-01_TraP-an-image-plane-transient-discovery-tool/TraP-image-plane-transient-discovery.pdf?raw=true">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
         </a>
     </button>
     <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/fast-radio-followup" target="_blank">
+        <a href="http://www.slideshare.net/TimStaley1/how-to-build-a-trap-an-imageplane-transientdiscovery-tool" target="_blank">
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
         </a>
     </button>
 
-An iterated version of the earlier talk on ALARRM_. This version delves a little
-deeper into why early-time radio follow-up of GRBs is interesting, and touches
-on the problem of collaborative transient follow-up.
+The TraP (http://ascl.net/1412.011) is a pipeline for processing streams of
+astronomical image-data in near real-time with the aim of identifying transient
+and variable sources.
+This talk will give you a working understanding of what the TraP does at the
+algorithmic level, to allow you to judge for yourself if it's relevant to your
+work, or if you might be able to reuse parts of it in another context.
+
+In the first half I give a brief recap on the kinds of astronomical
+transients we hope to see in image-plane radio surveys, and how new telescopes
+such as LOFAR are changing the parameters of what's possible in the radio-domain.
+I then give an overview of how the TraP works, using plenty of diagrams
+(and no code!).
+Finally I talk a little bit about the development model behind TraP,
+and how you can get started with it if you're interested.
+
+
+From gamma-ray to radio: Multi-wavelength follow-up in the first five minutes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*RAS LT2 meeting, London, November 2014*
+
+.. raw:: html
+
+    <button type="button" class="btn btn-sm">
+        <a href="https://github.com/timstaley/presentations/blob/master/2014-11_gamma-ray-to-radio_RAS_LT2/gamma-ray-to-radio.pdf?raw=true">
+            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
+        </a>
+    </button>
+    <button type="button" class="btn btn-sm">
+        <a href="http://www.slideshare.net/TimStaley1/from-gammaray-to-radio-multiwavelength-followup-in-the-first-five-minutes" target="_blank">
+            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
+        </a>
+    </button>
+
+In this short talk I cover some research highlights from the `4 Pi Sky`_ project,
+including recent successes in fast radio follow-up and exploratory work on the
+potential of radio observations for transient classification.
+Finally I introduce our work on making the VOEvent standard more accessible to
+the astronomical community, with the long-term goal of enabling more optimal
+automated follow-up strategies.
+
+.. _4 Pi Sky: http://4pisky.org
+
+
+Tunable algorithms for transient follow-up
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*LOFAR-TKP meeting, Jodrell Bank, September 2014*
+
+.. raw:: html
+
+    <button type="button" class="btn btn-sm">
+        <a href="https://github.com/timstaley/presentations/raw/master/2014-09_Tunable-algos-for-transient-followup_Jodrell/tunable_algos_for_transient_followup.pdf">
+            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
+        </a>
+    </button>
+    <button type="button" class="btn btn-sm">
+        <a href="http://www.slideshare.net/TimStaley1/tunable-algorithms-for-transient-followup" target="_blank">
+            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
+        </a>
+    </button>
+
+This talk gives a gentle introduction to Bayesian decision theory, a methodology
+I'm trying to apply to the problem of automated follow-up prioritisation and
+scheduling.
+
 
 Training your astronomy robots to work as a team
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -112,52 +129,80 @@ observatories,
 and shows some preliminary work on generally-applicable classification methods.
 
 
-Tunable algorithms for transient follow-up
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*LOFAR-TKP meeting, Jodrell Bank, September 2014*
+Fast radio follow-up
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*LOFAR-TKP meeting, Amsterdam, December 2012*
 
 .. raw:: html
 
     <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/raw/master/2014-09_Tunable-algos-for-transient-followup_Jodrell/tunable_algos_for_transient_followup.pdf">
+        <a href="https://github.com/timstaley/presentations/blob/master/2012-12_Fast-Radio-Followup_Amsterdam/Fast_radio_followup.pdf?raw=true">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
         </a>
     </button>
     <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/tunable-algorithms-for-transient-followup" target="_blank">
+        <a href="http://www.slideshare.net/TimStaley1/fast-radio-followup" target="_blank">
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
         </a>
     </button>
 
-This talk gives a gentle introduction to Bayesian decision theory, a methodology
-I'm trying to apply to the problem of automated follow-up prioritisation and
-scheduling.
+An iterated version of the earlier talk on ALARRM_. This version delves a little
+deeper into why early-time radio follow-up of GRBs is interesting, and touches
+on the problem of collaborative transient follow-up.
 
-From gamma-ray to radio: Multi-wavelength follow-up in the first five minutes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*RAS LT2 meeting, London, November 2014*
+
+Fast radio follow-up of GRBs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*SKA-KAT offices, Capetown, November 2012*
 
 .. raw:: html
 
     <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/blob/master/2014-11_gamma-ray-to-radio_RAS_LT2/gamma-ray-to-radio.pdf?raw=true">
+        <a href="https://github.com/timstaley/presentations/blob/master/2012-11_Ami-GRBS_Capetown/Fast_radio_followup_of_GRBs.pdf?raw=true">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
         </a>
     </button>
     <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/from-gammaray-to-radio-multiwavelength-followup-in-the-first-five-minutes" target="_blank">
+        <a href="http://www.slideshare.net/TimStaley1/fast-radio-followup-of-grbs" target="_blank">
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
         </a>
     </button>
 
-In this short talk I cover some research highlights from the `4 Pi Sky`_ project,
-including recent successes in fast radio follow-up and exploratory work on the
-potential of radio observations for transient classification.
-Finally I introduce our work on making the VOEvent standard more accessible to
-the astronomical community, with the long-term goal of enabling more optimal
-automated follow-up strategies.
+An early talk on the ALARRM_ rapid radio follow-up project, touching on the
+science of GRB progenitors and possible LOFAR transient science.
 
-.. _4 Pi Sky: http://4pisky.org
+.. _ALARRM: http://4pisky.org/tag/alarrm/
+
+
+-----------
+
+
+Talks on software
+-----------------
+
+A brief introduction to version control systems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*Southampton, November 2013*
+
+.. raw:: html
+
+    <button type="button" class="btn btn-sm">
+        <a href="https://github.com/timstaley/presentations/blob/master/2013-11_DVCS-intro_Soton/Brief_introduction_to_version_control_systems.pdf?raw=true">
+            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
+        </a>
+    </button>
+    <button type="button" class="btn btn-sm">
+        <a href="http://www.slideshare.net/TimStaley1/a-brief-introduction-to-version-control-systems" target="_blank">
+            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
+        </a>
+    </button>
+
+
+
+A short (fifteen minute) explanation of version control, aimed at an academic
+audience.  The goal was to introduce the underlying concepts of version control
+systems, and give an idea of when they are most useful.
+
 
 -----------
 
