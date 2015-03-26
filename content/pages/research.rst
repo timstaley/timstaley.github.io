@@ -31,14 +31,19 @@ Nuts and bolts, transient triggers
 ----------------------------------
 A fair portion of my work to date has been developing basic software 
 infrastructure, in the form of various small libraries and tools for automating 
-processing of astronomical alerts and unattended data reduction 
-(see the `code <{filename}code.rst>`_ page).
+processing of astronomical alerts and unattended data reduction.
 This sort of stuff is quite satisfying when done well,
 but I wouldn't really classify it as 'research' in its own right. 
-However, the efforts are beginning to bear fruit. 
+However, the efforts are beginning to bear fruit.
 With the help of our collaborators at the MRAO, 
 since mid-2012 we have been triggering automatic observations with the 
-`AMI`_ Large Array, with one `paper`_ published and more in prep.  
+`AMI`_ Large Array, with
+`three <http://ukads.nottingham.ac.uk/abs/2013MNRAS.428.3114S>`_
+`papers <http://adsabs.harvard.edu/abs/2014MNRAS.440.2059A>`_
+`published <http://adsabs.harvard.edu/abs/2015MNRAS.446L..66F>`_
+to date, and further work in prep.
+These tools are all open-sourced and publicly available (more details
+on the `code page <{filename}code.rst>`_ page).
  
 Transient discovery with the 'Trap'
 -----------------------------------
@@ -54,6 +59,13 @@ of data produced, the algorithms being developed are applicable to a range
 of transient astronomy projects. 
 A paper and open-source release are in prep.
 
+Application of active-learning / Bayesian decision theory to transient follow-up
+--------------------------------------------------------------------------------
+Finally, the most abstract (but potentially most exciting)
+aspect of my current research addresses the problem of automating
+transient follow-up - how to decide what to observe, and when.
+This is still a work in progress, but I hope to start presenting early results
+in the next couple of months.
 
 --------------
 
@@ -109,7 +121,6 @@ links, or via the `arxiv <http://arxiv.org/abs/1404.5907>`_:
 .. _4 Pi Sky project: http://4pisky.org
 
 .. _AMI: http://www.mrao.cam.ac.uk/facilities/ami/
-.. _paper: http://ukads.nottingham.ac.uk/abs/2012arXiv1211.3115S
 
 .. _lofar-tkp: http://www.transientskp.org/
 .. _uva:  http://www.astro.uva.nl/

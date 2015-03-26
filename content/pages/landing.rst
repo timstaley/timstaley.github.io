@@ -69,7 +69,7 @@ Contact Details
 
 .. _astrophysics group: http://www2.physics.ox.ac.uk/research/astrophysics
 .. _4 Pi Sky project: http://4pisky.org
-.. _RSE: http://digital-research-2012.oerc.ox.ac.uk/papers/the-research-software-engineer
+.. _RSE: http://www.rse.ac.uk/
 .. _research: /research
 .. _code: /code
 .. _posts: /posts

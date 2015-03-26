@@ -14,8 +14,6 @@ Code
 
 For a full listing of my public software projects, and to find out what I've been
 doing lately, see my `profile`_ on Github.
-If you're feeling whimsical you might like to run it through
-Dan Foreman-Mackey's `Open Source Report Card`_.
 
 I've highlighted some projects with brief descriptions below.
 
@@ -24,6 +22,60 @@ I've highlighted some projects with brief descriptions below.
 Sole-author projects
 ====================
 Things I've made:
+
+
+drive-ami_ / drive-casa_
+----------------------------
+*Built with: Python, pexpect.*
+
+Two interface libraries which make heavy use of `pexpect`_ to enable complex
+scripting of astronomical data reduction tools from Python.
+The `CASA`_ package is quite widely used in the radio astronomy community,
+so I've put up some basic
+`docs <http://drive-casa.readthedocs.org/en/latest/>`_
+to help others get started.
+
+amisurvey_ / chimenea_
+-----------------------
+*Built with: Python, drive-ami, drive-casa.*
+
+These packages represent a (telescope-specific) end-to-end data-reduction
+pipeline and the more generally applicable data-reduction algorithm used
+therein. Both build on the interfacing packages described above, introducing
+various data-structures to allow a higher-level view of the data-flow.
+
+
+voevent-parse_
+----------------
+*Built with: Python, LXML.*
+
+A lightweight library for parsing, manipulating, and generating
+VOEvent_ XML packets, (*i.e. machine-readable transient alerts*)
+built on lxml_.
+The aim of this library was to make working with VOEvent packets simpler and
+more intuitive - take a look at the
+`usage examples`_ and judge for yourself.
+It's reasonably well
+`documented <http://voevent-parse.readthedocs.org/>`_.
+As of version 0.8 (Jan 2015) voevent-parse is fully Python 3 compatible.
+
+Anyone trying to use ``lxml.objectify`` and struggling with namespace handling,
+PyType annotations etc. might be interested in the first few function
+definitions
+`here <https://github.com/timstaley/voevent-parse/blob/ce3728a8e189b08d378b72e97b7c4625f9051f9f/voeparse/voevent.py>`_.
+
+fourpiskytools_
+----------------
+*Built with: Python, voevent-parse, Comet.*
+
+A 'quick-start' template to help astronomers get started sending or receiving
+VOEvents. Essentially provides a stock configuration for starting
+Comet_ and connecting it to some scripts built with voevent-parse.
+This allows you to connect to our VOEvent broker and get desktop
+notifications when a VOEvent arrives - more info, and some background on
+VOEvents, can be found `here <getting-started-voevents_>`_.
+
+
 
 Coelacanth_
 -----------
@@ -37,40 +89,6 @@ was to implement complex algorithms such as Drizzle_ in C++ in a maintainable
 fashion - you can see the `results here <drizzle implementation_>`_. The final
 pipeline made use of the `Thread Building Blocks <TBB_>`_ `pipeline`_ pattern
 to achieve excellent throughput.
-
-
-
-
-drive-ami_ / drive-casa_
-----------------------------
-*Built with: Python, pexpect.*
-
-Two interface libraries which make heavy use of `pexpect`_ to enable complex
-scripting of astronomical data reduction tools from Python.
-The `CASA`_ package is quite widely used in the radio astronomy community
-and so I hope drive-casa will be of use to others - I've put up some 
-basic `docs <http://drive-casa.readthedocs.org/en/latest/>`_ 
-accordingly.
-
-
-voevent-parse_
-----------------
-*Built with: Python, LXML.*
-
-A lightweight library for parsing, manipulating, and generating
-VOEvent_ XML packets, (*i.e. machine-readable transient alerts*)
-built on lxml_.
-The aim of this library was to make working with VOEvent packets simpler and
-more intuitive - take a look at the
-`usage <https://github.com/timstaley/voevent-parse/blob/master/usage_example.py>`_
-`examples <https://github.com/timstaley/voevent-parse/blob/master/new_voevent_example.py>`_
-and judge for yourself. It's reasonably well
-`documented <http://voevent-parse.readthedocs.org/>`_.
-
-Anyone trying to use ``lxml.objectify`` and struggling with namespace handling,
-PyType annotations etc. might be interested in the first few function
-definitions
-`here <https://github.com/timstaley/voevent-parse/blob/ce3728a8e189b08d378b72e97b7c4625f9051f9f/voeparse/voevent.py>`_.
 
 -----------
 
@@ -86,8 +104,14 @@ then build a lightcurve catalog and search it for
 variability. This requires some fairly involved NumPy routines for the
 source-extraction (all in-house Python, at least for the first edition), and
 some hairy SQL queries for building and searching the catalogs.
-Still in `double stealth`_ mode,
-but an open release and paper are in prep. See also: Banana_, a Django-based
+TraP received its first `open release <TraP release_>`_ in Feb 2015, with
+an `accompanying paper <TraP paper_>`_ providing an extensive reference on the
+underlying algorithms.
+
+I wrote a short summary piece on TraP which you can see `here <TraP post_>`_,
+and I've also given a couple of short summary talks_ introducing it.
+
+See also: Banana_, a Django-based
 web-interface for exploring and visualising the results.
 
 -----------
@@ -140,13 +164,24 @@ Less substantial, but possibly still useful:
 .. _pexpect: http://www.noah.org/wiki/pexpect
 .. _CASA: http://casa.nrao.edu/
 
+.. _amisurvey: https://github.com/timstaley/amisurvey
+.. _chimenea: https://github.com/timstaley/chimenea
+
 .. _voevent-parse: http://github.com/timstaley/voevent-parse
+.. _usage examples: http://voevent-parse.readthedocs.org/en/master/examples.html
+
 .. _VOEvent: http://www.ivoa.net/documents/VOEvent/index.html
 .. _lxml: http://lxml.de/
+.. _fourpiskytools: https://github.com/timstaley/fourpiskytools
+.. _Comet: http://comet.transientskp.org/en/1.2.1/
+.. _getting-started-voevents: http://4pisky.org/2014/11/12/getting-started-with-voevents/
 
 .. _TraP: http://docs.transientskp.org/
+.. _TraP release: https://github.com/transientskp/tkp/
+.. _TraP paper: http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1503.01526
 .. _Banana: https://github.com/transientskp/banana
-.. _double stealth: https://twitter.com/doublestealth
+.. _TraP post: http://4pisky.org/2015/03/06/trap-r2/
+.. _talks: {filename}talks.rst
 
 
 .. _autocrunch: http://github.com/timstaley/autocrunch
