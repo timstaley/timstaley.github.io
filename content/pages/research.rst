@@ -44,7 +44,7 @@ since mid-2012 we have been triggering automatic observations with the
 `published <http://adsabs.harvard.edu/abs/2015MNRAS.446L..66F>`_
 to date, and further work in prep.
 These tools are all open-sourced and publicly available (more details
-on the `code page <{filename}code.rst>`_ page).
+on the `code page <{filename}code.rst>`_).
  
 Transient discovery with the 'Trap'
 -----------------------------------
