@@ -8,11 +8,9 @@ publications&lt;/a&gt;.&lt;/p&gt;
 the VOEvent standard, and I've written up a &lt;a class="reference external" href="http://4pisky.org/2014/11/12/getting-started-with-voevents/"&gt;post on the 4 Pi Sky website&lt;/a&gt;
 explaining what that is and why you should care.
 You should also check out the &lt;a class="reference external" href="http://4pisky.org"&gt;rest of the website&lt;/a&gt;,
-which I set up[*]. Thanks to posts from the rest of the group it's
+which I set up. Thanks to posts from the rest of the group it's
 becoming a go-to summary of what we're trying to achieve, which is pretty neat.&lt;/p&gt;
 &lt;p&gt;News on the TraP release soon, hopefully...&lt;/p&gt;
-&lt;p&gt;[*] &lt;em&gt;Q. How many webmasters does it take to run a research-group website?
-A. None. Just get the post-doc to do it. (weeps)&lt;/em&gt;&lt;/p&gt;
 </summary><category term="voevent"></category><category term="Python"></category><category term="astronomy"></category><category term="4pisky"></category></entry><entry><title>Convolving PDFs in Python</title><link href="http://timstaley.co.uk/posts/convolving-pdfs-in-python" rel="alternate"></link><updated>2014-06-06T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2014-06-06:posts/convolving-pdfs-in-python</id><summary type="html">&lt;a class="reference external image-reference" href="http://timstaley.co.uk/images/scipy_sum_pdfs_example.png"&gt;&lt;img alt="Convolving PDFs: An example with a tophat and a Gaussian kernel." class="align-center" src="http://timstaley.co.uk/images/scipy_sum_pdfs_example.png" style="height: 400px;" /&gt;&lt;/a&gt;
 &lt;p&gt;&lt;a class="reference external" href="http://nbviewer.ipython.org/github/timstaley/ipython-notebooks/blob/compiled/probabilistic_programming/convolving_distributions_illustration.ipynb"&gt;Show me the code already! (Link to online IPython Notebook.)&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Recently I've been working on a project involving a bit of decision theory,

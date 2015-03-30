@@ -65,14 +65,57 @@ Tim Staley            </a>
         Github profile <i class="fa fa-github"></i>
         </a> )
 </h3><p>For a full listing of my public software projects, and to find out what I've been
-doing lately, see my <a class="reference external" href="http://github.com/timstaley?tab=repositories">profile</a> on Github.
-If you're feeling whimsical you might like to run it through
-Dan Foreman-Mackey's <a class="reference external" href="http://osrc.dfm.io/timstaley">Open Source Report Card</a>.</p>
+doing lately, see my <a class="reference external" href="http://github.com/timstaley?tab=repositories">profile</a> on Github.</p>
 <p>I've highlighted some projects with brief descriptions below.</p>
 <hr class="docutils" />
 <div class="section" id="sole-author-projects">
 <h2>Sole-author projects</h2>
 <p>Things I've made:</p>
+<div class="section" id="drive-ami-drive-casa">
+<h3><a class="reference external" href="http://github.com/timstaley/drive-ami">drive-ami</a> / <a class="reference external" href="http://github.com/timstaley/drive-casa">drive-casa</a></h3>
+<p><em>Built with: Python, pexpect.</em></p>
+<p>Two interface libraries which make heavy use of <a class="reference external" href="http://www.noah.org/wiki/pexpect">pexpect</a> to enable complex
+scripting of astronomical data reduction tools from Python.
+The <a class="reference external" href="http://casa.nrao.edu/">CASA</a> package is quite widely used in the radio astronomy community,
+so I've put up some basic
+<a class="reference external" href="http://drive-casa.readthedocs.org/en/latest/">docs</a>
+to help others get started.</p>
+</div>
+<div class="section" id="amisurvey-chimenea">
+<h3><a class="reference external" href="https://github.com/timstaley/amisurvey">amisurvey</a> / <a class="reference external" href="https://github.com/timstaley/chimenea">chimenea</a></h3>
+<p><em>Built with: Python, drive-ami, drive-casa.</em></p>
+<p>These packages represent a (telescope-specific) end-to-end data-reduction
+pipeline and the more generally applicable data-reduction algorithm used
+therein. Both build on the interfacing packages described above, introducing
+various data-structures to allow a higher-level view of the data-flow.</p>
+</div>
+<div class="section" id="voevent-parse">
+<h3><a class="reference external" href="http://github.com/timstaley/voevent-parse">voevent-parse</a></h3>
+<p><em>Built with: Python, LXML.</em></p>
+<p>A lightweight library for parsing, manipulating, and generating
+<a class="reference external" href="http://www.ivoa.net/documents/VOEvent/index.html">VOEvent</a> XML packets, (<em>i.e. machine-readable transient alerts</em>)
+built on <a class="reference external" href="http://lxml.de/">lxml</a>.
+The aim of this library was to make working with VOEvent packets simpler and
+more intuitive - take a look at the
+<a class="reference external" href="http://voevent-parse.readthedocs.org/en/master/examples.html">usage examples</a> and judge for yourself.
+It's reasonably well
+<a class="reference external" href="http://voevent-parse.readthedocs.org/">documented</a>.
+As of version 0.8 (Jan 2015) voevent-parse is fully Python 3 compatible.</p>
+<p>Anyone trying to use <tt class="docutils literal">lxml.objectify</tt> and struggling with namespace handling,
+PyType annotations etc. might be interested in the first few function
+definitions
+<a class="reference external" href="https://github.com/timstaley/voevent-parse/blob/ce3728a8e189b08d378b72e97b7c4625f9051f9f/voeparse/voevent.py">here</a>.</p>
+</div>
+<div class="section" id="fourpiskytools">
+<h3><a class="reference external" href="https://github.com/timstaley/fourpiskytools">fourpiskytools</a></h3>
+<p><em>Built with: Python, voevent-parse, Comet.</em></p>
+<p>A 'quick-start' template to help astronomers get started sending or receiving
+VOEvents. Essentially provides a stock configuration for starting
+<a class="reference external" href="http://comet.transientskp.org/en/1.2.1/">Comet</a> and connecting it to some scripts built with voevent-parse.
+This allows you to connect to our VOEvent broker and get desktop
+notifications when a VOEvent arrives - more info, and some background on
+VOEvents, can be found <a class="reference external" href="http://4pisky.org/2014/11/12/getting-started-with-voevents/">here</a>.</p>
+</div>
 <div class="section" id="coelacanth">
 <h3><a class="reference external" href="https://github.com/timstaley/coelacanth">Coelacanth</a></h3>
 <p><em>Built with: C++, CMake, Boost, TBB, Minuit2, UNURAN, UnitTest++.</em></p>
@@ -84,33 +127,6 @@ was to implement complex algorithms such as <a class="reference external" href="
 fashion - you can see the <a class="reference external" href="https://github.com/timstaley/coelacanth/blob/ec97ae1e39de1336734b8dd09b638c616944b8e0/coela_core/src/implementation/drizzle.cc#L65">results here</a>. The final
 pipeline made use of the <a class="reference external" href="https://www.threadingbuildingblocks.org/">Thread Building Blocks</a> <a class="reference external" href="http://www.threadingbuildingblocks.org/docs/help/tbb_userguide/Working_on_the_Assembly_Line_pipeline.htm">pipeline</a> pattern
 to achieve excellent throughput.</p>
-</div>
-<div class="section" id="drive-ami-drive-casa">
-<h3><a class="reference external" href="http://github.com/timstaley/drive-ami">drive-ami</a> / <a class="reference external" href="http://github.com/timstaley/drive-casa">drive-casa</a></h3>
-<p><em>Built with: Python, pexpect.</em></p>
-<p>Two interface libraries which make heavy use of <a class="reference external" href="http://www.noah.org/wiki/pexpect">pexpect</a> to enable complex
-scripting of astronomical data reduction tools from Python.
-The <a class="reference external" href="http://casa.nrao.edu/">CASA</a> package is quite widely used in the radio astronomy community
-and so I hope drive-casa will be of use to others - I've put up some
-basic <a class="reference external" href="http://drive-casa.readthedocs.org/en/latest/">docs</a>
-accordingly.</p>
-</div>
-<div class="section" id="voevent-parse">
-<h3><a class="reference external" href="http://github.com/timstaley/voevent-parse">voevent-parse</a></h3>
-<p><em>Built with: Python, LXML.</em></p>
-<p>A lightweight library for parsing, manipulating, and generating
-<a class="reference external" href="http://www.ivoa.net/documents/VOEvent/index.html">VOEvent</a> XML packets, (<em>i.e. machine-readable transient alerts</em>)
-built on <a class="reference external" href="http://lxml.de/">lxml</a>.
-The aim of this library was to make working with VOEvent packets simpler and
-more intuitive - take a look at the
-<a class="reference external" href="https://github.com/timstaley/voevent-parse/blob/master/usage_example.py">usage</a>
-<a class="reference external" href="https://github.com/timstaley/voevent-parse/blob/master/new_voevent_example.py">examples</a>
-and judge for yourself. It's reasonably well
-<a class="reference external" href="http://voevent-parse.readthedocs.org/">documented</a>.</p>
-<p>Anyone trying to use <tt class="docutils literal">lxml.objectify</tt> and struggling with namespace handling,
-PyType annotations etc. might be interested in the first few function
-definitions
-<a class="reference external" href="https://github.com/timstaley/voevent-parse/blob/ce3728a8e189b08d378b72e97b7c4625f9051f9f/voeparse/voevent.py">here</a>.</p>
 </div>
 </div>
 <hr class="docutils" />
@@ -125,8 +141,12 @@ then build a lightcurve catalog and search it for
 variability. This requires some fairly involved NumPy routines for the
 source-extraction (all in-house Python, at least for the first edition), and
 some hairy SQL queries for building and searching the catalogs.
-Still in <a class="reference external" href="https://twitter.com/doublestealth">double stealth</a> mode,
-but an open release and paper are in prep. See also: <a class="reference external" href="https://github.com/transientskp/banana">Banana</a>, a Django-based
+TraP received its first <a class="reference external" href="https://github.com/transientskp/tkp/">open release</a> in Feb 2015, with
+an <a class="reference external" href="http://adsabs.harvard.edu/cgi-bin/bib_query?arXiv:1503.01526">accompanying paper</a> providing an extensive reference on the
+underlying algorithms.</p>
+<p>I wrote a short summary piece on TraP which you can see <a class="reference external" href="http://4pisky.org/2015/03/06/trap-r2/">here</a>,
+and I've also given a couple of short summary <a class="reference external" href="http://timstaley.co.uk/talks">talks</a> introducing it.</p>
+<p>See also: <a class="reference external" href="https://github.com/transientskp/banana">Banana</a>, a Django-based
 web-interface for exploring and visualising the results.</p>
 </div>
 </div>
