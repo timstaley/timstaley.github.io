@@ -6,13 +6,14 @@ Research
 Publications
 ============
 For the most up-to-date listing of my publications, I suggest trying
-`this ADS author query <http://ukads.nottingham.ac.uk/cgi-bin/nph-abs_connect?return_req=no_params&author=Staley,%20T.%20D.&db_key=AST>`_,
-which gives a reasonably comprehensive list including ASCL_ citations and Atels_.
+`this ADS author query <ADS query_>`_,
+which gives a comprehensive list including ASCL_ citations and Atels_.
 Alternatively, see my manually curated
 `ORCiD entry`_, which is less frequently updated (and limited to more traditional
-publications), but includes a few that slip through the ADS net.
+publications), but a little easier to read.
 
 
+.. _ADS query: http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?return_req=no_params&author=Staley,%20T.
 .. _ASCL: http://ascl.net/
 .. _Atels: http://www.astronomerstelegram.org/
 .. _ORCiD entry: http://orcid.org/0000-0002-4474-5253
