@@ -1,5 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tim Staley</title><link href="http://timstaley.co.uk/" rel="alternate"></link><link href="http://timstaley.co.uk/feeds/how-to.atom.xml" rel="self"></link><id>http://timstaley.co.uk/</id><updated>2014-11-17T00:00:00+01:00</updated><entry><title>Talks, VOEvents, and 4 Pi Sky</title><link href="http://timstaley.co.uk/posts/talks-voevents-4pisky" rel="alternate"></link><updated>2014-11-17T00:00:00+01:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2014-11-17:posts/talks-voevents-4pisky</id><summary type="html">&lt;p&gt;Not much to report here directly of late - but things have been happening
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tim Staley</title><link href="http://timstaley.co.uk/" rel="alternate"></link><link href="http://timstaley.co.uk/feeds/how-to.atom.xml" rel="self"></link><id>http://timstaley.co.uk/</id><updated>2015-05-07T00:00:00+02:00</updated><entry><title>How to install NumPy in two seconds flat</title><link href="http://timstaley.co.uk/posts/how-to-install-numpy-in-two-seconds-flat" rel="alternate"></link><updated>2015-05-07T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2015-05-07:posts/how-to-install-numpy-in-two-seconds-flat</id><summary type="html">&lt;p&gt;I've &lt;a class="reference external" href="http://timstaley.co.uk/posts/using-python-pip-offline"&gt;previously posted&lt;/a&gt;
+on making pip usable offline by caching package files in a local directory.
+That approach can probably be considered out-of-date now, though the
+information may be useful if you're stuck with an old version of pip for some
+reason. Mostly you should just be able to run:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+pip install --user --upgrade pip
+&lt;/pre&gt;
+&lt;p&gt;or suchlike, and get the latest version (6.1.1 as of writing).
+This gives you a much improved alternative:&lt;/p&gt;
+&lt;p&gt;Since version 1.6 / 6.0, (see &lt;a class="reference external" href="https://pip.pypa.io/en/latest/news.html"&gt;release notes&lt;/a&gt;), Pip provides support for the
+&lt;a class="reference external" href="https://wheel.readthedocs.org/en/latest/"&gt;Wheel&lt;/a&gt; format, allowing caching of pre-built packages. Now we're at pip
+version 6.1, this seems to be quite stable and useful.&lt;/p&gt;
+&lt;p&gt;The new wheel format not only provides caching, but does away with build times,
+after the initial build-for-the-cache (this is awesome!).
+You can find usage details here:
+&lt;a class="reference external" href="https://pip.pypa.io/en/latest/reference/pip_wheel.html"&gt;https://pip.pypa.io/en/latest/reference/pip_wheel.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Note that you don't have to supply the wheel-dir on the command-line
+every time (default is current working directory, which is not what you want
+for sharing e.g. a single numpy build between projects) - you can set it
+via environment variables, e.g. (in your &lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt;):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+export WHEELHOUSE=&amp;quot;${HOME}/.cache/pip/wheelhouse&amp;quot;
+export PIP_FIND_LINKS=&amp;quot;file://${WHEELHOUSE}&amp;quot;
+export PIP_WHEEL_DIR=&amp;quot;${WHEELHOUSE}&amp;quot;
+&lt;/pre&gt;
+&lt;p&gt;Then:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+pip install wheel   #Only needed if caching new packages
+pip wheel numpy     #First time only, to seed the cache
+pip install numpy   #Takes less than 2 seconds. Amaze.
+&lt;/pre&gt;
+&lt;p&gt;(Hat-tip to &amp;#64;ionelmc for pulling this information into one easy-to-read
+&lt;a class="reference external" href="http://blog.ionelmc.ro/2015/01/02/speedup-pip-install/"&gt;post&lt;/a&gt;, which I found
+when infuriated by &lt;a class="reference external" href="https://tox.readthedocs.org/"&gt;tox&lt;/a&gt; build-times.
+There's also a nice
+&lt;a class="reference external" href="http://lucumr.pocoo.org/2014/1/27/python-on-wheels/"&gt;write-up&lt;/a&gt; of the
+wheel format by Armin Ronacher (of flask fame), but although I came across
+and skim-read the article some months ago, I but never got around to actually
+trying it out till now. So it goes.)&lt;/p&gt;
+</summary><category term="how to"></category><category term="Python"></category><category term="pip"></category><category term="virtualenv"></category><category term="offline"></category><category term="wheel"></category><category term="tox"></category><category term="numpy"></category></entry><entry><title>Talks, VOEvents, and 4 Pi Sky</title><link href="http://timstaley.co.uk/posts/talks-voevents-4pisky" rel="alternate"></link><updated>2014-11-17T00:00:00+01:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2014-11-17:posts/talks-voevents-4pisky</id><summary type="html">&lt;p&gt;Not much to report here directly of late - but things have been happening
 elsewhere. I recently uploaded most of my &lt;a class="reference external" href="http://timstaley.co.uk/talks"&gt;presentation slide decks&lt;/a&gt;.
 If anything catches your eye and you'd like to know more, feel free to
 &lt;a class="reference external" href="http://timstaley.co.uk/#contact-details"&gt;contact me&lt;/a&gt;. I've also added some links making it easier to find &lt;a class="reference external" href="http://timstaley.co.uk/research/#publications"&gt;my
@@ -37,7 +77,10 @@ slower for a basic 1D PDF, so you could just adopt that approach anyway and keep
 things simple.&lt;/p&gt;
 &lt;p&gt;Finally, I should note that this was very much a learning exercise - I'm no
 expert in the above packages, so if you know a better way, please let me know!&lt;/p&gt;
-</summary><category term="how to"></category><category term="Python"></category><category term="probabilistic programming"></category><category term="notebook"></category><category term="convolution"></category><category term="probability distribution function"></category></entry><entry><title>Using Python pip offline</title><link href="http://timstaley.co.uk/posts/using-python-pip-offline" rel="alternate"></link><updated>2014-03-20T00:00:00+01:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2014-03-20:posts/using-python-pip-offline</id><summary type="html">&lt;p&gt;After you've been coding in Python for a while, and you've been bitten by a
+</summary><category term="how to"></category><category term="Python"></category><category term="probabilistic programming"></category><category term="notebook"></category><category term="convolution"></category><category term="probability distribution function"></category></entry><entry><title>Using Python pip offline</title><link href="http://timstaley.co.uk/posts/using-python-pip-offline" rel="alternate"></link><updated>2014-03-20T00:00:00+01:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2014-03-20:posts/using-python-pip-offline</id><summary type="html">&lt;p&gt;&lt;strong&gt;Update 2015&lt;/strong&gt;: This post is a bit out-of-date, now.
+See the more recent post
+&lt;a class="reference external" href="http://timstaley.co.uk/posts/how-to-install-numpy-in-two-seconds-flat"&gt;on using the Wheel format to cache package builds&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;After you've been coding in Python for a while, and you've been bitten by a
 few package-version incompatibility bugs, it gets to the stage where the
 &lt;strong&gt;first&lt;/strong&gt; thing you do upon starting a new project, is fire up a new
 &lt;a class="reference external" href="http://www.virtualenv.org/en/latest/virtualenv.html"&gt;virtualenv&lt;/a&gt;.&lt;/p&gt;
