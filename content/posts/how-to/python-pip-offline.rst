@@ -5,6 +5,11 @@ Using Python pip offline
 :date: 2014-03-20
 :tags: how to, Python, pip, virtualenv, offline
 
+**Update 2015**: This post is a bit out-of-date, now.
+See the more recent post
+`on using the Wheel format to cache package builds
+<{filename}/posts/how-to/install-numpy-in-2-seconds-flat.rst>`_.
+
 After you've been coding in Python for a while, and you've been bitten by a
 few package-version incompatibility bugs, it gets to the stage where the
 **first** thing you do upon starting a new project, is fire up a new
