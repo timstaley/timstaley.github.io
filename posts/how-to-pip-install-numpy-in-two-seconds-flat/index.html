@@ -71,43 +71,65 @@ Tim Staley            </a>
                 <p>I've <a class="reference external" href="http://timstaley.co.uk/posts/using-python-pip-offline">previously posted</a>
 on making pip usable offline by caching package files in a local directory.
 That approach can probably be considered out-of-date now, though the
-information may be useful if you're stuck with an old version of pip for some
-reason. Mostly you should just be able to run:</p>
+information is still useful if you're stuck with an old version of pip.
+I expected to be able to run:</p>
 <pre class="literal-block">
 pip install --user --upgrade pip
 </pre>
-<p>or suchlike, and get the latest version (6.1.1 as of writing).
-This gives you a much improved alternative:</p>
-<p>Since version 1.6 / 6.0, (see <a class="reference external" href="https://pip.pypa.io/en/latest/news.html">release notes</a>), Pip provides support for the
-<a class="reference external" href="https://wheel.readthedocs.org/en/latest/">Wheel</a> format, allowing caching of pre-built packages. Now we're at pip
-version 6.1, this seems to be quite stable and useful.</p>
-<p>The new wheel format not only provides caching, but does away with build times,
-after the initial build-for-the-cache (this is awesome!).
+<p>to get the latest version of pip whenever I was logged in, but this doesn't seem
+to work, so unless you're going to do a system-wide (<tt class="docutils literal">sudo</tt>) upgrade
+you still need to upgrade pip for each new virtualenv you create.
+You can do that offline (if you're prepared) using the following pip commands.
+First, while you're still online (you only have to run this once, to download
+the <tt class="docutils literal">pip</tt> and <tt class="docutils literal">wheel</tt> source tarballs):</p>
+<pre class="literal-block">
+pip install --download=$HOME/.cache/pip/tarballs pip wheel
+</pre>
+<p>Then, when you've just created a new virtualenv (while on or offline):</p>
+<pre class="literal-block">
+pip install --no-index --find-links=file://$HOME/.cache/pip/tarballs pip wheel
+</pre>
+<p>I recommend saving that second command in a script (or you could even alias it
+to something).</p>
+<p>So, now we've got the latest pip (version 6.1.1 as of writing).
+This gives you a much improved alternative to caching source-tarballs.
+Since version 1.6 / 6.0, (see <a class="reference external" href="https://pip.pypa.io/en/latest/news.html">release notes</a>), Pip provides support for the
+<a class="reference external" href="https://wheel.readthedocs.org/en/latest/">Wheel</a> format, allowing caching of pre-built packages.
+With pip version 6.1, this seems to be stable and very useful.</p>
+<p>The new wheel format not only provides download-caching,
+but does away with build times, by caching a pre-built binary on command.
+This is awesome - it makes virtualenvs feel much more lightweight (no
+waiting five-to-ten minutes to spin one up with numpy, scipy, and astropy),
+It's also a massive boon if you're running automated install testing with <a class="reference external" href="https://tox.readthedocs.org/">tox</a>,
+since this may run a fresh install for each test-run.
 You can find usage details here:
-<a class="reference external" href="https://pip.pypa.io/en/latest/reference/pip_wheel.html">https://pip.pypa.io/en/latest/reference/pip_wheel.html</a></p>
-<p>Note that you don't have to supply the wheel-dir on the command-line
+<a class="reference external" href="https://pip.pypa.io/en/latest/reference/pip_wheel.html">https://pip.pypa.io/en/latest/reference/pip_wheel.html</a>
+but I'll give you the basics below.</p>
+<p>First, we set up some environment variables, so that you don't have to supply
+the wheel-cache directory on the command-line
 every time (default is current working directory, which is not what you want
-for sharing e.g. a single numpy build between projects) - you can set it
+for sharing e.g. a single numpy build between projects). You can set it
 via environment variables, e.g. (in your <tt class="docutils literal">.bashrc</tt>):</p>
 <pre class="literal-block">
 export WHEELHOUSE=&quot;${HOME}/.cache/pip/wheelhouse&quot;
 export PIP_FIND_LINKS=&quot;file://${WHEELHOUSE}&quot;
 export PIP_WHEEL_DIR=&quot;${WHEELHOUSE}&quot;
 </pre>
-<p>Then:</p>
+<p>Then (e.g. for a <tt class="docutils literal">numpy</tt> install):</p>
 <pre class="literal-block">
 pip install wheel   #Only needed if caching new packages
-pip wheel numpy     #First time only, to seed the cache
+pip wheel numpy     #First time only, to seed the cache.
 pip install numpy   #Takes less than 2 seconds. Amaze.
 </pre>
-<p>(Hat-tip to &#64;ionelmc for pulling this information into one easy-to-read
+<p>And you're away.</p>
+<p>Hat-tip to <a class="reference external" href="https://twitter.com/ionelmc">&#64;ionelmc</a> for pulling this information into one easy-to-read
 <a class="reference external" href="http://blog.ionelmc.ro/2015/01/02/speedup-pip-install/">post</a>, which I found
 when infuriated by <a class="reference external" href="https://tox.readthedocs.org/">tox</a> build-times.
 There's also a nice
 <a class="reference external" href="http://lucumr.pocoo.org/2014/1/27/python-on-wheels/">write-up</a> of the
 wheel format by Armin Ronacher (of flask fame), but although I came across
 and skim-read the article some months ago, I but never got around to actually
-trying it out till now. So it goes.)</p>
+trying it out till now. So it goes.</p>
 
             </div>
             <!-- /.entry-content -->
@@ -122,7 +144,7 @@ trying it out till now. So it goes.)</p>
     <span class="label label-default"><i class="fa fa-calendar-o"></i> Published</span>
     <br>
     <span class="published">
-        <time datetime="2015-05-07T00:00:00+02:00"> Thu 07 May 2015</time>
+        <time datetime="2015-05-07T00:00:00"> Thu 07 May 2015</time>
     </span>
 
 

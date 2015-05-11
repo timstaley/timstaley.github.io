@@ -2,43 +2,65 @@
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Tim Staley</title><link href="http://timstaley.co.uk/" rel="alternate"></link><link href="http://timstaley.co.uk/feeds/tim-staley.atom.xml" rel="self"></link><id>http://timstaley.co.uk/</id><updated>2015-05-07T00:00:00+02:00</updated><entry><title>How to pip install NumPy in two seconds flat</title><link href="http://timstaley.co.uk/posts/how-to-pip-install-numpy-in-two-seconds-flat" rel="alternate"></link><updated>2015-05-07T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2015-05-07:posts/how-to-pip-install-numpy-in-two-seconds-flat</id><summary type="html">&lt;p&gt;I've &lt;a class="reference external" href="http://timstaley.co.uk/posts/using-python-pip-offline"&gt;previously posted&lt;/a&gt;
 on making pip usable offline by caching package files in a local directory.
 That approach can probably be considered out-of-date now, though the
-information may be useful if you're stuck with an old version of pip for some
-reason. Mostly you should just be able to run:&lt;/p&gt;
+information is still useful if you're stuck with an old version of pip.
+I expected to be able to run:&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 pip install --user --upgrade pip
 &lt;/pre&gt;
-&lt;p&gt;or suchlike, and get the latest version (6.1.1 as of writing).
-This gives you a much improved alternative:&lt;/p&gt;
-&lt;p&gt;Since version 1.6 / 6.0, (see &lt;a class="reference external" href="https://pip.pypa.io/en/latest/news.html"&gt;release notes&lt;/a&gt;), Pip provides support for the
-&lt;a class="reference external" href="https://wheel.readthedocs.org/en/latest/"&gt;Wheel&lt;/a&gt; format, allowing caching of pre-built packages. Now we're at pip
-version 6.1, this seems to be quite stable and useful.&lt;/p&gt;
-&lt;p&gt;The new wheel format not only provides caching, but does away with build times,
-after the initial build-for-the-cache (this is awesome!).
+&lt;p&gt;to get the latest version of pip whenever I was logged in, but this doesn't seem
+to work, so unless you're going to do a system-wide (&lt;tt class="docutils literal"&gt;sudo&lt;/tt&gt;) upgrade
+you still need to upgrade pip for each new virtualenv you create.
+You can do that offline (if you're prepared) using the following pip commands.
+First, while you're still online (you only have to run this once, to download
+the &lt;tt class="docutils literal"&gt;pip&lt;/tt&gt; and &lt;tt class="docutils literal"&gt;wheel&lt;/tt&gt; source tarballs):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+pip install --download=$HOME/.cache/pip/tarballs pip wheel
+&lt;/pre&gt;
+&lt;p&gt;Then, when you've just created a new virtualenv (while on or offline):&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+pip install --no-index --find-links=file://$HOME/.cache/pip/tarballs pip wheel
+&lt;/pre&gt;
+&lt;p&gt;I recommend saving that second command in a script (or you could even alias it
+to something).&lt;/p&gt;
+&lt;p&gt;So, now we've got the latest pip (version 6.1.1 as of writing).
+This gives you a much improved alternative to caching source-tarballs.
+Since version 1.6 / 6.0, (see &lt;a class="reference external" href="https://pip.pypa.io/en/latest/news.html"&gt;release notes&lt;/a&gt;), Pip provides support for the
+&lt;a class="reference external" href="https://wheel.readthedocs.org/en/latest/"&gt;Wheel&lt;/a&gt; format, allowing caching of pre-built packages.
+With pip version 6.1, this seems to be stable and very useful.&lt;/p&gt;
+&lt;p&gt;The new wheel format not only provides download-caching,
+but does away with build times, by caching a pre-built binary on command.
+This is awesome - it makes virtualenvs feel much more lightweight (no
+waiting five-to-ten minutes to spin one up with numpy, scipy, and astropy),
+It's also a massive boon if you're running automated install testing with &lt;a class="reference external" href="https://tox.readthedocs.org/"&gt;tox&lt;/a&gt;,
+since this may run a fresh install for each test-run.
 You can find usage details here:
-&lt;a class="reference external" href="https://pip.pypa.io/en/latest/reference/pip_wheel.html"&gt;https://pip.pypa.io/en/latest/reference/pip_wheel.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Note that you don't have to supply the wheel-dir on the command-line
+&lt;a class="reference external" href="https://pip.pypa.io/en/latest/reference/pip_wheel.html"&gt;https://pip.pypa.io/en/latest/reference/pip_wheel.html&lt;/a&gt;
+but I'll give you the basics below.&lt;/p&gt;
+&lt;p&gt;First, we set up some environment variables, so that you don't have to supply
+the wheel-cache directory on the command-line
 every time (default is current working directory, which is not what you want
-for sharing e.g. a single numpy build between projects) - you can set it
+for sharing e.g. a single numpy build between projects). You can set it
 via environment variables, e.g. (in your &lt;tt class="docutils literal"&gt;.bashrc&lt;/tt&gt;):&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 export WHEELHOUSE=&amp;quot;${HOME}/.cache/pip/wheelhouse&amp;quot;
 export PIP_FIND_LINKS=&amp;quot;file://${WHEELHOUSE}&amp;quot;
 export PIP_WHEEL_DIR=&amp;quot;${WHEELHOUSE}&amp;quot;
 &lt;/pre&gt;
-&lt;p&gt;Then:&lt;/p&gt;
+&lt;p&gt;Then (e.g. for a &lt;tt class="docutils literal"&gt;numpy&lt;/tt&gt; install):&lt;/p&gt;
 &lt;pre class="literal-block"&gt;
 pip install wheel   #Only needed if caching new packages
-pip wheel numpy     #First time only, to seed the cache
+pip wheel numpy     #First time only, to seed the cache.
 pip install numpy   #Takes less than 2 seconds. Amaze.
 &lt;/pre&gt;
-&lt;p&gt;(Hat-tip to &amp;#64;ionelmc for pulling this information into one easy-to-read
+&lt;p&gt;And you're away.&lt;/p&gt;
+&lt;p&gt;Hat-tip to &lt;a class="reference external" href="https://twitter.com/ionelmc"&gt;&amp;#64;ionelmc&lt;/a&gt; for pulling this information into one easy-to-read
 &lt;a class="reference external" href="http://blog.ionelmc.ro/2015/01/02/speedup-pip-install/"&gt;post&lt;/a&gt;, which I found
 when infuriated by &lt;a class="reference external" href="https://tox.readthedocs.org/"&gt;tox&lt;/a&gt; build-times.
 There's also a nice
 &lt;a class="reference external" href="http://lucumr.pocoo.org/2014/1/27/python-on-wheels/"&gt;write-up&lt;/a&gt; of the
 wheel format by Armin Ronacher (of flask fame), but although I came across
 and skim-read the article some months ago, I but never got around to actually
-trying it out till now. So it goes.)&lt;/p&gt;
+trying it out till now. So it goes.&lt;/p&gt;
 </summary><category term="how to"></category><category term="Python"></category><category term="pip"></category><category term="virtualenv"></category><category term="offline"></category><category term="wheel"></category><category term="tox"></category><category term="numpy"></category><category term="speed up"></category></entry><entry><title>Talks, VOEvents, and 4 Pi Sky</title><link href="http://timstaley.co.uk/posts/talks-voevents-4pisky" rel="alternate"></link><updated>2014-11-17T00:00:00+01:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2014-11-17:posts/talks-voevents-4pisky</id><summary type="html">&lt;p&gt;Not much to report here directly of late - but things have been happening
 elsewhere. I recently uploaded most of my &lt;a class="reference external" href="http://timstaley.co.uk/talks"&gt;presentation slide decks&lt;/a&gt;.
 If anything catches your eye and you'd like to know more, feel free to
@@ -718,7 +740,7 @@ your usual Ubuntu full-automation approach.
 The only downsides to this are that you need to reboot, and unless you're paying close attention
 you won't know exactly when the quota-building is done, as it happens in the background.
 You &lt;em&gt;can&lt;/em&gt; check to see if it's still running, using:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ps -ef &lt;span class="p"&gt;|&lt;/span&gt; grep quotacheck
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ps -ef | grep quotacheck
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The no-reboots option (or fallback, if the automated approach doesn't work) is to manually
 shepherd your machine through the process.
@@ -736,7 +758,7 @@ by stopping the service:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service quota stop
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;and doing a final check for any running services:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ps -ef &lt;span class="p"&gt;|&lt;/span&gt; grep quota
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ps -ef | grep quota
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;(You'll need to kill anything that looks like &lt;tt class="docutils literal"&gt;quotacheck&lt;/tt&gt; or &lt;tt class="docutils literal"&gt;quotad&lt;/tt&gt;.)&lt;/p&gt;
 &lt;p&gt;You can now manually run:&lt;/p&gt;
@@ -780,15 +802,15 @@ that works well for me, so I thought I'd post it:&lt;/p&gt;
 &lt;span class="c"&gt;#!/bin/bash
 &lt;/span&gt;&lt;span class="nv"&gt;ALL_HOSTS&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;node1 node2 node3&lt;span class="o"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$# &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
-    &lt;span class="nv"&gt;TARGETS&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ALL_HOSTS&lt;/span&gt;&lt;span class="p"&gt;[&amp;#64;]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;else&lt;/span&gt;
-    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'$0:'&lt;/span&gt; &lt;span class="nv"&gt;$0&lt;/span&gt;
-    &lt;span class="nv"&gt;TARGETS&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$&amp;#64;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$# &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt; 0 &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then
+    &lt;/span&gt;&lt;span class="nv"&gt;TARGETS&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;${ALL_HOSTS[&amp;#64;]}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;else
+    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'$0:'&lt;/span&gt; &lt;span class="nv"&gt;$0&lt;/span&gt;
+    &lt;span class="nv"&gt;TARGETS&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;$&amp;#64;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;fi
 
-&lt;span class="k"&gt;for&lt;/span&gt; HOST in &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;TARGETS&lt;/span&gt;&lt;span class="p"&gt;[&amp;#64;]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
-    gnome-terminal -t &lt;span class="nv"&gt;$HOST&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;ssh &lt;/span&gt;&lt;span class="nv"&gt;$HOST&lt;/span&gt;&lt;span class="s2"&gt; -t htop&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;
+for &lt;/span&gt;HOST in &lt;span class="s2"&gt;&amp;quot;${TARGETS[&amp;#64;]}&amp;quot;&lt;/span&gt;; &lt;span class="k"&gt;do
+    &lt;/span&gt;gnome-terminal -t &lt;span class="nv"&gt;$HOST&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;ssh $HOST -t htop&amp;quot;&lt;/span&gt; &amp;amp;
 &lt;span class="k"&gt;done&lt;/span&gt;
 &lt;/pre&gt;
 &lt;p&gt;Run with no arguments, this will open up 3 child terminals and connect to the
