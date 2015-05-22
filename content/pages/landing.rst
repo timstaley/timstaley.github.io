@@ -47,10 +47,10 @@ Contact Details
     <p>
     <ul class="fa-ul fa-lg">
       <li>
-        <a href="mailto:Tim Staley <tim.staley(no-spam-please-at)astro.ox.ac.uk>">
+        <a href="mailto:Tim Staley <tim.staley(no-spam-please-at)physics.ox.ac.uk>">
             <i class="fa-li fa fa-envelope"></i>
                 <span style="unicode-bidi:bidi-override; direction: rtl;">
-                ku.ca.xo.ortsa@yelats.mit
+                ku.ca.xo.scisyhp@yelats.mit
                 </span>
         </a>
       </li>
