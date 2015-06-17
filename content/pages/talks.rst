@@ -21,9 +21,58 @@ Jump to:
 Talks on transient astronomy
 ------------------------------------------
 
+Which transient, when?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*Southampton colloquia series, May 2015*
+
+*Hotwiring the Transient Universe IV, Santa Barbara, May 2015*
+
+.. raw:: html
+
+    <button type="button" class="btn btn-sm">
+        <a href="https://github.com/timstaley/presentations/raw/master/2015-05_Which-transient-when/which_transient_when_2015_long.pdf">
+            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
+        </a>
+    </button>
+    <button type="button" class="btn btn-sm">
+        <a href="http://www.slideshare.net/TimStaley1/which-transient-when-a-utility-function-for-transient-followup-scheduling" target="_blank">
+            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
+        </a>
+    </button>
+
+*I gave this talk to the astronomy group in Southampton,
+and a shorter version at Hotwired IV. Here's the abstract:*
+
+Next-generation astronomical facilities such as the LSST and the SKA will be
+game-changers, allowing us to observe the entire southern sky and track
+changing sources in near real-time. Keeping up with their alert-streams
+represents a significant challenge - how do we make the most of our limited
+telescope resources to follow up 100000 sources per night? The biggest
+problem here is classification - we want to find the really interesting
+transients and spend our time watching those. However, classification based
+on the initial survey data can only get you so far - we'll need to use
+robotic follow-up telescopes for rapid-response observations, to give us more
+information on the most promising targets. To get the most science done, we
+need to be smart about scheduling that follow-up. We're exploring use of
+active learning algorithms (AKA Bayesian Decision Theory) to solve this
+problem, building a framework that allows for iterative refinement of a
+probabilistic classification state. Because there are no algorithms that fit
+this problem 'out-of-the-box', we've built our own analysis framework using
+the emcee and PyMultiNest packages to power the underlying Bayesian
+inference. I'll give an overview of how our proposed system fits into the
+wider context of an automated astronomy ecosystem, then give a gentle
+introduction to Bayesian Decision Theory and how it can be applied to this
+problem.
+
+
+
 How to build a TraP: An image-plane transient-detection tool
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*Southampton lunchtime seminar / Oxford SPIMAX talk, January 2015*
+*Southampton lunchtime seminar January 2015*
+
+*Oxford SPIMAX talk, January 2015*
+
+*Hotwiring the Transient Universe IV, Santa Barbara, May 2015*
 
 .. raw:: html
 

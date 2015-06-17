@@ -54,7 +54,7 @@ VOEvent_ XML packets, (*i.e. machine-readable transient alerts*)
 built on lxml_.
 The aim of this library was to make working with VOEvent packets simpler and
 more intuitive - take a look at the
-`usage examples`_ and judge for yourself.
+`usage examples`_ or even the `tutorial`_ and judge for yourself.
 It's reasonably well
 `documented <http://voevent-parse.readthedocs.org/>`_.
 As of version 0.8 (Jan 2015) voevent-parse is fully Python 3 compatible.
@@ -63,6 +63,12 @@ Anyone trying to use ``lxml.objectify`` and struggling with namespace handling,
 PyType annotations etc. might be interested in the first few function
 definitions
 `here <https://github.com/timstaley/voevent-parse/blob/ce3728a8e189b08d378b72e97b7c4625f9051f9f/voeparse/voevent.py>`_.
+
+.. _VOEvent: http://voevent.readthedocs.org/
+.. _lxml: http://lxml.de/
+.. _voevent-parse: http://github.com/timstaley/voevent-parse
+.. _usage examples: http://voevent-parse.readthedocs.org/en/master/examples.html
+.. _tutorial: https://github.com/timstaley/voevent-parse-tutorial
 
 fourpiskytools_
 ----------------
@@ -75,7 +81,9 @@ This allows you to connect to our VOEvent broker and get desktop
 notifications when a VOEvent arrives - more info, and some background on
 VOEvents, can be found `here <getting-started-voevents_>`_.
 
-
+.. _fourpiskytools: https://github.com/timstaley/fourpiskytools
+.. _Comet: http://comet.transientskp.org/en/1.2.1/
+.. _getting-started-voevents: http://4pisky.org/2014/11/12/getting-started-with-voevents/
 
 Coelacanth_
 -----------
@@ -167,14 +175,9 @@ Less substantial, but possibly still useful:
 .. _amisurvey: https://github.com/timstaley/amisurvey
 .. _chimenea: https://github.com/timstaley/chimenea
 
-.. _voevent-parse: http://github.com/timstaley/voevent-parse
-.. _usage examples: http://voevent-parse.readthedocs.org/en/master/examples.html
 
-.. _VOEvent: http://www.ivoa.net/documents/VOEvent/index.html
-.. _lxml: http://lxml.de/
-.. _fourpiskytools: https://github.com/timstaley/fourpiskytools
-.. _Comet: http://comet.transientskp.org/en/1.2.1/
-.. _getting-started-voevents: http://4pisky.org/2014/11/12/getting-started-with-voevents/
+
+
 
 .. _TraP: http://docs.transientskp.org/
 .. _TraP release: https://github.com/transientskp/tkp/
