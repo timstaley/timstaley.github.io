@@ -40,15 +40,16 @@ Which transient, when?
         </a>
     </button>
 
-*I gave this talk to the astronomy group in Southampton,
-and a shorter version at Hotwired IV. Here's the abstract:*
+I gave this talk to the astronomy group in Southampton,
+and a shorter version at `Hotwired IV`_. Here's the abstract:
 
 Next-generation astronomical facilities such as the LSST and the SKA will be
 game-changers, allowing us to observe the entire southern sky and track
 changing sources in near real-time. Keeping up with their alert-streams
 represents a significant challenge - how do we make the most of our limited
-telescope resources to follow up 100000 sources per night? The biggest
-problem here is classification - we want to find the really interesting
+telescope resources to follow up 100000 sources per night?
+
+The biggest problem here is classification - we want to find the really interesting
 transients and spend our time watching those. However, classification based
 on the initial survey data can only get you so far - we'll need to use
 robotic follow-up telescopes for rapid-response observations, to give us more
@@ -63,6 +64,8 @@ inference. I'll give an overview of how our proposed system fits into the
 wider context of an automated astronomy ecosystem, then give a gentle
 introduction to Bayesian Decision Theory and how it can be applied to this
 problem.
+
+.. _Hotwired IV: http://lcogt.net/hotwired-iv-science-topics/
 
 
 
