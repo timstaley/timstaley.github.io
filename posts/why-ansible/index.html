@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Why is Ansible better than shell scripting? - Tim Staley</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="http://timstaley.co.uk/images/favicon.ico" rel="icon">
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="http://timstaley.co.uk/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://timstaley.co.uk/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/style.css" type="text/css"/>
+        <link href="http://timstaley.co.uk/css/custom.css" rel="stylesheet">
+
+        <link href="http://timstaley.co.uk/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Tim Staley ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://timstaley.co.uk/" class="navbar-brand">
+Tim Staley            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="/research">Research</a></li>
+                    <li><a href="/talks">Talks</a></li>
+                    <li><a href="/code">Code</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://timstaley.co.uk/posts"><i class="fa fa-th-list"></i><span class="icon-label">Posts</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+<div class="col-sm-10 col-sm-offset-1 col-md-7 col-md-offset-2 ">
+  <div class="custom-max-width">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://timstaley.co.uk/posts/why-ansible"
+                       rel="bookmark"
+                       title="Permalink to Why is Ansible better than shell scripting?">
+                        Why is Ansible better than shell scripting?
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <p>Recently, I've been using Ansible to set up some new <a class="reference external" href="https://github.com/timstaley/voevent-node-deploy/">VOEvent-node deployment scripts</a>.
+While I'm at it, I've also been converting a lot of messy provisioning
+shell-scripts (see <a class="reference external" href="https://github.com/timstaley/SAL-build-scripts">old version</a>, <a class="reference external" href="https://github.com/timstaley/ansible-casa-libs">new version</a> - work in progress).
+Here are my notes on why <a class="reference external" href="http://docs.ansible.com/">Ansible</a> is, IMO, much nicer than plain old shell-scripts,
+and might be worth your time to learn.
+This sort of stuff has been covered
+<a class="reference external" href="https://valdhaus.co/writings/ansible-vs-shell-scripts/">elsewhere</a>, and I
+encourage you to go check out the code examples next, but I wanted to get my
+thoughts down in a few short(ish) bullet points.
+Anyway, here's why it's handy:</p>
+<p><strong>Parallel execution across multiple machines.</strong> This is what attracted me to
+Ansible in the first place - using the <a class="reference external" href="http://docs.ansible.com/intro_adhoc.html">ad-hoc</a> mode to run shell commands
+across many machines in parallel. Of course, there are other options
+(e.g. <a class="reference external" href="http://linux.die.net/man/1/pssh">pssh</a>), but it's a big part of what makes Ansible so powerful.</p>
+<p><strong>A decent library of ready-made 'modules'</strong> with useful options
+for dealing with common operations. For example, take <tt class="docutils literal"><span class="pre">apt-get</span></tt>. This
+is one utility where <a class="reference external" href="http://docs.ansible.com/glossary.html#idempotency">idempotency</a> (the concept that change commands should only
+be applied when they need to be applied) is already baked in to the command
+itself, so Ansible doesn't really gain you much there - but it provides you with
+a handy option to update the cached list of packages prior to downloading,
+another option to install recommended packages, etc. Likewise the <a class="reference external" href="http://docs.ansible.com/git_module.html">git module</a>
+provides options to disable host key checking, use a custom SSH key file, perform a
+recursive checkout, and so on. Of course, you can do these yourself (Ansible
+just runs the commands under the hood after all) but the docs serve as handy
+reminders of things you might need to switch on, and the option-specification
+format provides an easy-to-read note of how each command should be
+carried out. Now, you <em>could</em> build up a library of e.g. bash functions
+that provide similar wrapping and defaults, but then
+A. you'd be writing functions in bash,
+B. you'd have to start from scratch, and
+C. anyone else touching your scripts
+would have to learn your one-off custom <a class="reference external" href="https://en.wikipedia.org/wiki/Domain-specific_language">DSL</a>.</p>
+<p><strong>Automatic step-by-step reporting.</strong> Ansible encourages you to name
+each 'task' in your provisioning script, and then reports whether or not
+that task succeeded with-or-without changes, or failed, and any error
+messages. All colour coded. This is nice.</p>
+<p><strong>Tagging.</strong> You can <a class="reference external" href="http://docs.ansible.com/playbooks_tags.html">tag</a> your commands, making it easy to execute a subset
+of a provisioning script without extracting that section or commenting
+everything else out. Also nice.</p>
+<p><strong>Convenient variable handling and logic-flow control.</strong>
+This is a big one. Ansible leverages the <a class="reference external" href="http://jinja.pocoo.org/docs/dev/">Jinja</a>
+templating language, so you can use all the features that provides -
+easy access to nested-dict variables, lists, string filters, and so on.
+It also allows you to <a class="reference external" href="https://docs.ansible.com/playbooks_conditionals.html#register-variables">register</a> the results of a command as a new variable.
+This provides a dict containing entries telling you if that task succeeded,
+whether it changed anything, what paths it created, etc. You can then
+refer back to this variable in later commands, or even use it to perform
+tasks <a class="reference external" href="https://docs.ansible.com/playbooks_conditionals.html#conditionals">conditionally</a>. Oh, and right out-of-the-box Ansible will provide you
+with a bunch of machine-information variables like the operating-system family,
+number of CPU cores, timezone, and so on. Again... you <em>could</em> do all this
+in bash, but you'd have to spend the time figuring out obscure bash tricks,
+and probably no mere mortal could make sense of your scripts afterwards.</p>
+<p><strong>Readability.</strong> I find the combination of YAML definition format and Jinja
+templating quite readable - much more so than equivalent bash.
+This is partly due to the enforced
+whitespacing, and partly due to all the commands having a consistent options
+format. Yes, you will need to learn a bit about YAML and Jinja to get the
+most out of Ansible, but you can mostly pick it up from the examples laid
+out in the docs. I haven't tried Puppet/Chef personally, so can't
+directly compare,
+but <a class="reference external" href="http://probably.co.uk/puppet-vs-chef-vs-ansible.html">others seem to think</a>
+Ansible is easier to get to grips with.
+If you know Ruby then perhaps Chef is a good option, but then again,
+maybe a full scripting language encourages overly-complex approaches?</p>
+<p><strong>Composability.</strong>
+Probably the biggest winner in the long-term, although I get the feeling
+that the community around Ansible is not quite there yet. Ansible tries to solve
+the problem of code re-use by formalising a set of conventions for building-blocks
+called <a class="reference external" href="https://docs.ansible.com/playbooks_roles.html#roles">roles</a>, and putting together a sort of 'github for deployment-patterns'
+called <a class="reference external" href="https://galaxy.ansible.com/">Ansible Galaxy</a>. If things go well, this could effectively become
+a PyPI or CPAN equivalent for devops. On the other hand, it could devolve
+to a mess of untested, 'only works for my use-case' style packages - success
+relies on an active community who are willing to test, extend and maintain
+these packages. Time will tell if this is a realistic ask, but in the meantime
+at least there's a standardized method for re-use in personal
+collections.</p>
+<div class="section" id="comments">
+<h2>Comments</h2>
+<p>Found this useful? Think I'm a misguided fool, and want to tell me why?
+Let me know on <a class="reference external" href="https://twitter.com/YossariansLife">twitter</a>.</p>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+  </div>
+</div>
+<div class="col-sm-6 col-sm-offset-3 col-md-3 col-md-offset-0 ">
+  <div class="panel">
+      <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default"><i class="fa fa-calendar-o"></i> Published</span>
+    <br>
+    <span class="published">
+        <time datetime="2015-07-01T00:00:00+02:00"> Wed 01 July 2015</time>
+    </span>
+
+
+
+    <br>
+<span class="label label-default"><i class="fa fa-tag"></i> Tagged</span><br>
+	<a href="http://timstaley.co.uk/tag/ansible">ansible</a>
+        /
+	<a href="http://timstaley.co.uk/tag/scripting">scripting</a>
+        /
+	<a href="http://timstaley.co.uk/tag/provisioning">provisioning</a>
+        /
+	<a href="http://timstaley.co.uk/tag/configuration-management">configuration management</a>
+        /
+	<a href="http://timstaley.co.uk/tag/deployment">deployment</a>
+        /
+	<a href="http://timstaley.co.uk/tag/devops">devops</a>
+        /
+	<a href="http://timstaley.co.uk/tag/reproducibility">reproducibility</a>
+    
+</footer><!-- /.post-info -->      </div>
+  </div>
+</div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2015 Tim Staley
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://timstaley.co.uk/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://timstaley.co.uk/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://timstaley.co.uk/theme/js/respond.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-46485279-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+</body>
+</html>

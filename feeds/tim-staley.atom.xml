@@ -1,5 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tim Staley</title><link href="http://timstaley.co.uk/" rel="alternate"></link><link href="http://timstaley.co.uk/feeds/tim-staley.atom.xml" rel="self"></link><id>http://timstaley.co.uk/</id><updated>2015-05-07T00:00:00+02:00</updated><entry><title>How to pip install NumPy in two seconds flat</title><link href="http://timstaley.co.uk/posts/how-to-pip-install-numpy-in-two-seconds-flat" rel="alternate"></link><updated>2015-05-07T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2015-05-07:posts/how-to-pip-install-numpy-in-two-seconds-flat</id><summary type="html">&lt;p&gt;I've &lt;a class="reference external" href="http://timstaley.co.uk/posts/using-python-pip-offline"&gt;previously posted&lt;/a&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tim Staley</title><link href="http://timstaley.co.uk/" rel="alternate"></link><link href="http://timstaley.co.uk/feeds/tim-staley.atom.xml" rel="self"></link><id>http://timstaley.co.uk/</id><updated>2015-07-01T00:00:00+02:00</updated><entry><title>Why is Ansible better than shell scripting?</title><link href="http://timstaley.co.uk/posts/why-ansible" rel="alternate"></link><updated>2015-07-01T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2015-07-01:posts/why-ansible</id><summary type="html">&lt;p&gt;Recently, I've been using Ansible to set up some new &lt;a class="reference external" href="https://github.com/timstaley/voevent-node-deploy/"&gt;VOEvent-node deployment scripts&lt;/a&gt;.
+While I'm at it, I've also been converting a lot of messy provisioning
+shell-scripts (see &lt;a class="reference external" href="https://github.com/timstaley/SAL-build-scripts"&gt;old version&lt;/a&gt;, &lt;a class="reference external" href="https://github.com/timstaley/ansible-casa-libs"&gt;new version&lt;/a&gt; - work in progress).
+Here are my notes on why &lt;a class="reference external" href="http://docs.ansible.com/"&gt;Ansible&lt;/a&gt; is, IMO, much nicer than plain old shell-scripts,
+and might be worth your time to learn.
+This sort of stuff has been covered
+&lt;a class="reference external" href="https://valdhaus.co/writings/ansible-vs-shell-scripts/"&gt;elsewhere&lt;/a&gt;, and I
+encourage you to go check out the code examples next, but I wanted to get my
+thoughts down in a few short(ish) bullet points.
+Anyway, here's why it's handy:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Parallel execution across multiple machines.&lt;/strong&gt; This is what attracted me to
+Ansible in the first place - using the &lt;a class="reference external" href="http://docs.ansible.com/intro_adhoc.html"&gt;ad-hoc&lt;/a&gt; mode to run shell commands
+across many machines in parallel. Of course, there are other options
+(e.g. &lt;a class="reference external" href="http://linux.die.net/man/1/pssh"&gt;pssh&lt;/a&gt;), but it's a big part of what makes Ansible so powerful.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;A decent library of ready-made 'modules'&lt;/strong&gt; with useful options
+for dealing with common operations. For example, take &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;apt-get&lt;/span&gt;&lt;/tt&gt;. This
+is one utility where &lt;a class="reference external" href="http://docs.ansible.com/glossary.html#idempotency"&gt;idempotency&lt;/a&gt; (the concept that change commands should only
+be applied when they need to be applied) is already baked in to the command
+itself, so Ansible doesn't really gain you much there - but it provides you with
+a handy option to update the cached list of packages prior to downloading,
+another option to install recommended packages, etc. Likewise the &lt;a class="reference external" href="http://docs.ansible.com/git_module.html"&gt;git module&lt;/a&gt;
+provides options to disable host key checking, use a custom SSH key file, perform a
+recursive checkout, and so on. Of course, you can do these yourself (Ansible
+just runs the commands under the hood after all) but the docs serve as handy
+reminders of things you might need to switch on, and the option-specification
+format provides an easy-to-read note of how each command should be
+carried out. Now, you &lt;em&gt;could&lt;/em&gt; build up a library of e.g. bash functions
+that provide similar wrapping and defaults, but then
+A. you'd be writing functions in bash,
+B. you'd have to start from scratch, and
+C. anyone else touching your scripts
+would have to learn your one-off custom &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Domain-specific_language"&gt;DSL&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Automatic step-by-step reporting.&lt;/strong&gt; Ansible encourages you to name
+each 'task' in your provisioning script, and then reports whether or not
+that task succeeded with-or-without changes, or failed, and any error
+messages. All colour coded. This is nice.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Tagging.&lt;/strong&gt; You can &lt;a class="reference external" href="http://docs.ansible.com/playbooks_tags.html"&gt;tag&lt;/a&gt; your commands, making it easy to execute a subset
+of a provisioning script without extracting that section or commenting
+everything else out. Also nice.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Convenient variable handling and logic-flow control.&lt;/strong&gt;
+This is a big one. Ansible leverages the &lt;a class="reference external" href="http://jinja.pocoo.org/docs/dev/"&gt;Jinja&lt;/a&gt;
+templating language, so you can use all the features that provides -
+easy access to nested-dict variables, lists, string filters, and so on.
+It also allows you to &lt;a class="reference external" href="https://docs.ansible.com/playbooks_conditionals.html#register-variables"&gt;register&lt;/a&gt; the results of a command as a new variable.
+This provides a dict containing entries telling you if that task succeeded,
+whether it changed anything, what paths it created, etc. You can then
+refer back to this variable in later commands, or even use it to perform
+tasks &lt;a class="reference external" href="https://docs.ansible.com/playbooks_conditionals.html#conditionals"&gt;conditionally&lt;/a&gt;. Oh, and right out-of-the-box Ansible will provide you
+with a bunch of machine-information variables like the operating-system family,
+number of CPU cores, timezone, and so on. Again... you &lt;em&gt;could&lt;/em&gt; do all this
+in bash, but you'd have to spend the time figuring out obscure bash tricks,
+and probably no mere mortal could make sense of your scripts afterwards.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Readability.&lt;/strong&gt; I find the combination of YAML definition format and Jinja
+templating quite readable - much more so than equivalent bash.
+This is partly due to the enforced
+whitespacing, and partly due to all the commands having a consistent options
+format. Yes, you will need to learn a bit about YAML and Jinja to get the
+most out of Ansible, but you can mostly pick it up from the examples laid
+out in the docs. I haven't tried Puppet/Chef personally, so can't
+directly compare,
+but &lt;a class="reference external" href="http://probably.co.uk/puppet-vs-chef-vs-ansible.html"&gt;others seem to think&lt;/a&gt;
+Ansible is easier to get to grips with.
+If you know Ruby then perhaps Chef is a good option, but then again,
+maybe a full scripting language encourages overly-complex approaches?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Composability.&lt;/strong&gt;
+Probably the biggest winner in the long-term, although I get the feeling
+that the community around Ansible is not quite there yet. Ansible tries to solve
+the problem of code re-use by formalising a set of conventions for building-blocks
+called &lt;a class="reference external" href="https://docs.ansible.com/playbooks_roles.html#roles"&gt;roles&lt;/a&gt;, and putting together a sort of 'github for deployment-patterns'
+called &lt;a class="reference external" href="https://galaxy.ansible.com/"&gt;Ansible Galaxy&lt;/a&gt;. If things go well, this could effectively become
+a PyPI or CPAN equivalent for devops. On the other hand, it could devolve
+to a mess of untested, 'only works for my use-case' style packages - success
+relies on an active community who are willing to test, extend and maintain
+these packages. Time will tell if this is a realistic ask, but in the meantime
+at least there's a standardized method for re-use in personal
+collections.&lt;/p&gt;
+&lt;div class="section" id="comments"&gt;
+&lt;h2&gt;Comments&lt;/h2&gt;
+&lt;p&gt;Found this useful? Think I'm a misguided fool, and want to tell me why?
+Let me know on &lt;a class="reference external" href="https://twitter.com/YossariansLife"&gt;twitter&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+</summary><category term="ansible"></category><category term="scripting"></category><category term="provisioning"></category><category term="configuration management"></category><category term="deployment"></category><category term="devops"></category><category term="reproducibility"></category></entry><entry><title>How to pip install NumPy in two seconds flat</title><link href="http://timstaley.co.uk/posts/how-to-pip-install-numpy-in-two-seconds-flat" rel="alternate"></link><updated>2015-05-07T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2015-05-07:posts/how-to-pip-install-numpy-in-two-seconds-flat</id><summary type="html">&lt;p&gt;I've &lt;a class="reference external" href="http://timstaley.co.uk/posts/using-python-pip-offline"&gt;previously posted&lt;/a&gt;
 on making pip usable offline by caching package files in a local directory.
 That approach can probably be considered out-of-date now, though the
 information is still useful if you're stuck with an old version of pip.
