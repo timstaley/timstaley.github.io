@@ -68,7 +68,17 @@ Tim Staley            </a>
                 </h1>
             </header>
             <div class="entry-content">
-                <p>I've <a class="reference external" href="http://timstaley.co.uk/posts/using-python-pip-offline">previously posted</a>
+                <p><em>Edit, July 2016:</em></p>
+<p>A mere two weeks after I posted this, pip version 7 was released and
+changed things again. If you have the wheel library and pip version 7 or
+above, wheel building and caching is now switched on and run by default,
+you just need to <tt class="docutils literal">pip install</tt> away and the caching happens in the background.</p>
+<p>This can result in mild disbelief when numpy installs near-instantly the second
+time around, with no configuration! Anyway, I'll leave the rest of this post
+here for posterity - the note about caching the pip and wheel packages using
+older pip versions may still be useful to some.</p>
+<hr class="docutils" />
+<p>I've <a class="reference external" href="http://timstaley.co.uk/posts/using-python-pip-offline">previously posted</a>
 on making pip usable offline by caching package files in a local directory.
 That approach can probably be considered out-of-date now, though the
 information is still useful if you're stuck with an old version of pip.
