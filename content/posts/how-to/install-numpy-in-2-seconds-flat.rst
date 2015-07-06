@@ -5,6 +5,22 @@ How to pip install NumPy in two seconds flat
 :date: 2015-05-07
 :tags: how to, Python, pip, virtualenv, offline, wheel, tox, numpy, speed up
 
+*Edit, July 2016:*
+
+A mere two weeks after I posted this, pip version 7 was released and
+changed things again. If you have the wheel library and pip version 7 or
+above, wheel building and caching is now switched on and run by default,
+you just need to ``pip install`` away and the caching happens in the background.
+
+This can result in mild disbelief when numpy installs near-instantly the second
+time around, with no configuration! Anyway, I'll leave the rest of this post
+here for posterity - the note about caching the pip and wheel packages using
+older pip versions may still be useful to some.
+
+------------------------------------
+
+
+
 I've `previously posted <{filename}/posts/how-to/python-pip-offline.rst>`_
 on making pip usable offline by caching package files in a local directory.
 That approach can probably be considered out-of-date now, though the
