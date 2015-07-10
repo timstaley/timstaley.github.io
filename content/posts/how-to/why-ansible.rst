@@ -5,7 +5,6 @@ Why is Ansible better than shell scripting?
 :date: 2015-07-01
 :tags: ansible, scripting, provisioning, configuration management, deployment, devops, reproducibility
 
-*(Edited 2015-07-06, added final note on downsides / Salt-stack.)*
 
 Recently, I've been using Ansible_ to set up some new `VOEvent-node deployment scripts`_.
 While I'm at it, I've also been converting a lot of messy provisioning
@@ -53,31 +52,36 @@ messages. All colour coded. This is nice.
 of a provisioning script without extracting that section or commenting
 everything else out. Also nice.
 
-**Convenient variable handling and logic-flow control.**
-This is a big one. Ansible leverages the Jinja_
-templating language, so you can use all the Python features that provides -
+**Syntax that strikes a balance between ease-of-variable-mangling,
+sufficient logic-flow control, and readability.**
+Ansible applies the Jinja2_ templating language over the underlying YAML_ syntax,
+so you can use the subset
+of Python features that provides -
 easy access to nested-dict variables, lists, string manipulation, and so on.
 It also allows you to register_ the results of a command as a new variable.
 This provides a dict containing entries telling you if that task succeeded,
 whether it changed anything, what paths it created, etc. You can then
-refer back to this variable in later commands, or even use it to perform
-tasks conditionally_. Oh, and right out-of-the-box Ansible will provide you
-with a bunch of machine-information variables like the operating-system family,
-number of CPU cores, timezone, and so on. Again... you *could* do all this
-in bash, but wouldn't you rather be using a well documented tool and coding in
-Python?
+refer back to this variable in later commands, or use it to perform
+tasks conditionally_. On which note, right out-of-the-box Ansible provides a
+bunch of machine-information variables like the operating-system family,
+number of CPU cores, timezone, and so on, which often come in handy when
+customising commands to the system in question.
 
-**Readability.** I find the combination of YAML definition format and Jinja
+I find the combination of YAML definition format and Jinja
 templating quite readable, and certainly easier to skim than equivalent bash.
-This is partly due to the enforced
-whitespacing, and partly due to all the commands having a consistent options
-format. Yes, you will need to learn a bit about YAML and Jinja to get the
+Factors contributing to this are enforced
+whitespacing, a consistent commands/options format, and basic nested
+data-structures of the sort that are infuriatingly difficult (if not nigh-on
+impossible) to use in bash.
+You will probably need to learn a bit about YAML and Jinja to get the
 most out of Ansible, but you can mostly pick it up from the examples laid
-out in the docs. I haven't tried Puppet/Chef personally, so can't
-directly compare,
+out in the docs. I haven't tried Puppet/Chef personally, so can't compare,
 but `others seem to think <http://probably.co.uk/puppet-vs-chef-vs-ansible.html>`_
 Ansible is easier to get to grips with.
-If you already know Ruby then perhaps Chef is a good option?
+The drawback of using this slightly unusual hybrid markup/language, rather than
+say plain bash or ruby, is that occasionally you do have to jump through a hoop or two
+to fit the task to the language. However, the get-out clause is that you can
+always fall back to a shell_ command or script if required.
 
 
 **Composability.**
@@ -107,6 +111,9 @@ documented for complete beginners, so that's perhaps a better option if you're
 working in deployment full-time on large systems - though it does require a
 client-side installation.
 
+*(Edited 2015-07-06, to add note on downsides / Salt-stack, and again on*
+*2015-07-10, after a bit more thought on flexibility vs. readability.)*
+
 
 Comments
 ---------
@@ -117,7 +124,9 @@ Let me know on twitter_.
 .. _old version: https://github.com/timstaley/SAL-build-scripts
 .. _new version: https://github.com/timstaley/ansible-casa-libs
 .. _Ansible: http://docs.ansible.com/
-.. _Jinja: http://jinja.pocoo.org/docs/dev/
+.. _Jinja2: http://jinja.pocoo.org/docs/dev/
+.. _YAML: https://en.wikipedia.org/wiki/YAML
+.. _shell: http://docs.ansible.com/shell_module.html
 .. _ad-hoc: http://docs.ansible.com/intro_adhoc.html
 .. _pssh: http://linux.die.net/man/1/pssh
 .. _idempotency: http://docs.ansible.com/glossary.html#idempotency
