@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tim Staley</title><link href="http://timstaley.co.uk/" rel="alternate"></link><link href="http://timstaley.co.uk/feeds/all-en.atom.xml" rel="self"></link><id>http://timstaley.co.uk/</id><updated>2015-07-01T00:00:00+02:00</updated><entry><title>Why is Ansible better than shell scripting?</title><link href="http://timstaley.co.uk/posts/why-ansible" rel="alternate"></link><updated>2015-07-01T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2015-07-01:posts/why-ansible</id><summary type="html">&lt;p&gt;&lt;em&gt;(Edited 2015-07-06, added final note on downsides / Salt-stack.)&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Recently, I've been using &lt;a class="reference external" href="http://docs.ansible.com/"&gt;Ansible&lt;/a&gt; to set up some new &lt;a class="reference external" href="https://github.com/timstaley/voevent-node-deploy/"&gt;VOEvent-node deployment scripts&lt;/a&gt;.
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tim Staley</title><link href="http://timstaley.co.uk/" rel="alternate"></link><link href="http://timstaley.co.uk/feeds/all-en.atom.xml" rel="self"></link><id>http://timstaley.co.uk/</id><updated>2015-07-01T00:00:00+02:00</updated><entry><title>Why is Ansible better than shell scripting?</title><link href="http://timstaley.co.uk/posts/why-ansible" rel="alternate"></link><updated>2015-07-01T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2015-07-01:posts/why-ansible</id><summary type="html">&lt;p&gt;Recently, I've been using &lt;a class="reference external" href="http://docs.ansible.com/"&gt;Ansible&lt;/a&gt; to set up some new &lt;a class="reference external" href="https://github.com/timstaley/voevent-node-deploy/"&gt;VOEvent-node deployment scripts&lt;/a&gt;.
 While I'm at it, I've also been converting a lot of messy provisioning
 shell-scripts (see &lt;a class="reference external" href="https://github.com/timstaley/SAL-build-scripts"&gt;old version&lt;/a&gt;, &lt;a class="reference external" href="https://github.com/timstaley/ansible-casa-libs"&gt;new version&lt;/a&gt; - work in progress).
 Here are my notes on why Ansible is, IMO, much nicer than plain old shell-scripts,
@@ -41,30 +40,35 @@ messages. All colour coded. This is nice.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Tagging.&lt;/strong&gt; You can &lt;a class="reference external" href="http://docs.ansible.com/playbooks_tags.html"&gt;tag&lt;/a&gt; your commands, making it easy to execute a subset
 of a provisioning script without extracting that section or commenting
 everything else out. Also nice.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Convenient variable handling and logic-flow control.&lt;/strong&gt;
-This is a big one. Ansible leverages the &lt;a class="reference external" href="http://jinja.pocoo.org/docs/dev/"&gt;Jinja&lt;/a&gt;
-templating language, so you can use all the Python features that provides -
+&lt;p&gt;&lt;strong&gt;Syntax that strikes a balance between ease-of-variable-mangling,
+sufficient logic-flow control, and readability.&lt;/strong&gt;
+Ansible applies the &lt;a class="reference external" href="http://jinja.pocoo.org/docs/dev/"&gt;Jinja2&lt;/a&gt; templating language over the underlying &lt;a class="reference external" href="https://en.wikipedia.org/wiki/YAML"&gt;YAML&lt;/a&gt; syntax,
+so you can use the subset
+of Python features that provides -
 easy access to nested-dict variables, lists, string manipulation, and so on.
 It also allows you to &lt;a class="reference external" href="https://docs.ansible.com/playbooks_conditionals.html#register-variables"&gt;register&lt;/a&gt; the results of a command as a new variable.
 This provides a dict containing entries telling you if that task succeeded,
 whether it changed anything, what paths it created, etc. You can then
-refer back to this variable in later commands, or even use it to perform
-tasks &lt;a class="reference external" href="https://docs.ansible.com/playbooks_conditionals.html#conditionals"&gt;conditionally&lt;/a&gt;. Oh, and right out-of-the-box Ansible will provide you
-with a bunch of machine-information variables like the operating-system family,
-number of CPU cores, timezone, and so on. Again... you &lt;em&gt;could&lt;/em&gt; do all this
-in bash, but wouldn't you rather be using a well documented tool and coding in
-Python?&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Readability.&lt;/strong&gt; I find the combination of YAML definition format and Jinja
+refer back to this variable in later commands, or use it to perform
+tasks &lt;a class="reference external" href="https://docs.ansible.com/playbooks_conditionals.html#conditionals"&gt;conditionally&lt;/a&gt;. On which note, right out-of-the-box Ansible provides a
+bunch of machine-information variables like the operating-system family,
+number of CPU cores, timezone, and so on, which often come in handy when
+customising commands to the system in question.&lt;/p&gt;
+&lt;p&gt;I find the combination of YAML definition format and Jinja
 templating quite readable, and certainly easier to skim than equivalent bash.
-This is partly due to the enforced
-whitespacing, and partly due to all the commands having a consistent options
-format. Yes, you will need to learn a bit about YAML and Jinja to get the
+Factors contributing to this are enforced
+whitespacing, a consistent commands/options format, and basic nested
+data-structures of the sort that are infuriatingly difficult (if not nigh-on
+impossible) to use in bash.
+You will probably need to learn a bit about YAML and Jinja to get the
 most out of Ansible, but you can mostly pick it up from the examples laid
-out in the docs. I haven't tried Puppet/Chef personally, so can't
-directly compare,
+out in the docs. I haven't tried Puppet/Chef personally, so can't compare,
 but &lt;a class="reference external" href="http://probably.co.uk/puppet-vs-chef-vs-ansible.html"&gt;others seem to think&lt;/a&gt;
 Ansible is easier to get to grips with.
-If you already know Ruby then perhaps Chef is a good option?&lt;/p&gt;
+The drawback of using this slightly unusual hybrid markup/language, rather than
+say plain bash or ruby, is that occasionally you do have to jump through a hoop or two
+to fit the task to the language. However, the get-out clause is that you can
+always fall back to a &lt;a class="reference external" href="http://docs.ansible.com/shell_module.html"&gt;shell&lt;/a&gt; command or script if required.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Composability.&lt;/strong&gt;
 Probably the biggest winner over shell-scripts in the long-term, although I get
 the feeling that the community around Ansible is not quite there yet. Ansible
@@ -90,6 +94,8 @@ It benefits from a similar Python/YAML markup, but isn't quite as well
 documented for complete beginners, so that's perhaps a better option if you're
 working in deployment full-time on large systems - though it does require a
 client-side installation.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;(Edited 2015-07-06, to add note on downsides / Salt-stack, and again on&lt;/em&gt;
+&lt;em&gt;2015-07-10, after a bit more thought on flexibility vs. readability.)&lt;/em&gt;&lt;/p&gt;
 &lt;div class="section" id="comments"&gt;
 &lt;h2&gt;Comments&lt;/h2&gt;
 &lt;p&gt;Found this useful? Think I'm wrong, and want to tell me why?
@@ -846,7 +852,7 @@ your usual Ubuntu full-automation approach.
 The only downsides to this are that you need to reboot, and unless you're paying close attention
 you won't know exactly when the quota-building is done, as it happens in the background.
 You &lt;em&gt;can&lt;/em&gt; check to see if it's still running, using:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ps -ef &lt;span class="p"&gt;|&lt;/span&gt; grep quotacheck
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ps -ef | grep quotacheck
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The no-reboots option (or fallback, if the automated approach doesn't work) is to manually
 shepherd your machine through the process.
@@ -864,7 +870,7 @@ by stopping the service:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo service quota stop
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;and doing a final check for any running services:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ps -ef &lt;span class="p"&gt;|&lt;/span&gt; grep quota
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ps -ef | grep quota
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;(You'll need to kill anything that looks like &lt;tt class="docutils literal"&gt;quotacheck&lt;/tt&gt; or &lt;tt class="docutils literal"&gt;quotad&lt;/tt&gt;.)&lt;/p&gt;
 &lt;p&gt;You can now manually run:&lt;/p&gt;
@@ -908,15 +914,15 @@ that works well for me, so I thought I'd post it:&lt;/p&gt;
 &lt;span class="c"&gt;#!/bin/bash
 &lt;/span&gt;&lt;span class="nv"&gt;ALL_HOSTS&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;node1 node2 node3&lt;span class="o"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$# &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
-    &lt;span class="nv"&gt;TARGETS&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ALL_HOSTS&lt;/span&gt;&lt;span class="p"&gt;[&amp;#64;]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;else&lt;/span&gt;
-    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'$0:'&lt;/span&gt; &lt;span class="nv"&gt;$0&lt;/span&gt;
-    &lt;span class="nv"&gt;TARGETS&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$&amp;#64;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$# &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt; 0 &lt;span class="o"&gt;]&lt;/span&gt;; &lt;span class="k"&gt;then
+    &lt;/span&gt;&lt;span class="nv"&gt;TARGETS&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;${ALL_HOSTS[&amp;#64;]}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;else
+    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'$0:'&lt;/span&gt; &lt;span class="nv"&gt;$0&lt;/span&gt;
+    &lt;span class="nv"&gt;TARGETS&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;$&amp;#64;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;fi
 
-&lt;span class="k"&gt;for&lt;/span&gt; HOST in &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;TARGETS&lt;/span&gt;&lt;span class="p"&gt;[&amp;#64;]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
-    gnome-terminal -t &lt;span class="nv"&gt;$HOST&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;ssh &lt;/span&gt;&lt;span class="nv"&gt;$HOST&lt;/span&gt;&lt;span class="s2"&gt; -t htop&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;
+for &lt;/span&gt;HOST in &lt;span class="s2"&gt;&amp;quot;${TARGETS[&amp;#64;]}&amp;quot;&lt;/span&gt;; &lt;span class="k"&gt;do
+    &lt;/span&gt;gnome-terminal -t &lt;span class="nv"&gt;$HOST&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;ssh $HOST -t htop&amp;quot;&lt;/span&gt; &amp;amp;
 &lt;span class="k"&gt;done&lt;/span&gt;
 &lt;/pre&gt;
 &lt;p&gt;Run with no arguments, this will open up 3 child terminals and connect to the

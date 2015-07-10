@@ -68,8 +68,7 @@ Tim Staley            </a>
                 </h1>
             </header>
             <div class="entry-content">
-                <p><em>(Edited 2015-07-06, added final note on downsides / Salt-stack.)</em></p>
-<p>Recently, I've been using <a class="reference external" href="http://docs.ansible.com/">Ansible</a> to set up some new <a class="reference external" href="https://github.com/timstaley/voevent-node-deploy/">VOEvent-node deployment scripts</a>.
+                <p>Recently, I've been using <a class="reference external" href="http://docs.ansible.com/">Ansible</a> to set up some new <a class="reference external" href="https://github.com/timstaley/voevent-node-deploy/">VOEvent-node deployment scripts</a>.
 While I'm at it, I've also been converting a lot of messy provisioning
 shell-scripts (see <a class="reference external" href="https://github.com/timstaley/SAL-build-scripts">old version</a>, <a class="reference external" href="https://github.com/timstaley/ansible-casa-libs">new version</a> - work in progress).
 Here are my notes on why Ansible is, IMO, much nicer than plain old shell-scripts,
@@ -110,30 +109,35 @@ messages. All colour coded. This is nice.</p>
 <p><strong>Tagging.</strong> You can <a class="reference external" href="http://docs.ansible.com/playbooks_tags.html">tag</a> your commands, making it easy to execute a subset
 of a provisioning script without extracting that section or commenting
 everything else out. Also nice.</p>
-<p><strong>Convenient variable handling and logic-flow control.</strong>
-This is a big one. Ansible leverages the <a class="reference external" href="http://jinja.pocoo.org/docs/dev/">Jinja</a>
-templating language, so you can use all the Python features that provides -
+<p><strong>Syntax that strikes a balance between ease-of-variable-mangling,
+sufficient logic-flow control, and readability.</strong>
+Ansible applies the <a class="reference external" href="http://jinja.pocoo.org/docs/dev/">Jinja2</a> templating language over the underlying <a class="reference external" href="https://en.wikipedia.org/wiki/YAML">YAML</a> syntax,
+so you can use the subset
+of Python features that provides -
 easy access to nested-dict variables, lists, string manipulation, and so on.
 It also allows you to <a class="reference external" href="https://docs.ansible.com/playbooks_conditionals.html#register-variables">register</a> the results of a command as a new variable.
 This provides a dict containing entries telling you if that task succeeded,
 whether it changed anything, what paths it created, etc. You can then
-refer back to this variable in later commands, or even use it to perform
-tasks <a class="reference external" href="https://docs.ansible.com/playbooks_conditionals.html#conditionals">conditionally</a>. Oh, and right out-of-the-box Ansible will provide you
-with a bunch of machine-information variables like the operating-system family,
-number of CPU cores, timezone, and so on. Again... you <em>could</em> do all this
-in bash, but wouldn't you rather be using a well documented tool and coding in
-Python?</p>
-<p><strong>Readability.</strong> I find the combination of YAML definition format and Jinja
+refer back to this variable in later commands, or use it to perform
+tasks <a class="reference external" href="https://docs.ansible.com/playbooks_conditionals.html#conditionals">conditionally</a>. On which note, right out-of-the-box Ansible provides a
+bunch of machine-information variables like the operating-system family,
+number of CPU cores, timezone, and so on, which often come in handy when
+customising commands to the system in question.</p>
+<p>I find the combination of YAML definition format and Jinja
 templating quite readable, and certainly easier to skim than equivalent bash.
-This is partly due to the enforced
-whitespacing, and partly due to all the commands having a consistent options
-format. Yes, you will need to learn a bit about YAML and Jinja to get the
+Factors contributing to this are enforced
+whitespacing, a consistent commands/options format, and basic nested
+data-structures of the sort that are infuriatingly difficult (if not nigh-on
+impossible) to use in bash.
+You will probably need to learn a bit about YAML and Jinja to get the
 most out of Ansible, but you can mostly pick it up from the examples laid
-out in the docs. I haven't tried Puppet/Chef personally, so can't
-directly compare,
+out in the docs. I haven't tried Puppet/Chef personally, so can't compare,
 but <a class="reference external" href="http://probably.co.uk/puppet-vs-chef-vs-ansible.html">others seem to think</a>
 Ansible is easier to get to grips with.
-If you already know Ruby then perhaps Chef is a good option?</p>
+The drawback of using this slightly unusual hybrid markup/language, rather than
+say plain bash or ruby, is that occasionally you do have to jump through a hoop or two
+to fit the task to the language. However, the get-out clause is that you can
+always fall back to a <a class="reference external" href="http://docs.ansible.com/shell_module.html">shell</a> command or script if required.</p>
 <p><strong>Composability.</strong>
 Probably the biggest winner over shell-scripts in the long-term, although I get
 the feeling that the community around Ansible is not quite there yet. Ansible
@@ -159,6 +163,8 @@ It benefits from a similar Python/YAML markup, but isn't quite as well
 documented for complete beginners, so that's perhaps a better option if you're
 working in deployment full-time on large systems - though it does require a
 client-side installation.</p>
+<p><em>(Edited 2015-07-06, to add note on downsides / Salt-stack, and again on</em>
+<em>2015-07-10, after a bit more thought on flexibility vs. readability.)</em></p>
 <div class="section" id="comments">
 <h2>Comments</h2>
 <p>Found this useful? Think I'm wrong, and want to tell me why?
@@ -178,7 +184,7 @@ Let me know on <a class="reference external" href="https://twitter.com/Yossarian
     <span class="label label-default"><i class="fa fa-calendar-o"></i> Published</span>
     <br>
     <span class="published">
-        <time datetime="2015-07-01T00:00:00+02:00"> Wed 01 July 2015</time>
+        <time datetime="2015-07-01T00:00:00"> Wed 01 July 2015</time>
     </span>
 
 
