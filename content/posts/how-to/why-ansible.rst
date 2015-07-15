@@ -122,7 +122,7 @@ Let me know on twitter_.
 
 .. _VOEvent-node deployment scripts: https://github.com/timstaley/voevent-node-deploy/
 .. _old version: https://github.com/timstaley/SAL-build-scripts
-.. _new version: https://github.com/timstaley/ansible-casa-libs
+.. _new version: https://github.com/4pisky/4pisky-cluster-config
 .. _Ansible: http://docs.ansible.com/
 .. _Jinja2: http://jinja.pocoo.org/docs/dev/
 .. _YAML: https://en.wikipedia.org/wiki/YAML
