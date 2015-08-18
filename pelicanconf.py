@@ -51,11 +51,11 @@ DEFAULT_DATE = 'fs'
 # DIRECT_TEMPLATES = ( 'index', 'tags', 'archives', 'articles')
 DISPLAY_CATEGORIES_ON_MENU = False
 DISPLAY_PAGES_ON_MENU = False
-BLOG_URL = 'posts'
 MENUITEMS = [
-             ('Research', '/research'),
-             ('Talks', '/talks'),
-             ('Code', '/code'),
+             ('Research', '/research', 'fa-flask'),
+             ('Talks', '/talks', 'fa-comment'),
+             ('Code', '/code', 'fa-code-fork'),
+             ('Posts', '/posts', 'fa-pencil'),
 #              ("About Me", '/about'),
              ]
 
