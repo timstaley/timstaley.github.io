@@ -91,15 +91,15 @@ that works well for me, so I thought I'd post it:</p>
 <span class="c">#!/bin/bash
 </span><span class="nv">ALL_HOSTS</span><span class="o">=(</span>node1 node2 node3<span class="o">)</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$# </span><span class="o">==</span> 0 <span class="o">]</span>; <span class="k">then
-    </span><span class="nv">TARGETS</span><span class="o">=(</span><span class="s2">&quot;${ALL_HOSTS[&#64;]}&quot;</span><span class="o">)</span>
-<span class="k">else
-    </span><span class="nb">echo</span> <span class="s1">'$0:'</span> <span class="nv">$0</span>
-    <span class="nv">TARGETS</span><span class="o">=(</span><span class="s2">&quot;$&#64;&quot;</span><span class="o">)</span>
-<span class="k">fi
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$# </span><span class="o">==</span> <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nv">TARGETS</span><span class="o">=(</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">ALL_HOSTS</span><span class="p">[&#64;]</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">)</span>
+<span class="k">else</span>
+    <span class="nb">echo</span> <span class="s1">'$0:'</span> <span class="nv">$0</span>
+    <span class="nv">TARGETS</span><span class="o">=(</span><span class="s2">&quot;</span><span class="nv">$&#64;</span><span class="s2">&quot;</span><span class="o">)</span>
+<span class="k">fi</span>
 
-for </span>HOST in <span class="s2">&quot;${TARGETS[&#64;]}&quot;</span>; <span class="k">do
-    </span>gnome-terminal -t <span class="nv">$HOST</span> -e <span class="s2">&quot;ssh $HOST -t htop&quot;</span> &amp;
+<span class="k">for</span> HOST in <span class="s2">&quot;</span><span class="si">${</span><span class="nv">TARGETS</span><span class="p">[&#64;]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">do</span>
+    gnome-terminal -t <span class="nv">$HOST</span> -e <span class="s2">&quot;ssh </span><span class="nv">$HOST</span><span class="s2"> -t htop&quot;</span> <span class="p">&amp;</span>
 <span class="k">done</span>
 </pre>
 <p>Run with no arguments, this will open up 3 child terminals and connect to the
@@ -122,7 +122,7 @@ for details.</p>
     <span class="label label-default"><i class="fa fa-calendar-o"></i> Published</span>
     <br>
     <span class="published">
-        <time datetime="2013-02-17T00:00:00"> Sun 17 February 2013</time>
+        <time datetime="2013-02-17T00:00:00+01:00"> Sun 17 February 2013</time>
     </span>
 
 
