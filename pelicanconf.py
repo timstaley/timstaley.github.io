@@ -20,7 +20,7 @@ DEFAULT_LANG = u'en'
 FEED_ALL_ATOM = 'feeds/all.atom.xml'
 CATEGORY_FEED_ATOM = 'feeds/%s.atom.xml'
 
-THEME='../pelican-bootstrap3'
+THEME='themes/pelican-bootstrap3'
 BOOTSTRAP_THEME = "flatly"
 
 STATIC_PATHS= ['images', 'css']

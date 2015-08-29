@@ -19,9 +19,9 @@ I've highlighted some projects with brief descriptions below.
 
 -----------
 
-Sole-author projects
-====================
-Things I've made:
+Lead-author projects
+=============================
+Projects I've instigated:
 
 
 drive-ami_ / drive-casa_
