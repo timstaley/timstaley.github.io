@@ -5,7 +5,7 @@ How to pip install NumPy in two seconds flat
 :date: 2015-05-07
 :tags: how to, Python, pip, virtualenv, offline, wheel, tox, numpy, speed up
 
-*Edit, July 2016:*
+*Edit, July 2015:*
 
 A mere two weeks after I posted this, pip version 7 was released and
 changed things again. If you have the wheel library and pip version 7 or
