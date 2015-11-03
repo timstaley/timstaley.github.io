@@ -7,31 +7,33 @@ Welcome
 :banner_image_height: 360
 :nofooter: x
 
-Hello! 
-I'm a post-doc working in the `astrophysics group`_ 
+Hello!
+
+I'm a researcher working in the `astrophysics group`_
 at the University of Oxford.
-Since October 2011 I've been working with the 
-`4 Pi Sky project`_, 
-which (broadly) aims to automate both the detection and follow-up observation
-of astronomical transients, motivated in large part by the next generation
-of large radio telescopes. There's more on that under `research`_.
- 
 Probably the best label for what I do is
 `"research software engineer" <RSE_>`_.
 In practice, that means I spend my time working within a research group to
 figure out how to solve their computational problems.
-The solutions range through bolting together a web framework and some data
-visualisations, or writing an interface layer to legacy code,
-right up to putting together a whole new pipeline.
-Some of the most rewarding projects have necessitated researching novel
-algorithmic approaches and then implementing accordingly.
+Most of my recent work has been focused on time-domain astronomy -
+chasing things that go bump in the night sky.
 
-By necessity I've also picked up a variety of the day-to-day skills
-needed to keep a small linux cluster running,
-build dusty and undocumented code-packages,
-and interface with arcane pipelines built on Fortran.
-You can find some examples
-of my work under code_.
+**I'm also available for hire as an
+independent software consultant**.
+Please take a look at the `consulting page <consulting_>`_ and get in
+touch if you'd be interested in working together.
+
+
+Since October 2011 I've been with the
+`4 Pi Sky project`_, 
+which (broadly) aims to automate both the detection and follow-up observation
+of astronomical transients, motivated in large part by the next generation
+of large radio telescopes.
+You can find more background information on the  `research page <research_>`_.
+ 
+Along the way, I've worked on a number of open-source
+software packages.
+You can find some highlights and brief descriptions on the `code page <code_>`_.
 
 
 Occasionally I find myself doing things that I think may be of wider interest,
@@ -47,10 +49,10 @@ Contact Details
     <p>
     <ul class="fa-ul fa-lg">
       <li>
-        <a href="mailto:Tim Staley <tim.staley(no-spam-please-at)physics.ox.ac.uk>">
+        <a href="mailto:Tim Staley <contact(no-spam-please-at)timstaley.co.uk>">
             <i class="fa-li fa fa-envelope"></i>
                 <span style="unicode-bidi:bidi-override; direction: rtl;">
-                ku.ca.xo.scisyhp@yelats.mit
+                ku.oc.yelatsmit@tcatnoc
                 </span>
         </a>
       </li>
@@ -68,8 +70,9 @@ Contact Details
     </p>
 
 .. _astrophysics group: http://www2.physics.ox.ac.uk/research/astrophysics
+.. _consulting: /consulting
 .. _4 Pi Sky project: http://4pisky.org
-.. _RSE: http://www.rse.ac.uk/
+.. _RSE: http://www.rse.ac.uk/who.html
 .. _research: /research
 .. _code: /code
 .. _posts: /posts
