@@ -64,7 +64,7 @@ publish:
 	$(PELICAN) $(INPUTDIR) -o $(PUB_OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
 	
 clean:
-	[ ! -d $(OUTPUTDIR) ] || rm -rf $(OUTPUTDIR)
+	[ ! -d $(OUTPUTDIR) ] || rm -rf $(OUTPUTDIR)/*
 
 regenerate:
 	$(PELICAN) -r $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
