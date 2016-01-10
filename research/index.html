@@ -74,18 +74,57 @@ Tim Staley            </a>
         <h1 class="entry-title">Research</h1>
         
         <div class="entry-content">
-            <div class="section" id="publications">
-<h2>Publications</h2>
+            <div class="section" id="selected-publications">
+<h2>Selected publications</h2>
 <p>For the most up-to-date listing of my publications, I suggest trying
 <a class="reference external" href="http://labs.adsabs.harvard.edu/adsabs/search/?q=Staley%2C+T&amp;year_from=2007&amp;db_f=astronomy&amp;no_ft=1&amp;bigquery=&amp;aut_f=-(%220%2FStaley%2C+A%22)&amp;page=1">this ADS author query</a>,
 which gives a comprehensive list including <a class="reference external" href="http://ascl.net/">ASCL</a> citations and <a class="reference external" href="http://www.astronomerstelegram.org/">Atels</a>.
 Alternatively, see my manually curated
 <a class="reference external" href="http://orcid.org/0000-0002-4474-5253">ORCiD entry</a>, which is less frequently updated (and limited to more traditional
 publications), but a little easier to read.</p>
+<div class="section" id="a-radio-jet-from-the-optical-and-x-ray-bright-stellar-tidal-disruption-flare-asassn-14li">
+<h3>A radio jet from the optical and x-ray bright stellar tidal disruption flare ASASSN-14li</h3>
+<p>Published in <a class="reference external" href="http://www.sciencemag.org/content/351/6268/62">Science (2016)</a></p>
+<p>A high-impact publication about a transient flare event, thought to be caused by
+a star accreting onto a black hole. The work made extensive use of our software
+tooling (and close collaboration with the AMI team)
+to achieve unprecedented temporal-resolution in the radio-lightcurve and a fast
+turnaround of the analysis.</p>
+<p>Coverage in the popular media was quite extensive, examples below:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.washingtonpost.com/news/speaking-of-science/wp/2015/11/27/scientists-just-caught-a-black-hole-swallowing-a-star-and-burping-a-bit-back-out/">Washington post</a></li>
+<li><a class="reference external" href="http://www.huffingtonpost.com/entry/black-hole-ate-star-burped_565cbaace4b079b2818b5b90">Huffington post</a></li>
+<li><a class="reference external" href="http://www.theweathernetwork.com/news/articles/star-eating-black-hole-highlights-universes-cosmic-elegance/60404/">Weather Network</a></li>
+<li>And the infamous <a class="reference external" href="http://www.dailymail.co.uk/sciencetech/article-3336226/Massive-black-hole-caught-devouring-star-burping-plasma-speed-light.html">Daily Mail</a></li>
+</ul>
+</div>
+<div class="section" id="chimenea-and-other-tools-automated-imaging-of-multi-epoch-radio-synthesis-data-with-casa">
+<h3>Chimenea and other tools: Automated imaging of multi-epoch radio-synthesis data with CASA</h3>
+<p>Published in <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S2213133715000736">Astronomy and Computing (2015)</a></p>
+<p>Describes how we combined multiple legacy software components together with
+Python interfacing code and some novel algorithms to automate a previously
+labour intensive data analysis task. The outcome is greatly improved response
+times to transient astronomical events,
+and perhaps just as importantly, a <em>reproducible</em> reduction process.</p>
+</div>
+<div class="section" id="the-lofar-transients-pipeline">
+<h3>The LOFAR Transients Pipeline</h3>
+<p>Published in <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S2213133715000207">Astronomy and Computing (2015)</a></p>
+<p>A thorough reference work laying out the core algorithms behind the <a class="reference external" href="https://github.com/transientskp/tkp">TraP</a>, a
+transients-detection and cataloguing pipeline developed initially for LOFAR.
+TraP is the first pipeline of its kind to be fully open-sourced and
+comprehensively documented. Technically, the codebase is interesting for its
+extensive use of SQL procedures to perform in-database analysis and processing
+of spatial data. The accompanying data-exploration and visualisation tool
+<a class="reference external" href="https://github.com/transientskp/banana">Banana</a> is also quite novel in astronomy - we pushed Django to its limits to
+perform detailed queries on the dataset via a web-based interface that allowed
+fluid user interaction without complex local installation procedures.</p>
+<p>More detail can be found <a class="reference external" href="/code#tkp-trap">on the code page</a></p>
+</div>
 </div>
 <hr class="docutils" />
-<div class="section" id="recent">
-<h2>Recent</h2>
+<div class="section" id="background-a-software-ecosystem-for-transient-astronomy">
+<h2>Background: A software ecosystem for transient astronomy</h2>
 <p>Since October 2011 I've been working with the <a class="reference external" href="http://4pisky.org">4 Pi Sky project</a>,
 which (broadly) aims to automate both the detection and follow-up observation
 of astronomical transients, motivated in large part by the next generation
@@ -112,7 +151,7 @@ on the <a class="reference external" href="http://timstaley.co.uk/code">code pag
 <h3>Transient discovery with the 'Trap'</h3>
 <p>I've also been helping with development of a software project born out of the
 <a class="reference external" href="http://www.transientskp.org/">LOFAR-TKP</a> group at <a class="reference external" href="http://www.astro.uva.nl/">UvA</a>.
-The <a class="reference external" href="http://docs.transientskp.org/">Trap</a> is a transients detection pipeline
+The <a class="reference external" href="https://github.com/transientskp/tkp">Trap</a> is a transients detection pipeline
 written primarily for use with data from
 <a class="reference external" href="http://en.wikipedia.org/wiki/LOFAR">LOFAR</a> - a low frequency radio array. LOFAR will observe at ~10s to 100s
 of megahertz rather than the usual gigahertz range,
@@ -120,7 +159,8 @@ giving us a new window on the radio sky.
 While LOFAR presents a particular challenge due to the sheer volume
 of data produced, the algorithms being developed are applicable to a range
 of transient astronomy projects.
-A paper and open-source release are in prep.</p>
+A paper and open-source release are now available - see the
+<a class="reference external" href="/code">code</a> page for details.</p>
 </div>
 <div class="section" id="application-of-active-learning-bayesian-decision-theory-to-transient-follow-up">
 <h3>Application of active-learning / Bayesian decision theory to transient follow-up</h3>
