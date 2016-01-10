@@ -3,8 +3,8 @@ Research
 ########
 :slug: research
 
-Publications
-============
+Selected publications
+=========================
 For the most up-to-date listing of my publications, I suggest trying
 `this ADS author query <ADS query_>`_,
 which gives a comprehensive list including ASCL_ citations and Atels_.
@@ -12,16 +12,63 @@ Alternatively, see my manually curated
 `ORCiD entry`_, which is less frequently updated (and limited to more traditional
 publications), but a little easier to read.
 
-
 .. _ADS query: http://labs.adsabs.harvard.edu/adsabs/search/?q=Staley%2C+T&year_from=2007&db_f=astronomy&no_ft=1&bigquery=&aut_f=-(%220%2FStaley%2C+A%22)&page=1
 .. _ASCL: http://ascl.net/
 .. _Atels: http://www.astronomerstelegram.org/
 .. _ORCiD entry: http://orcid.org/0000-0002-4474-5253
 
+
+A radio jet from the optical and x-ray bright stellar tidal disruption flare ASASSN-14li
+-----------------------------------------------------------------------------------------
+Published in `Science (2016) <http://www.sciencemag.org/content/351/6268/62>`_
+
+A high-impact publication about a transient flare event, thought to be caused by
+a star accreting onto a black hole. The work made extensive use of our software
+tooling (and close collaboration with the AMI team)
+to achieve unprecedented temporal-resolution in the radio-lightcurve and a fast
+turnaround of the analysis.
+
+Coverage in the popular media was quite extensive, examples below:
+
+- `Washington post <https://www.washingtonpost.com/news/speaking-of-science/wp/2015/11/27/scientists-just-caught-a-black-hole-swallowing-a-star-and-burping-a-bit-back-out/>`_
+- `Huffington post <http://www.huffingtonpost.com/entry/black-hole-ate-star-burped_565cbaace4b079b2818b5b90>`_
+- `Weather Network <http://www.theweathernetwork.com/news/articles/star-eating-black-hole-highlights-universes-cosmic-elegance/60404/>`_
+- And the infamous `Daily Mail <http://www.dailymail.co.uk/sciencetech/article-3336226/Massive-black-hole-caught-devouring-star-burping-plasma-speed-light.html>`_
+
+Chimenea and other tools: Automated imaging of multi-epoch radio-synthesis data with CASA
+------------------------------------------------------------------------------------------
+Published in `Astronomy and Computing (2015) <http://www.sciencedirect.com/science/article/pii/S2213133715000736>`__
+
+Describes how we combined multiple legacy software components together with
+Python interfacing code and some novel algorithms to automate a previously
+labour intensive data analysis task. The outcome is greatly improved response
+times to transient astronomical events,
+and perhaps just as importantly, a *reproducible* reduction process.
+
+The LOFAR Transients Pipeline
+-------------------------------
+Published in `Astronomy and Computing (2015) <http://www.sciencedirect.com/science/article/pii/S2213133715000207>`__
+
+A thorough reference work laying out the core algorithms behind the TraP_, a
+transients-detection and cataloguing pipeline developed initially for LOFAR.
+TraP is the first pipeline of its kind to be fully open-sourced and
+comprehensively documented. Technically, the codebase is interesting for its
+extensive use of SQL procedures to perform in-database analysis and processing
+of spatial data. The accompanying data-exploration and visualisation tool
+Banana_ is also quite novel in astronomy - we pushed Django to its limits to
+perform detailed queries on the dataset via a web-based interface that allowed
+fluid user interaction without complex local installation procedures.
+
+More detail can be found `on the code page </code#tkp-trap>`_
+
+.. _TraP: https://github.com/transientskp/tkp
+.. _Banana: https://github.com/transientskp/banana
+
+
 --------------------
 
-Recent
-======
+Background: A software ecosystem for transient astronomy
+==================================================================
 
 Since October 2011 I've been working with the `4 Pi Sky project`_, 
 which (broadly) aims to automate both the detection and follow-up observation
@@ -58,7 +105,8 @@ giving us a new window on the radio sky.
 While LOFAR presents a particular challenge due to the sheer volume
 of data produced, the algorithms being developed are applicable to a range 
 of transient astronomy projects. 
-A paper and open-source release are in prep.
+A paper and open-source release are now available - see the
+`code </code>`_ page for details.
 
 Application of active-learning / Bayesian decision theory to transient follow-up
 --------------------------------------------------------------------------------
@@ -125,5 +173,4 @@ links, or via the `arxiv <http://arxiv.org/abs/1404.5907>`_:
 
 .. _lofar-tkp: http://www.transientskp.org/
 .. _uva:  http://www.astro.uva.nl/
-.. _trap: http://docs.transientskp.org/
 .. _lofar: http://en.wikipedia.org/wiki/LOFAR

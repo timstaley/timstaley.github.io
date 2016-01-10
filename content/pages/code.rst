@@ -15,38 +15,101 @@ Code
 For a full listing of my public software projects, and to find out what I've been
 doing lately, see my `profile`_ on Github.
 
-I've highlighted some projects with brief descriptions below.
+I've highlighted some projects below, roughly grouped by area of application.
+
 
 -----------
 
-Lead-author projects
-=============================
-Projects I've instigated:
+
+Reproducible research-software deployments with Ansible
+---------------------------------------------------------
+I look after many devops_ aspects of our research group's
+software environment,
+ensuring that they have access to both stable and development versions
+of the tools we're building. Partly this is achieved through
+deployment of Python packages, but for the wider range of requirements
+(e.g. webservers, dependency compilation) I've been building a
+collection of Ansible_ roles and configurations. As a result, much
+of our cluster-setup can be reproduced or reconfigured on-demand using the
+codes stored in our `group github repositories <https://github.com/4pisky>`_.
+
+.. _devops: https://en.wikipedia.org/wiki/DevOps
+.. _Ansible: http://www.ansible.com/how-ansible-works
+
+-----------
+
+Transients detection and image-cataloguing
+----------------------------------------------------
+TKP TraP_
+~~~~~~~~~~
+*Built with: Numpy/Scipy, PostgreSQL, MongoDB, Django*
+
+An astronomical transient-detection pipeline for ingesting radio-synthesis
+images. In a nutshell, we extract source intensities from images,
+then build a lightcurve catalog and search it for
+variability. This requires some fairly involved NumPy routines for the
+source-extraction (all in-house Python, at least for the first edition), and
+some hairy SQL queries for building and searching the catalogs.
+TraP received its first `open release <TraP release_>`_ in Feb 2015, with
+an `accompanying paper <TraP paper_>`_ providing an extensive reference on the
+underlying algorithms.
+
+I wrote a short summary piece on TraP which you can read `here <TraP post_>`_,
+and I've also given a couple of short summary talks_ introducing it.
+
+See also...
+
+Banana_
+~~~~~~~~
+A Django-based
+web-interface for exploring and visualising the results, providing a means
+for astronomers to explore their data using a fluid visual interface,
+without requiring local installations or specialised knowledge
+(of e.g. SQL-queries).
+
+Demo-instance deployment scripts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I recently put together a set of
+`Ansible deployment scripts <https://github.com/timstaley/trap-demo>`_
+for installing TraP and the Banana data-exploration interface,
+so if you'd like to see a demo-version running on a cloud-instance this can
+be arranged - just drop me a line.
+
+----------------------
 
 
-drive-ami_ / drive-casa_
-----------------------------
-*Built with: Python, pexpect.*
+Components for real-time astronomical transient alerting and response
+---------------------------------------------------------------------
 
-Two interface libraries which make heavy use of `pexpect`_ to enable complex
-scripting of astronomical data reduction tools from Python.
-The `CASA`_ package is quite widely used in the radio astronomy community,
-so I've put up some basic
-`docs <http://drive-casa.readthedocs.org/en/latest/>`_
-to help others get started.
+voeventdb.server_ & voeventdb.remote_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*Built with: Python, SQLAlchemy, Flask, Pytest, PostgreSQL, Apache, Ansible*
 
-amisurvey_ / chimenea_
------------------------
-*Built with: Python, drive-ami, drive-casa.*
+voeventdb.server is a database-store and accompanying RESTful query API for
+archiving and retrieving VOEvent packets.
 
-These packages represent a (telescope-specific) end-to-end data-reduction
-pipeline and the more generally applicable data-reduction algorithm used
-therein. Both build on the interfacing packages described above, introducing
-various data-structures to allow a higher-level view of the data-flow.
+voeventdb.remote is an accompanying Python client-library for end-users (i.e.
+astronomers).
+
+Together, these tools serves two main purposes:
+
+- They allow people distributing or monitoring VOEvent packets to ‘catch up’ with
+  any missed data, in the event of a network or systems outage.
+
+- They allow astronomers to search through the archive of VOEvents. This can be
+  useful for planning future observations, or looking for related events in a
+  particular region of sky, or mapping the distribution of detected events, etc.
+
+Comes with a complete set of docs including Jupyter notebook
+`tutorials and demos <http://voeventdbremote.readthedocs.org/en/stable/tutorial/index.html>`_.
+
+
+.. _voeventdb.server: http://voeventdb.readthedocs.org/en/latest/overview/intro.html
+.. _voeventdb.remote: http://voeventdbremote.readthedocs.org/en/stable/intro.html
 
 
 voevent-parse_
-----------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 *Built with: Python, LXML.*
 
 A lightweight library for parsing, manipulating, and generating
@@ -70,8 +133,10 @@ definitions
 .. _usage examples: http://voevent-parse.readthedocs.org/en/master/examples.html
 .. _tutorial: https://github.com/timstaley/voevent-parse-tutorial
 
+
+
 fourpiskytools_
-----------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 *Built with: Python, voevent-parse, Comet.*
 
 A 'quick-start' template to help astronomers get started sending or receiving
@@ -85,8 +150,51 @@ VOEvents, can be found `here <getting-started-voevents_>`_.
 .. _Comet: http://comet.transientskp.org/en/1.2.1/
 .. _getting-started-voevents: http://4pisky.org/2014/11/12/getting-started-with-voevents/
 
+
+-------------------------------
+
+Automating radio-astronomy data reduction
+----------------------------------------------------------------
+
+drive-ami_ / drive-casa_
+~~~~~~~~~~~~~~~~~~~~~~~~~
+*Built with: Python, pexpect.*
+
+Two interface libraries which make heavy use of `pexpect`_ to enable complex
+scripting of astronomical data reduction tools from Python.
+The `CASA`_ package is quite widely used in the radio astronomy community,
+so I've put up some basic
+`docs <http://drive-casa.readthedocs.org/en/latest/>`_
+to help others get started.
+
+**Update:** drive-casa has seen some user-uptake, with
+`active feedback <https://github.com/timstaley/drive-casa/issues?utf8=%E2%9C%93&q=is%3Aissue+>`_
+and contributions from a handful of users, so it's nice to know I wasn't crazy
+to bother documenting what is effectively a very niche tool.
+
+
+amisurvey_ / chimenea_
+~~~~~~~~~~~~~~~~~~~~~~~~~
+*Built with: Python, drive-ami, drive-casa.*
+
+These packages represent a (telescope-specific) end-to-end data-reduction
+pipeline and the more generally applicable data-reduction algorithm used
+therein. Both build on the interfacing packages described above, introducing
+various data-structures to allow a higher-level view of the data-flow.
+
+Now fully
+`written up and published <http://www.sciencedirect.com/science/article/pii/S2213133715000736>`_!
+
+
+
+
+
+-------------------------------
+
+High-performance data reduction for lucky imaging
+----------------------------------------------------
 Coelacanth_
------------
+~~~~~~~~~~~~~
 *Built with: C++, CMake, Boost, TBB, Minuit2, UNURAN, UnitTest++.*
 
 "Codes for EMCCD and Lucky-Imaging Analysis", around 15K lines of C++ code that
@@ -100,32 +208,9 @@ to achieve excellent throughput.
 
 -----------
 
-Collaborator projects
-=====================
-Things I've helped other people to make:
-
-TKP TraP_
----------
-An astronomical transient-detection pipeline for ingesting radio-synthesis
-images. In a nutshell, we extract source intensities from images,
-then build a lightcurve catalog and search it for
-variability. This requires some fairly involved NumPy routines for the
-source-extraction (all in-house Python, at least for the first edition), and
-some hairy SQL queries for building and searching the catalogs.
-TraP received its first `open release <TraP release_>`_ in Feb 2015, with
-an `accompanying paper <TraP paper_>`_ providing an extensive reference on the
-underlying algorithms.
-
-I wrote a short summary piece on TraP which you can see `here <TraP post_>`_,
-and I've also given a couple of short summary talks_ introducing it.
-
-See also: Banana_, a Django-based
-web-interface for exploring and visualising the results.
-
------------
 
 Bric-a-brac
-===========
+-------------
 Less substantial, but possibly still useful:
 
 - autocrunch_
