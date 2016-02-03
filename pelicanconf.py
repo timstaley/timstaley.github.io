@@ -2,6 +2,11 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
+MARKUP = ('md', 'ipynb')
+PLUGIN_PATHS = ['./plugins',]
+PLUGINS = ['ipynb']
+IGNORE_FILES = ['.ipynb_checkpoints']
+
 AUTHOR = u'Tim Staley'
 SITENAME = u"Tim Staley"
 #SITEURL = 'http://timstaley.co.uk'

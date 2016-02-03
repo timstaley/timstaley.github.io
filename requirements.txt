@@ -1,0 +1,6 @@
+pelican
+jupyter
+nbconvert
+markdown
+seaborn
+beautifulsoup4
