@@ -6,6 +6,7 @@ MARKUP = ('md', 'ipynb')
 PLUGIN_PATHS = ['./plugins',]
 PLUGINS = ['ipynb']
 IGNORE_FILES = ['.ipynb_checkpoints']
+PYGMENTS_STYLE = 'tango'
 
 AUTHOR = u'Tim Staley'
 SITENAME = u"Tim Staley"
