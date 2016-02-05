@@ -36,45 +36,6 @@ codes stored in our `group github repositories <https://github.com/4pisky>`_.
 .. _devops: https://en.wikipedia.org/wiki/DevOps
 .. _Ansible: http://www.ansible.com/how-ansible-works
 
------------
-
-Transients detection and image-cataloguing
-----------------------------------------------------
-TKP TraP_
-~~~~~~~~~~
-*Built with: Numpy/Scipy, PostgreSQL, MongoDB, Django*
-
-An astronomical transient-detection pipeline for ingesting radio-synthesis
-images. In a nutshell, we extract source intensities from images,
-then build a lightcurve catalog and search it for
-variability. This requires some fairly involved NumPy routines for the
-source-extraction (all in-house Python, at least for the first edition), and
-some hairy SQL queries for building and searching the catalogs.
-TraP received its first `open release <TraP release_>`_ in Feb 2015, with
-an `accompanying paper <TraP paper_>`_ providing an extensive reference on the
-underlying algorithms.
-
-I wrote a short summary piece on TraP which you can read `here <TraP post_>`_,
-and I've also given a couple of short summary talks_ introducing it.
-
-See also...
-
-Banana_
-~~~~~~~~
-A Django-based
-web-interface for exploring and visualising the results, providing a means
-for astronomers to explore their data using a fluid visual interface,
-without requiring local installations or specialised knowledge
-(of e.g. SQL-queries).
-
-Demo-instance deployment scripts
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-I recently put together a set of
-`Ansible deployment scripts <https://github.com/timstaley/trap-demo>`_
-for installing TraP and the Banana data-exploration interface,
-so if you'd like to see a demo-version running on a cloud-instance this can
-be arranged - just drop me a line.
-
 ----------------------
 
 
@@ -150,6 +111,45 @@ VOEvents, can be found `here <getting-started-voevents_>`_.
 .. _Comet: http://comet.transientskp.org/en/1.2.1/
 .. _getting-started-voevents: http://4pisky.org/2014/11/12/getting-started-with-voevents/
 
+
+-----------
+
+Transients detection and image-cataloguing
+----------------------------------------------------
+TKP TraP_
+~~~~~~~~~~
+*Built with: Numpy/Scipy, PostgreSQL, MongoDB, Django*
+
+An astronomical transient-detection pipeline for ingesting radio-synthesis
+images. In a nutshell, we extract source intensities from images,
+then build a lightcurve catalog and search it for
+variability. This requires some fairly involved NumPy routines for the
+source-extraction (all in-house Python, at least for the first edition), and
+some hairy SQL queries for building and searching the catalogs.
+TraP received its first `open release <TraP release_>`_ in Feb 2015, with
+an `accompanying paper <TraP paper_>`_ providing an extensive reference on the
+underlying algorithms.
+
+I wrote a short summary piece on TraP which you can read `here <TraP post_>`_,
+and I've also given a couple of short summary talks_ introducing it.
+
+See also...
+
+Banana_
+~~~~~~~~
+A Django-based
+web-interface for exploring and visualising the results, providing a means
+for astronomers to explore their data using a fluid visual interface,
+without requiring local installations or specialised knowledge
+(of e.g. SQL-queries).
+
+Demo-instance deployment scripts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I recently put together a set of
+`Ansible deployment scripts <https://github.com/timstaley/trap-demo>`_
+for installing TraP and the Banana data-exploration interface,
+so if you'd like to see a demo-version running on a cloud-instance this can
+be arranged - just drop me a line.
 
 -------------------------------
 
