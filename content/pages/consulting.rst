@@ -3,10 +3,15 @@ Consulting
 ###########
 :slug: consulting
 
+*In short:*
+
 I'm available for hire as an independent software consultant.
-In the shorthand jargon of tech-speak, relevant terms include
-'full stack Python', 'exploratory data analysis', and 'devops',
-but that doesn't really mean much. Let's unpack a bit.
+I primarily work as a back-end Python engineer, covering everything from
+systems architecture to continuous cloud-deployment. I enjoy diving into SQL,
+and I spent 4 years working in C++ for my PhD project.
+I also have some experience in probabilistic modelling and data-visualisation.
+
+Read on for a bit more detail.
 
 Things I can do
 ---------------------------
