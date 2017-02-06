@@ -87,7 +87,7 @@ quotas, presumably because it's perceived as being trivial.
 However, it's nice to have this confirmed or refuted before you dive in,
 so here are my notes.</p>
 <p>First off:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install quota quotatool
+<div class="highlight"><pre><span></span>$ sudo apt-get install quota quotatool
 </pre></div>
 <p>Now edit <em>/etc/fstab</em>; simply add a <tt class="docutils literal">,usrquota,grpquota</tt> to the mount options
 as required like so:</p>
@@ -102,13 +102,13 @@ your usual Ubuntu full-automation approach.
 The only downsides to this are that you need to reboot, and unless you're paying close attention
 you won't know exactly when the quota-building is done, as it happens in the background.
 You <em>can</em> check to see if it's still running, using:</p>
-<div class="highlight"><pre><span class="nv">$ </span>ps -ef <span class="p">|</span> grep quotacheck
+<div class="highlight"><pre><span></span>$ ps -ef <span class="p">|</span> grep quotacheck
 </pre></div>
 <p>The no-reboots option (or fallback, if the automated approach doesn't work) is to manually
 shepherd your machine through the process.
 First, you'll need to remount the disk to activate the new mount options, e.g.</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo umount /data1
-<span class="nv">$ </span>sudo mount -a
+<div class="highlight"><pre><span></span>$ sudo umount /data1
+$ sudo mount -a
 </pre></div>
 <p>You can call <tt class="docutils literal">mount</tt> again to check everything is correct.
 If the disk won't unmount cleanly,
@@ -117,24 +117,24 @@ close it, and try again.</p>
 <p>Next, (in case you rebooted but something went wrong, etc.) make sure that no
 quota-generation commands are running in the background,
 by stopping the service:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo service quota stop
+<div class="highlight"><pre><span></span>$ sudo service quota stop
 </pre></div>
 <p>and doing a final check for any running services:</p>
-<div class="highlight"><pre><span class="nv">$ </span>ps -ef <span class="p">|</span> grep quota
+<div class="highlight"><pre><span></span>$ ps -ef <span class="p">|</span> grep quota
 </pre></div>
 <p>(You'll need to kill anything that looks like <tt class="docutils literal">quotacheck</tt> or <tt class="docutils literal">quotad</tt>.)</p>
 <p>You can now manually run:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo quotacheck -avug <span class="c">#all, verbose, user and group quotas</span>
+<div class="highlight"><pre><span></span>$ sudo quotacheck -avug <span class="c1">#all, verbose, user and group quotas</span>
 </pre></div>
 <p>This will create the files <em>aquota.group</em> and <em>aquota.user</em>
 in the root directory for all of your quota'd mount points.
 This can take several hours on multi-terabyte RAID arrays, so you might want
 to run it from a <a class="reference external" href="http://en.wikipedia.org/wiki/GNU_Screen">screen</a>.</p>
 <p>Finally, just switch the quota service on:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo service quota start
+<div class="highlight"><pre><span></span>$ sudo service quota start
 </pre></div>
 <p>and give it a test run. My preferred flags are:</p>
-<div class="highlight"><pre><span class="nv">$ </span>quota -vs --show-mntpoint --hide-device
+<div class="highlight"><pre><span></span>$ quota -vs --show-mntpoint --hide-device
 </pre></div>
 <p>(you might want to alias that)
 which results in something like:</p>

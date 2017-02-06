@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tim Staley</title><link href="http://timstaley.co.uk/" rel="alternate"></link><link href="http://timstaley.co.uk/feeds/reposts.atom.xml" rel="self"></link><id>http://timstaley.co.uk/</id><updated>2014-08-31T00:00:00+02:00</updated><entry><title>EuroSciPy 2014</title><link href="http://timstaley.co.uk/posts/euroscipy2014" rel="alternate"></link><updated>2014-08-31T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2014-08-31:posts/euroscipy2014</id><summary type="html">&lt;p&gt;&lt;strong&gt;Some personal highlights, in five minutes or less.&lt;/strong&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tim Staley - reposts</title><link href="http://timstaley.co.uk/" rel="alternate"></link><link href="http://timstaley.co.uk/feeds/reposts.atom.xml" rel="self"></link><id>http://timstaley.co.uk/</id><updated>2014-08-31T00:00:00+02:00</updated><entry><title>EuroSciPy 2014</title><link href="http://timstaley.co.uk/posts/euroscipy2014" rel="alternate"></link><published>2014-08-31T00:00:00+02:00</published><updated>2014-08-31T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2014-08-31:/posts/euroscipy2014</id><summary type="html">&lt;p&gt;&lt;strong&gt;Some personal highlights, in five minutes or less.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;I spent the past couple of days attending the &lt;a class="reference external" href="https://www.euroscipy.org/2014/schedule/euroscipy-2014-general-sessions/"&gt;scientific talks&lt;/a&gt; at
+EuroSciPy 2014.
+Everything seemed to run smoothly, and hit about the right balance of
+packing a lot in without being overwhelming, so kudos to the organisers.
+I've summarised my personal …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Some personal highlights, in five minutes or less.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;I spent the past couple of days attending the &lt;a class="reference external" href="https://www.euroscipy.org/2014/schedule/euroscipy-2014-general-sessions/"&gt;scientific talks&lt;/a&gt; at
 EuroSciPy 2014.
 Everything seemed to run smoothly, and hit about the right balance of
@@ -91,7 +96,15 @@ but using something that's a first-class
 C++ library from the start sounds like a better way of going about it.&lt;/p&gt;
 &lt;p&gt;EuroSciPy is back to Cambridge in 2015 - see you there next year!&lt;/p&gt;
 &lt;/div&gt;
-</summary><category term="conferences"></category><category term="Python"></category><category term="EuroSciPy"></category></entry><entry><title>John Carmack on the sociology of programming</title><link href="http://timstaley.co.uk/posts/carmack-on-sociology" rel="alternate"></link><updated>2013-08-23T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2013-08-23:posts/carmack-on-sociology</id><summary type="html">&lt;p&gt;There's a nice blog post
+</content><category term="conferences"></category><category term="Python"></category><category term="EuroSciPy"></category></entry><entry><title>John Carmack on the sociology of programming</title><link href="http://timstaley.co.uk/posts/carmack-on-sociology" rel="alternate"></link><published>2013-08-23T00:00:00+02:00</published><updated>2013-08-23T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2013-08-23:/posts/carmack-on-sociology</id><summary type="html">&lt;p&gt;There's a nice blog post
+&lt;a class="reference external" href="http://blogs.uw.edu/ajko/2012/08/22/john-carmack-discusses-the-art-and-science-of-software-engineering/"&gt;here&lt;/a&gt;
+providing an excerpt from a keynote speech of John Carmack's,
+which I thoroughly agree with.&lt;/p&gt;
+&lt;p&gt;My favourite snippet:&lt;/p&gt;
+&lt;blockquote&gt;
+&amp;quot;There are clearly bet­ter and worse ways of doing things, but it’s
+frus­trat­ingly dif­fi­cult to quan­tify.&amp;quot;&lt;/blockquote&gt;
+&lt;p&gt;Worth a read …&lt;/p&gt;</summary><content type="html">&lt;p&gt;There's a nice blog post
 &lt;a class="reference external" href="http://blogs.uw.edu/ajko/2012/08/22/john-carmack-discusses-the-art-and-science-of-software-engineering/"&gt;here&lt;/a&gt;
 providing an excerpt from a keynote speech of John Carmack's,
 which I thoroughly agree with.&lt;/p&gt;
@@ -100,4 +113,4 @@ which I thoroughly agree with.&lt;/p&gt;
 &amp;quot;There are clearly bet­ter and worse ways of doing things, but it’s
 frus­trat­ingly dif­fi­cult to quan­tify.&amp;quot;&lt;/blockquote&gt;
 &lt;p&gt;Worth a read.&lt;/p&gt;
-</summary><category term="reposts"></category></entry></feed>
+</content><category term="reposts"></category></entry></feed>

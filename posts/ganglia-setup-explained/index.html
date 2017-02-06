@@ -123,23 +123,21 @@ very low CPU / RAM overheads (I never see it go about 0% CPU on <a class="refere
 <p>(for an explanation of TCP vs UDP, see e.g.
 <a class="reference external" href="http://www.bleepingcomputer.com/tutorials/tcp-and-udp-ports-explained/">http://www.bleepingcomputer.com/tutorials/tcp-and-udp-ports-explained/</a>,
 <a class="reference external" href="http://stackoverflow.com/questions/5970383/difference-between-tcp-and-udp">http://stackoverflow.com/questions/5970383/difference-between-tcp-and-udp</a> )</p>
-<ul class="last">
+<ul class="last simple">
 <li><dl class="first docutils">
 <dt>gmond to gmond via UDP.</dt>
-<dd><p class="first last">gmond daemons can be configured to share their state
+<dd>gmond daemons can be configured to share their state
 in a peer to peer fashion, so that when queried, one node can report
 both its own most recent metrics, and those of other nodes.
 This provides redundancy - if one node goes down
-the rest still pass their information around between them.</p>
-</dd>
+the rest still pass their information around between them.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>gmond to &lt;X&gt; via TCP.</dt>
-<dd><p class="first last">The gmond daemons can be polled for an update via
+<dd>The gmond daemons can be polled for an update via
 a TCP connection (from any program, including e.g. netcat or telnet - this
-can be useful for checking everything is up and running).</p>
-</dd>
+can be useful for checking everything is up and running).</dd>
 </dl>
 </li>
 </ul>
@@ -171,13 +169,13 @@ but the ganglia-specific config tips should be broadly applicable.</strong></p>
 <p>First off, we need to set up gmond on each machine we want to monitor,
 (or 'node'):</p>
 <p>Start with</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install ganglia-monitor
+<div class="highlight"><pre><span></span>$ sudo apt-get install ganglia-monitor
 </pre></div>
 <p>Next we'll configure gmond via the file at <tt class="docutils literal">/etc/ganglia/gmond.conf</tt>.
 Assuming you just want the standard metrics, you only need to worry about the
 first few stanzas that control how the stats are distributed.
 By default, the ones we're interested in look like the following:</p>
-<div class="highlight"><pre>globals<span class="w"> </span>{<span class="w"></span>
+<div class="highlight"><pre><span></span>globals<span class="w"> </span>{<span class="w"></span>
 <span class="w">  </span>daemonize<span class="w"> </span>=<span class="w"> </span>yes<span class="w"></span>
 <span class="w">  </span>setuid<span class="w"> </span>=<span class="w"> </span>yes<span class="w"></span>
 <span class="w">  </span><span class="k">user</span><span class="w"> </span>=<span class="w"> </span>ganglia<span class="w"></span>
@@ -233,7 +231,7 @@ We can set up a much more finely controlled
 (although admittedly less redundant / robust) <em>unicast</em> configuration,
 very easily. Assuming you're happy with a single 'master' gmond node collecting
 data from all the others, it might look something like this:</p>
-<div class="highlight"><pre>globals<span class="w"> </span>{<span class="w"></span>
+<div class="highlight"><pre><span></span>globals<span class="w"> </span>{<span class="w"></span>
 <span class="w">  </span>daemonize<span class="w"> </span>=<span class="w"> </span>yes<span class="w"></span>
 <span class="w">  </span>setuid<span class="w"> </span>=<span class="w"> </span>yes<span class="w"></span>
 <span class="w">  </span><span class="k">user</span><span class="w"> </span>=<span class="w"> </span>ganglia<span class="w"></span>
@@ -289,10 +287,10 @@ See the
 <a class="reference external" href="http://sourceforge.net/apps/trac/ganglia/wiki/Gmond%203.1.x%20General%20Configuration">relevant wiki page</a>
 for more details.</p>
 <p>With that done, do a</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo service ganglia-monitor restart
+<div class="highlight"><pre><span></span>$ sudo service ganglia-monitor restart
 </pre></div>
 <p>on each node, then log onto the master node and try</p>
-<div class="highlight"><pre><span class="nv">$ </span>gstat -a
+<div class="highlight"><pre><span></span>$ gstat -a
 </pre></div>
 <p>Which should hopefully report the current CPU / load stats of all the nodes
 in the ganglia cluster.</p>
@@ -301,13 +299,13 @@ First of all, let's check that we don't have any connection issues,
 by polling the master gmond daemon manually.
 On the machine you'll be using to serve up the web-frontend
 simply run:</p>
-<div class="highlight"><pre><span class="nv">$ </span>netcat master.node.address 8649
+<div class="highlight"><pre><span></span>$ netcat master.node.address 8649
 </pre></div>
 <p>(Assuming your gmond is configured with the default <tt class="docutils literal">tcp_accept_channel</tt>
 port, as above.)
 If you get a bunch of XML stats, congratulations, you're good to go.
 Next:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install gmetad
+<div class="highlight"><pre><span></span>$ sudo apt-get install gmetad
 </pre></div>
 <p>then do a single line edit on <tt class="docutils literal">/etc/ganglia/gmetad.conf</tt> to tell it
 which gmond node to poll for information, e.g. something like:</p>
@@ -324,14 +322,14 @@ gets a response.
 <p>Finally, we need to install the web-based frontend.
 There is a Ubuntu package for this, but it's a little dated - I much prefer the
 look and feel of the latest release. So let's grab it from GitHub:</p>
-<div class="highlight"><pre><span class="nv">$ </span>git clone git@github.com:ganglia/ganglia-web.git
-<span class="nv">$ </span><span class="nb">cd </span>ganglia-web
-<span class="nv">$ </span>sudo make install
+<div class="highlight"><pre><span></span>$ git clone git@github.com:ganglia/ganglia-web.git
+$ <span class="nb">cd</span> ganglia-web
+$ sudo make install
 </pre></div>
 <p>Which will dump some config files to <tt class="docutils literal"><span class="pre">/var/lib/ganglia-web</span></tt>,
 and all the php into <tt class="docutils literal"><span class="pre">/usr/share/ganglia-webfrontend</span></tt>.</p>
 <p>Next we install Apache and the relevant supporting libraries:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install apache2 libapache2-mod-php5 php5-gd rrdtool
+<div class="highlight"><pre><span></span>$ sudo apt-get install apache2 libapache2-mod-php5 php5-gd rrdtool
 </pre></div>
 <p>Finally, we configure apache to serve the PHP pages in
 <tt class="docutils literal"><span class="pre">/usr/share/ganglia-webfrontend</span></tt>. There's an example config in the
@@ -339,10 +337,10 @@ ganglia-web repository, called <tt class="docutils literal">apache.conf</tt>.
 Assuming you're not serving anything else from apache, the easy way to do this
 is to add a <tt class="docutils literal">&lt;VirtualHost *:80&gt;</tt> and <tt class="docutils literal">&lt;/VirtualHost&gt;</tt> at the beginning and
 end of that file, then</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo cp apache.conf /etc/apache2/sites-available/ganglia
-<span class="nv">$ </span>sudo a2dissite default
-<span class="nv">$ </span>sudo a2ensite ganglia
-<span class="nv">$ </span>sudo service apache2 reload
+<div class="highlight"><pre><span></span>$ sudo cp apache.conf /etc/apache2/sites-available/ganglia
+$ sudo a2dissite default
+$ sudo a2ensite ganglia
+$ sudo service apache2 reload
 </pre></div>
 <p>(If you're already serving other sites, you can just paste the contents
 of apache.conf into whatever site config you're currently running - but then

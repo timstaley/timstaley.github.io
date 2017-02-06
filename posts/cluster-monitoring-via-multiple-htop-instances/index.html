@@ -92,10 +92,10 @@ interface, tiny footprint etc.</p>
 instances of htop, by opening multiple terminals with a 'ssh-and-run' combo
 that works well for me, so I thought I'd post it:</p>
 <pre class="code bash literal-block">
-<span class="c">#!/bin/bash
+<span class="ch">#!/bin/bash
 </span><span class="nv">ALL_HOSTS</span><span class="o">=(</span>node1 node2 node3<span class="o">)</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$# </span><span class="o">==</span> <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$#</span> <span class="o">==</span> <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
     <span class="nv">TARGETS</span><span class="o">=(</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">ALL_HOSTS</span><span class="p">[&#64;]</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">)</span>
 <span class="k">else</span>
     <span class="nb">echo</span> <span class="s1">'$0:'</span> <span class="nv">$0</span>

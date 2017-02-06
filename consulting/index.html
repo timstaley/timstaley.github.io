@@ -75,32 +75,40 @@ Tim Staley            </a>
         
         <div class="entry-content">
             <p><em>In short:</em></p>
-<p>I'm available for hire as an independent software consultant.
-I primarily work as a back-end Python engineer, covering everything from
-systems architecture to continuous cloud-deployment. I enjoy diving into SQL,
-and I spent 4 years working in C++ for my PhD project.
+<p>I'm available for hire as an independent software consultant, happy to work
+on projects at all stages from &quot;we've got an idea of something we'd like, but
+no idea how to build it&quot;
+to &quot;we have a five-year old website that talks to our database, and no-one
+knows how it works anymore&quot;.</p>
+<p>I primarily work as a back-end Python engineer, which means I write code that does
+data processing, loads and extracts information from databases,
+or makes data available over the web.
+More broadly, I'm experienced in continuous cloud-deployment,
+I enjoy diving into SQL, and I spent 4 years working in C++ for my PhD project.
 I also have some experience in probabilistic modelling and data-visualisation.</p>
-<p>Read on for a bit more detail.</p>
+<p>Read on for a bit more detail, or jump to the end for a short list of
+tools and frameworks.</p>
 <div class="section" id="things-i-can-do">
 <h2>Things I can do</h2>
-<p>First off, by training I'm a mathematician. Day to day this doesn't usually
-influence my work much, but the analytical background occasionally comes in
-handy. (I once found a SQL bug using Taylor expansion. No, really!)</p>
+<p>First off, by (undergraduate) training I'm a mathematician. Day to day this
+doesn't influence my work much, but the analytical background
+occasionally comes in handy; e.g. when picking up the literature in a new area,
+or verifying that an ad-hoc approximate formula implemented in someone else's
+code actually calculates the right thing.</p>
 <p>Since branching into software development, I've picked up a range of skills in
 order to get things done, working variously as part of a distributed team of
 dedicated software engineers, and as the software-focused researcher embedded in
-a more conventional academic group. So I'm well versed in the 'bread and butter'
-of modern software development and project management -
-automated testing, version control, documentation, continuous deployment and
-release management
-(full shopping list of technologies, tools and frameworks available on request,
-or see the <a class="reference external" href="/code">code</a> page for open-source examples).</p>
-<p>The upshot of all this is that I can discuss a technical problem and put
-together a clean, maintainable solution using the appropriate tools.
-Previous briefs include:</p>
+a more conventional academic group. As a result I'm well versed in the 'bread
+and butter' of modern software development and project management - automated
+testing, version control, documentation, continuous deployment and release
+management.</p>
+<p>Perhaps more importantly, I've picked up the soft skills needed to discuss a
+technical problem with domain specialists and put together a clean, maintainable
+solution to their problem using the appropriate tools.</p>
+<p>Previous briefs include:</p>
 <ul class="simple">
-<li>We have a custom data-reduction pipeline written in C++. It needs to run an
-order-of-magnitude faster, and we need the following new features to
+<li>We have a custom data-reduction pipeline written in C++. It needs to
+run an order-of-magnitude faster, and we need the following new features to
 handle an entirely new data-model...</li>
 <li>We reduce our data via a manual, interactive process requiring significant
 domain expertise and specialized scientific software. We need a 'good enough'
@@ -111,12 +119,54 @@ data-packets, so that crucial scientific clues don't get lost in the noise.
 It needs to be a web-service too, so we can share it.</li>
 <li>We need a way to easily install and run our code on a 'cloud' server, test new
 versions, and make sure we can update it reliably or spin up a backup machine.</li>
+<li>We need a back-end web-service that receives data from a mobile app,
+queues it for processing with some heavyweight C++ code, and then inserts
+the results into a database.</li>
 </ul>
-<p>and the classic</p>
+</div>
+<div class="section" id="tools-and-frameworks">
+<h2>Tools and frameworks</h2>
+<p>I've built substantial, in-production projects using the following
+(see the <a class="reference external" href="/code">code</a> page for open-source examples):</p>
+<div class="section" id="python">
+<h3>Python</h3>
 <ul class="simple">
-<li>We need a web-page.</li>
+<li>Numpy / Scipy</li>
+<li>Django / Django-Rest-Framework</li>
+<li>Flask</li>
+<li>SQLAlchemy (w/ Postgres)</li>
+<li>LXML</li>
+<li>Pytest</li>
+<li>Sphinx documentation</li>
 </ul>
-<p>(Because it's not always ground-breaking, sometimes it just needs doing.)</p>
+</div>
+<div class="section" id="deployment">
+<h3>Deployment</h3>
+<ul class="simple">
+<li>Ansible</li>
+<li>Vagrant</li>
+<li>Linux (Debian / Ubuntu, Centos)</li>
+<li>Apache / mod_wsgi</li>
+<li>uwsgi / nginx</li>
+</ul>
+</div>
+<div class="section" id="c">
+<h3>C++</h3>
+<ul class="simple">
+<li>Thread Building Blocks</li>
+<li>CMake</li>
+<li>GTest</li>
+</ul>
+</div>
+<div class="section" id="general-collaborative-development-skills">
+<h3>General collaborative development skills</h3>
+<ul class="simple">
+<li>Git (I know my way around the reflog and rebase private branches as a matter
+of course).</li>
+<li>Github (pull requests, continuous integration and documentation build hooks,
+etc)</li>
+</ul>
+</div>
 </div>
 <div class="section" id="get-in-touch">
 <h2>Get in touch</h2>
