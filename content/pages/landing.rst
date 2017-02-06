@@ -9,26 +9,23 @@ Welcome
 
 Hello!
 
-I'm a researcher working in the `astrophysics group`_
-at the University of Oxford.
+I'm an independent software consultant and a recovering academic.
 Probably the best label for what I do is
 `"research software engineer" <RSE_>`_.
-In practice, that means I spend my time working within a research group to
-figure out how to solve their computational problems.
-Most of my recent work has been focused on time-domain astronomy -
-chasing things that go bump in the night sky.
+In practice, that means I spend my time working with domain specialists
+to figure out how to solve their computational problems.
 
-**I'm also available for hire as an
-independent software consultant**.
+**I'm available for hire on a freelance basis.**
 Please take a look at the `consulting page <consulting_>`_ and get in
-touch if you'd be interested in working together.
+touch if you might be interested in working together.
 
-
-Since October 2011 I've been with the
-`4 Pi Sky project`_, 
+For the past few years I've been working in the `astrophysics group`_
+at the University of Oxford.
+My work here has been largely focused on time-domain astronomy -
+chasing things that go bump in the night sky - as part of the
+`4 Pi Sky project`_,
 which (broadly) aims to automate both the detection and follow-up observation
-of astronomical transients, motivated in large part by the next generation
-of large radio telescopes.
+of astronomical transients.
 You can find more background information on the  `research page <research_>`_.
  
 Along the way, I've worked on a number of open-source
