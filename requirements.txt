@@ -4,3 +4,4 @@ nbconvert
 markdown
 seaborn
 beautifulsoup4
+ghp-import
