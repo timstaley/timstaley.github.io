@@ -10,9 +10,63 @@ The PDF files are available in bulk
 
 Jump to:
 
-* `Talks on transient astronomy`_
 * `Talks on software`_
+* `Talks on transient astronomy`_
 * `Talks on lucky imaging`_
+
+
+-----------
+
+
+Talks on software
+-----------------
+
+VOEventDB and Sustainable Software
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*Hotwiring the Transient Universe V, Villanova, PA, October 2016*
+
+.. raw:: html
+
+    <a href="http://timstaley.co.uk/sustainable-software-in-astro/">
+        <button type="button" class="btn btn-sm">
+            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Online slides
+        </button>
+    </a>
+    <a href="https://github.com/timstaley/sustainable-software-in-astro/blob/master/proceedings_full.md">
+        <button type="button" class="btn btn-sm">
+            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>  Source and summary on Github
+        </button>
+    </a>
+
+An invited talk for an audience lying at the intersection of astronomy and
+software development. I gave a brief teaser-introduction to VOEventDB,
+and tried to use parts of that project to illustrate some points on the
+wider topic of sustainable software.
+
+
+
+A brief introduction to version control systems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*Southampton, November 2013*
+
+.. raw:: html
+
+    <a href="https://github.com/timstaley/presentations/blob/master/2013-11_DVCS-intro_Soton/Brief_introduction_to_version_control_systems.pdf?raw=true">
+        <button type="button" class="btn btn-sm">
+            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
+        </button>
+    </a>
+    <a href="http://www.slideshare.net/TimStaley1/a-brief-introduction-to-version-control-systems" target="_blank">
+        <button type="button" class="btn btn-sm">
+            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
+        </button>
+    </a>
+
+
+
+A short (fifteen minute) explanation of version control, aimed at an academic
+audience.  The goal was to introduce the underlying concepts of version control
+systems, and give an idea of when they are most useful.
 
 
 -----------
@@ -29,16 +83,16 @@ Which transient, when?
 
 .. raw:: html
 
-    <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/raw/master/2015-05_Which-transient-when/which_transient_when_2015_long.pdf">
+    <a href="https://github.com/timstaley/presentations/raw/master/2015-05_Which-transient-when/which_transient_when_2015_long.pdf">
+        <button type="button" class="btn btn-sm">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
-        </a>
     </button>
+    </a>
+    <a href="http://www.slideshare.net/TimStaley1/which-transient-when-a-utility-function-for-transient-followup-scheduling" target="_blank">
     <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/which-transient-when-a-utility-function-for-transient-followup-scheduling" target="_blank">
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
-        </a>
     </button>
+    </a>
 
 I gave this talk to the astronomy group in Southampton,
 and a shorter version at `Hotwired IV`_. Here's the abstract:
@@ -79,16 +133,16 @@ How to build a TraP: An image-plane transient-detection tool
 
 .. raw:: html
 
+    <a href="https://github.com/timstaley/presentations/blob/master/2015-01_TraP-an-image-plane-transient-discovery-tool/TraP-image-plane-transient-discovery.pdf?raw=true">
     <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/blob/master/2015-01_TraP-an-image-plane-transient-discovery-tool/TraP-image-plane-transient-discovery.pdf?raw=true">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
-        </a>
     </button>
+    </a>
+    <a href="http://www.slideshare.net/TimStaley1/how-to-build-a-trap-an-imageplane-transientdiscovery-tool" target="_blank">
     <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/how-to-build-a-trap-an-imageplane-transientdiscovery-tool" target="_blank">
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
-        </a>
     </button>
+    </a>
 
 The TraP (http://ascl.net/1412.011) is a pipeline for processing streams of
 astronomical image-data in near real-time with the aim of identifying transient
@@ -112,16 +166,16 @@ From gamma-ray to radio: Multi-wavelength follow-up in the first five minutes
 
 .. raw:: html
 
+    <a href="https://github.com/timstaley/presentations/blob/master/2014-11_gamma-ray-to-radio_RAS_LT2/gamma-ray-to-radio.pdf?raw=true">
     <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/blob/master/2014-11_gamma-ray-to-radio_RAS_LT2/gamma-ray-to-radio.pdf?raw=true">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
-        </a>
     </button>
+    </a>
+    <a href="http://www.slideshare.net/TimStaley1/from-gammaray-to-radio-multiwavelength-followup-in-the-first-five-minutes" target="_blank">
     <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/from-gammaray-to-radio-multiwavelength-followup-in-the-first-five-minutes" target="_blank">
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
-        </a>
     </button>
+    </a>
 
 In this short talk I cover some research highlights from the `4 Pi Sky`_ project,
 including recent successes in fast radio follow-up and exploratory work on the
@@ -139,16 +193,16 @@ Tunable algorithms for transient follow-up
 
 .. raw:: html
 
+    <a href="https://github.com/timstaley/presentations/raw/master/2014-09_Tunable-algos-for-transient-followup_Jodrell/tunable_algos_for_transient_followup.pdf">
     <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/raw/master/2014-09_Tunable-algos-for-transient-followup_Jodrell/tunable_algos_for_transient_followup.pdf">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
-        </a>
     </button>
+    </a>
+    <a href="http://www.slideshare.net/TimStaley1/tunable-algorithms-for-transient-followup" target="_blank">
     <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/tunable-algorithms-for-transient-followup" target="_blank">
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
-        </a>
     </button>
+    </a>
 
 This talk gives a gentle introduction to Bayesian decision theory, a methodology
 I'm trying to apply to the problem of automated follow-up prioritisation and
@@ -161,16 +215,16 @@ Training your astronomy robots to work as a team
 
 .. raw:: html
 
+    <a href="https://github.com/timstaley/presentations/blob/master/2013-07_SKA-Transients_ZA/training_your_astro_robots_to_work_as_a_team.pdf?raw=true">
     <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/blob/master/2013-07_SKA-Transients_ZA/training_your_astro_robots_to_work_as_a_team.pdf?raw=true">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
-        </a>
     </button>
+    </a>
+    <a href="http://www.slideshare.net/TimStaley1/training-your-astronomy-robots-to-work-as-a-team" target="_blank">
     <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/training-your-astronomy-robots-to-work-as-a-team" target="_blank">
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
-        </a>
     </button>
+    </a>
 
 I present a case that the astronomy community is missing a part of the puzzle
 for the next era of automated big-survey astronomy: we currently have very
@@ -187,16 +241,16 @@ Fast radio follow-up
 
 .. raw:: html
 
+    <a href="https://github.com/timstaley/presentations/blob/master/2012-12_Fast-Radio-Followup_Amsterdam/Fast_radio_followup.pdf?raw=true">
     <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/blob/master/2012-12_Fast-Radio-Followup_Amsterdam/Fast_radio_followup.pdf?raw=true">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
-        </a>
     </button>
+    </a>
+    <a href="http://www.slideshare.net/TimStaley1/fast-radio-followup" target="_blank">
     <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/fast-radio-followup" target="_blank">
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
-        </a>
     </button>
+    </a>
 
 An iterated version of the earlier talk on ALARRM_. This version delves a little
 deeper into why early-time radio follow-up of GRBs is interesting, and touches
@@ -209,16 +263,16 @@ Fast radio follow-up of GRBs
 
 .. raw:: html
 
+    <a href="https://github.com/timstaley/presentations/blob/master/2012-11_Ami-GRBS_Capetown/Fast_radio_followup_of_GRBs.pdf?raw=true">
     <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/blob/master/2012-11_Ami-GRBS_Capetown/Fast_radio_followup_of_GRBs.pdf?raw=true">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
-        </a>
     </button>
+    </a>
+    <a href="http://www.slideshare.net/TimStaley1/fast-radio-followup-of-grbs" target="_blank">
     <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/fast-radio-followup-of-grbs" target="_blank">
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
-        </a>
     </button>
+    </a>
 
 An early talk on the ALARRM_ rapid radio follow-up project, touching on the
 science of GRB progenitors and possible LOFAR transient science.
@@ -228,35 +282,6 @@ science of GRB progenitors and possible LOFAR transient science.
 
 -----------
 
-
-Talks on software
------------------
-
-A brief introduction to version control systems
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*Southampton, November 2013*
-
-.. raw:: html
-
-    <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/blob/master/2013-11_DVCS-intro_Soton/Brief_introduction_to_version_control_systems.pdf?raw=true">
-            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
-        </a>
-    </button>
-    <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/a-brief-introduction-to-version-control-systems" target="_blank">
-            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
-        </a>
-    </button>
-
-
-
-A short (fifteen minute) explanation of version control, aimed at an academic
-audience.  The goal was to introduce the underlying concepts of version control
-systems, and give an idea of when they are most useful.
-
-
------------
 
 
 Talks on lucky imaging
@@ -268,16 +293,16 @@ Lucky imaging: Life in the visible after HST
 
 .. raw:: html
 
+    <a href="https://github.com/timstaley/presentations/blob/master/2012-03_Intro-to-lucky-imaging_Soton/Lucky_Imaging.pdf?raw=true">
     <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/blob/master/2012-03_Intro-to-lucky-imaging_Soton/Lucky_Imaging.pdf?raw=true">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
-        </a>
     </button>
+    </a>
+    <a href="http://www.slideshare.net/TimStaley1/lucky-imaging-life-in-the-visible-after-hst" target="_blank">
     <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/lucky-imaging-life-in-the-visible-after-hst" target="_blank">
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
-        </a>
     </button>
+    </a>
 
 An introduction to lucky imaging, the subject of my PhD.
 
@@ -287,16 +312,16 @@ A user's guide to lucky imaging
 
 .. raw:: html
 
+    <a href="https://github.com/timstaley/presentations/blob/master/2013-04_Users-guide-to-Lucky-Imaging_Chicheley/users_guide_to_lucky_imaging.pdf?raw=true">
     <button type="button" class="btn btn-sm">
-        <a href="https://github.com/timstaley/presentations/blob/master/2013-04_Users-guide-to-Lucky-Imaging_Chicheley/users_guide_to_lucky_imaging.pdf?raw=true">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
-        </a>
     </button>
+    </a>
+    <a href="http://www.slideshare.net/TimStaley1/a-users-guide-to-lucky-imaging" target="_blank">
     <button type="button" class="btn btn-sm">
-        <a href="http://www.slideshare.net/TimStaley1/a-users-guide-to-lucky-imaging" target="_blank">
             <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Slideshare
-        </a>
     </button>
+    </a>
 
 An invited talk given to an audience interested in using lucky imaging for
 microlensing studies. I tried to give an overview of where the challenges lie
