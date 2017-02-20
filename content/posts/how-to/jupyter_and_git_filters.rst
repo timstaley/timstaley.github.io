@@ -17,7 +17,7 @@ or see my example setup below.
 
 The trouble with notebooks
 --------------------------
-For a year or so now I've been using Jupter_ notebooks as a means to produce
+For a year or so now I've been using Jupyter_ notebooks as a means to produce
 tutorials and other documentation (see e.g. the `voeventdb.remote`_ tutorial_).
 It's a powerful medium, providing
 a good compromise between ease-of-editing and the capability to
@@ -106,15 +106,15 @@ nbstripout - does what it says on the tin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 A little searching then leads to nbstripout_, which is a one-module Python
 script wrapping the nbformat processing functions, and adding some automagic
-for setting up your git config (on which more in a moment). So this is
-effectively a strip automating the 'clear all output' manual process described
+for setting up your git config (on which more in a moment). This
+effectively automates the 'clear all output' manual process described
 above. However, this doesn't suit me for a couple of reasons; it leaves in
-that problematic 'metadata' section and also its **slowww**.
-https://github.com/kynan/nbstripout/issues/33
+that problematic 'metadata' section and also it's
+`**slowww** <https://github.com/kynan/nbstripout/issues/33>`_.
 Running a script
 manually and expecting a short delay is fine, but we're going to integrate
 this into our git setup. That means it will run every time we hit
-``git status``! One of the few things I love about git is that it's typically
+``git diff``! One of the few things I love about git is that it's typically
 blazing fast; so a delay of nearly a fifth of a second every time I try to
 interact with it gets old pretty quickly:
 
@@ -310,7 +310,7 @@ Hope that helps! Comments or corrections very welcome via Twitter_.
 
 .. _conference talks: https://github.com/timstaley/sustainable-software-in-astro/blob/master/README.md
 .. _ipynb format: https://nbformat.readthedocs.io/
-.. _Jupter: https://jupyter.readthedocs.io/en/latest/tryjupyter.html
+.. _Jupyter: https://jupyter.readthedocs.io/en/latest/tryjupyter.html
 .. _jq: https://stedolan.github.io/jq/
 .. _meld: http://meldmerge.org/
 .. _nbdime: https://nbdime.readthedocs.io
