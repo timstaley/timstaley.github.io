@@ -214,7 +214,7 @@ run this automatically for us? For this, we dive into 'gitattributes'
 functionality, specifically the
 `filter <https://git-scm.com/docs/gitattributes#__code_filter_code>`_ section.
 This describes how to define 'clean' and 'smudge' (reverse of clean) filters,
-which are operations that transform our data as its checked in or out of the
+which are operations that transform our data as it is checked in or out of the
 git-repository, so that (for example) our notebook-output cells are always
 stripped away from the JSON-data before it's added to the git repository:
 
