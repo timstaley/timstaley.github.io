@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Making Git and Jupyter Notebooks play nice - Tim Staley</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="http://timstaley.co.uk/images/favicon.ico" rel="icon">
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="http://timstaley.co.uk/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://timstaley.co.uk/theme/css/pygments/tango.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://timstaley.co.uk/theme/css/style.css" type="text/css"/>
+        <link href="http://timstaley.co.uk/css/custom.css" rel="stylesheet">
+
+        <link href="http://timstaley.co.uk/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Tim Staley ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://timstaley.co.uk/" class="navbar-brand">
+Tim Staley            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="/consulting">
+<i class="fa fa-lightbulb-o"></i><span class="icon-label">                         Consulting
+ </span>                     </a></li>
+
+                    <li><a href="/research">
+<i class="fa fa-flask"></i><span class="icon-label">                         Research
+ </span>                     </a></li>
+
+                    <li><a href="/talks">
+<i class="fa fa-comment"></i><span class="icon-label">                         Talks
+ </span>                     </a></li>
+
+                    <li><a href="/code">
+<i class="fa fa-code-fork"></i><span class="icon-label">                         Code
+ </span>                     </a></li>
+
+                    <li><a href="/posts">
+<i class="fa fa-pencil"></i><span class="icon-label">                         Posts
+ </span>                     </a></li>
+
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+<div class="col-sm-10 col-sm-offset-1 col-md-7 col-md-offset-2 ">
+  <div class="custom-max-width">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://timstaley.co.uk/posts/making-git-and-jupyter-notebooks-play-nice"
+                       rel="bookmark"
+                       title="Permalink to Making Git and Jupyter Notebooks play nice">
+                        Making Git and Jupyter Notebooks play nice
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <p><strong>Summary:</strong> <a class="reference external" href="https://stedolan.github.io/jq/">jq</a> rocks for speedy JSON mangling. Use it to make powerful git
+clean filters, e.g. when stripping out unwanted cached-data from Jupyter notebooks.
+You can find the documentation of git 'clean' and 'smudge' filters buried
+in
+<a class="reference external" href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes#filters_a">the page on git-attributes</a>,
+or see my example setup below.</p>
+<hr class="docutils" />
+<div class="section" id="the-trouble-with-notebooks">
+<h2>The trouble with notebooks</h2>
+<p>For a year or so now I've been using <a class="reference external" href="https://jupyter.readthedocs.io/en/latest/tryjupyter.html">Jupter</a> notebooks as a means to produce
+tutorials and other documentation (see e.g. the <a class="reference external" href="http://voeventdbremote.readthedocs.io">voeventdb.remote</a> <a class="reference external" href="http://voeventdbremote.readthedocs.io/en/latest/tutorial/quickstart.html">tutorial</a>).
+It's a powerful medium, providing
+a good compromise between ease-of-editing and the capability to
+interleave text, code, intermediate results, plots, and even nicely-typeset
+LaTeX-encoded equations. I've even gone to far as to urge its adoption in
+recent <a class="reference external" href="https://github.com/timstaley/sustainable-software-in-astro/blob/master/README.md">conference talks</a>.</p>
+<p>However, this powerful interface inherits the age-old curse
+of <a class="reference external" href="https://en.wikipedia.org/wiki/WYSIWYG">WYSIWYG</a> editors - the document-files tend to contain more than just
+plain-text, and therefore are not-so-easy to handle with standard version-control
+tools. In the case of Jupyter, the format doesn't stray too far from
+comfortable plain-text territory - the <a class="reference external" href="https://nbformat.readthedocs.io/">ipynb format</a> is just a custom JSON
+data-structure, with the occasional base-64 encoded blob for images and other
+binary data. Which means version-control systems such as Git <em>can</em> handle it
+quite well, but diff-comparing different versions of a complex notebook
+quickly becomes a chore as you scroll past long blocks of unintelligible base-64
+gibberish.</p>
+<p>This is a problem when working with long-lived, multiple-revision
+or (especially) multiple-coauthor projects. What can we do about this? First,
+it's worth mentioning the initial &quot;I'll figure this out later&quot; solution which
+has served many users sufficiently well for a while - if you're typically only
+working from one machine, and you just want to keep your notebooks vaguely
+manageable, you can get by for a long time by manually hitting
+<em>Cell -&gt; All Output -&gt; Clear</em>
+(followed by a Save) before you commit your notebooks.
+This wipes the slate clean with regards to cell
+outputs (plots, prints, whatver), so you'll need to re-run any computation next
+time you run the notebook.</p>
+<p>The problems with this approach are that</p>
+<p>A. it's <em>manual</em>, so you'll have to painstakingly open up every notebook you
+recently re-ran and clear it before you commit, and</p>
+<p>B. it doesn't even fully solve the 'noise-in-the-diffs' problem, since
+every notebook also contains a 'metadata' section, which looks a bit like this:</p>
+<div class="highlight"><pre><span></span><span class="p">{</span> <span class="nt">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="nt">&quot;kernelspec&quot;</span><span class="p">:</span> <span class="p">{</span>
+   <span class="nt">&quot;display_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Python 2&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;language&quot;</span><span class="p">:</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;python2&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;language_info&quot;</span><span class="p">:</span> <span class="p">{</span>
+   <span class="nt">&quot;codemirror_mode&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;ipython&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="mi">2</span>
+   <span class="p">},</span>
+   <span class="nt">&quot;file_extension&quot;</span><span class="p">:</span> <span class="s2">&quot;.py&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;mimetype&quot;</span><span class="p">:</span> <span class="s2">&quot;text/x-python&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;nbconvert_exporter&quot;</span><span class="p">:</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;pygments_lexer&quot;</span><span class="p">:</span> <span class="s2">&quot;ipython2&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;2.7.12&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>Note the metadata section is
+<a class="reference external" href="https://nbformat.readthedocs.io/en/latest/format_description.html#metadata">effectively a blank slate</a>,
+and has a myriad of possible uses, but for most users it will just contain
+the above. This is useful for checking a previously run notebook, but is
+unwanted information when checking-in files to a multi-user project where
+everyone's using a slightly different Python version - it just generates
+more diff-noise.</p>
+</div>
+<div class="section" id="possible-pythonic-solutions">
+<h2>Possible Pythonic solutions</h2>
+<div class="section" id="nbdime-an-nbformat-diff-gui">
+<h3>nbdime - an nbformat diff-GUI</h3>
+<p>We clearly need some tooling, and there are some Python projects out there
+trying to address exactly this problem. First, it's worth mentioning
+<a class="reference external" href="https://nbdime.readthedocs.io">nbdime</a>, which picks up the ball from where the (now defunct) <a class="reference external" href="https://github.com/tarmstrong/nbdiff">nbdiff</a> project
+left off and attempts to provide “content-aware” diffing and merging of Jupyter
+notebooks - a <a class="reference external" href="http://meldmerge.org/">meld</a> (GUI) diff-tool equivalent for the nbformat, if you will.
+I think nbdime has the potential to be a really good beginner-friendly,
+general purpose notebook-handling tool and I want to see it succeed. However;
+it's currently somewhat of a beta, and more importantly it only fills
+one role in the notebook editing toolbox - viewing crufty diffs. What I really
+want to do is automatically clear out all the cruft and
+<em>minimize the diffs in the first place</em>.</p>
+</div>
+<div class="section" id="nbstripout-does-what-it-says-on-the-tin">
+<h3>nbstripout - does what it says on the tin</h3>
+<p>A little searching then leads to <a class="reference external" href="https://github.com/kynan/nbstripout">nbstripout</a>, which is a one-module Python
+script wrapping the nbformat processing functions, and adding some automagic
+for setting up your git config (on which more in a moment). So this is
+effectively a strip automating the 'clear all output' manual process described
+above. However, this doesn't suit me for a couple of reasons; it leaves in
+that problematic 'metadata' section and also its <strong>slowww</strong>.
+<a class="reference external" href="https://github.com/kynan/nbstripout/issues/33">https://github.com/kynan/nbstripout/issues/33</a>
+Running a script
+manually and expecting a short delay is fine, but we're going to integrate
+this into our git setup. That means it will run every time we hit
+<tt class="docutils literal">git status</tt>! One of the few things I love about git is that it's typically
+blazing fast; so a delay of nearly a fifth of a second every time I try to
+interact with it gets old pretty quickly:</p>
+<div class="highlight"><pre><span></span><span class="nb">time</span> nbstripout <span class="m">01</span>-parsing.ipynb
+real        0m0.174s
+user        0m0.152s
+sys         0m0.016s
+</pre></div>
+<p>(Note, this is a small notebook-file, on a fairly beefy laptop with an SSD).
+This not a criticism of nbstripout so much as an inherent flaw in using
+Python for low-latency tasks - that cold-startup overhead on the CPython
+interpreter is a killer. (Which in turn harks back to ancient history of
+mercurial vs git!)</p>
+</div>
+</div>
+<div class="section" id="enter-jq">
+<h2>Enter jq</h2>
+<p>Fortunately, we have another option (thanks to Jan Schulz for the
+<a class="reference external" href="http://janschulz.github.io/windows-dev-environment.html">tip-off</a> on this).
+Since the nbformat is just JSON,
+we can make use of <a class="reference external" href="https://stedolan.github.io/jq/">jq</a>, 'a lightweight and flexible command-line JSON processor'
+('sed for JSON data'). There's a modicum of set-up overhead as jq has
+its very own query / filter language, but the documentation is good and the
+hard work has been done for you already. Here's the jq invocation I'm currently
+using:</p>
+<div class="highlight"><pre><span></span>jq --indent <span class="m">1</span> <span class="se">\</span>
+    <span class="s1">&#39;</span>
+<span class="s1">    (.cells[] | select(has(&quot;outputs&quot;)) | .outputs) = []</span>
+<span class="s1">    | (.cells[] | select(has(&quot;execution_count&quot;)) | .execution_count) = null</span>
+<span class="s1">    | .metadata = {}</span>
+<span class="s1">    | .cells[].metadata = {}</span>
+<span class="s1">    &#39;</span> <span class="m">01</span>-parsing.ipynb
+</pre></div>
+<p>Each line inside the single-quotes defines a filter - the first selects any
+entries from the 'cells' list, and blanks any outputs. The second resets
+any execution counts, and the third blanks the notebook metadata.
+The fourth filter-line,</p>
+<blockquote>
+.cells[].metadata = {}</blockquote>
+<p>is a matter of preference
+and situation - in recent versions of Jupyter every cell can be marked hidden /
+collapsed / write-protected, etc. I'm not interested in that metadata
+usually but of course you may want to keep it for some projects.</p>
+<p>We now have a fully stripped-down notebook that should contain only the common
+information needed to execute with whatever local Python installation is
+available (assuming Python2/3 compatibility, correctly set-up library installs
+and all the rest).</p>
+<p>Note you'll need jq version 1.5 or greater, since the <tt class="docutils literal"><span class="pre">--indent</span></tt> option
+was only recently implemented and is necessary to conform with the nbformat.
+Fortunately that should only be a small binary-download away, even if you're
+on ancient linux or OSX.</p>
+<p>That's a bit of a handful to type, but you can set it up as an alias in your
+<em>.bashrc</em> with a bit of careful quotation-escaping:</p>
+<div class="highlight"><pre><span></span><span class="nb">alias</span> <span class="nv">nbstrip_jq</span><span class="o">=</span><span class="s2">&quot;jq --indent 1 \</span>
+<span class="s2">    &#39;(.cells[] | select(has(\&quot;outputs\&quot;)) | .outputs) = []  \</span>
+<span class="s2">    | (.cells[] | select(has(\&quot;execution_count\&quot;)) | .execution_count) = null  \</span>
+<span class="s2">    | .metadata = {} \</span>
+<span class="s2">    | .cells[].metadata = {} \</span>
+<span class="s2">    &#39;&quot;</span>
+</pre></div>
+<p>Which can then be used conveniently like so:</p>
+<div class="highlight"><pre><span></span>nbstrip_jq <span class="m">01</span>-parsing.ipynb
+</pre></div>
+<p>Not only does this give us full control to wipe that pesky metadata, it's
+pretty damn quick, taking something like a tenth of the time of nbstripout
+in my (admittedly ad-hoc) testing:</p>
+<div class="highlight"><pre><span></span>nbstrip_jq <span class="m">01</span>-parsing.ipynb
+<span class="c1"># (JSON contents omitted)</span>
+real        0m0.015s
+user        0m0.008s
+sys         0m0.004s
+</pre></div>
+</div>
+<div class="section" id="automation-integrating-with-git">
+<h2>Automation: Integrating with git</h2>
+<p>So we're all tooled up, but the question remains - how do we get git to
+run this automatically for us? For this, we dive into 'gitattributes'
+functionality, specifically the
+<a class="reference external" href="https://git-scm.com/docs/gitattributes#__code_filter_code">filter</a> section.
+This describes how to define 'clean' and 'smudge' (reverse of clean) filters,
+which are operations that transform our data as its checked in or out of the
+git-repository, so that (for example) our notebook-output cells are always
+stripped away from the JSON-data before it's added to the git repository:</p>
+<img alt="Clean-filter illustration" src="https://git-scm.com/book/en/v2/images/clean.png" />
+<p>In the general case you can also define a smudge-filter to take your repository
+contents and do something with it to make it local to your system, but we'll
+not be needing that here - we'll just use the <tt class="docutils literal">cat</tt> command as a placeholder.
+The easiest way to explain how to configure this is
+with an example. Personally, I want notebook-cleaning behaviour to be the default
+across all my git-repositories, so I have the following entries in my
+global <em>~/.gitconfig</em> file:</p>
+<div class="highlight"><pre><span></span><span class="k">[core]</span>
+<span class="na">attributesfile</span> <span class="o">=</span> <span class="s">~/.gitattributes_global</span>
+
+<span class="k">[filter &quot;nbstrip_full&quot;]</span>
+<span class="na">clean</span> <span class="o">=</span> <span class="s">&quot;jq --indent 1 \</span>
+<span class="s">         &#39;(.cells[] | select(has(\&quot;outputs\&quot;)) | .outputs) = []  \</span>
+<span class="s">         | (.cells[] | select(has(\&quot;execution_count\&quot;)) | .execution_count) = null  \</span>
+<span class="s">         | .metadata = {} \</span>
+<span class="s">         | .cells[].metadata = {} \</span>
+<span class="s">         &#39;&quot;</span>
+<span class="na">smudge</span> <span class="o">=</span> <span class="s">cat</span>
+<span class="na">required</span> <span class="o">=</span> <span class="s">true</span>
+</pre></div>
+<p>And then in <em>~/.gitattributes_global</em>:</p>
+<div class="highlight"><pre><span></span><span class="na">*.ipynb filter</span><span class="o">=</span><span class="s">nbstrip_full</span>
+</pre></div>
+<p>That's it! You're all set to go version control notebooks like a champ!
+Well, almost.</p>
+</div>
+<div class="section" id="getting-started-and-gotchas">
+<h2>Getting started and gotchas</h2>
+<p>Note that we're into git-powertool territory here, so things might be a little
+less polished compared to the (<em>cough</em>) usual intuitive git interface you're
+used to.</p>
+<p>To start off with, assuming a pre-existing set of notebooks, you'll want to
+add a 'do-nothing' commit, where you simply pull in the newly-filtered versions
+of your notebooks and trim out any unwanted metadata. Just <tt class="docutils literal">git add</tt> your
+notebooks and then <tt class="docutils literal">git diff <span class="pre">--cached</span></tt> to see the patch removing all the cruft.
+Commit that, then go ahead, run your notebooks, leave uncleaned outputs all
+over the place. Unless you change the actual code-cell contents, your git diff
+should be blank! Great. Except. If you have executed a notebook since your
+last commit, <tt class="docutils literal">git status</tt> may show that file as 'modified', despite the
+fact that when you <tt class="docutils literal">git diff</tt>, the filters go into action and no
+differences-to-HEAD are found. So you have to 'tune out' these
+false-positive modified flags when reading the git-status. Another issue is
+that if you use a diff-GUI such as <a class="reference external" href="http://meldmerge.org/">meld</a>, then beware: unlike <tt class="docutils literal">git diff</tt>,
+<tt class="docutils literal">git difftool</tt> will <strong>not</strong> apply filters to the working directory before
+comparing with the repo HEAD - so your command-line and GUI diffs have suddenly
+diverged! The logic behind this difference in behaviour is that GUI programs
+give the option to edit the local working-copy directly, as discussed at length
+in
+<a class="reference external" href="http://git.661346.n2.nabble.com/Using-clean-smudge-filters-with-difftool-td7633427.html">this thread</a>.
+This has clearly
+<a class="reference external" href="http://www.softec.lu/site/DevelopersCorner/GitSmudgeCleanCorrupted">caught out others before</a>.</p>
+<p>If they bother you, these false-positives and diff-divergences can easily be
+resolved by manually applying the jq-filters before you run your diffs.
+For convenience, my <em>~/.bashrc</em> also defines the following command to apply
+the filters to all notebooks in the current working directory:</p>
+<div class="highlight"><pre><span></span><span class="k">function</span> nbstrip_all_cwd <span class="o">{</span>
+    <span class="k">for</span> nbfile in *.ipynb<span class="p">;</span> <span class="k">do</span>
+        <span class="nb">echo</span> <span class="s2">&quot;</span><span class="k">$(</span> nbstrip_jq <span class="nv">$nbfile</span> <span class="k">)</span><span class="s2">&quot;</span> &gt; <span class="nv">$nbfile</span>
+    <span class="k">done</span>
+    <span class="nb">unset</span> nbfile
+<span class="o">}</span>
+</pre></div>
+<p>As a parting note, if you also choose to configure your gitattributes globally,
+you may want to know how to 'whitelist' notebooks in a particular repository
+(for example, if you're checking-in executed notebooks to a github-pages
+documentation branch).
+This is dead easy, just add a local <em>.gitattributes</em> file to the repository
+and re-blank the filter attribute, like so:</p>
+<div class="highlight"><pre><span></span><span class="na">*.ipynb filter</span><span class="o">=</span>
+</pre></div>
+<p>Hope that helps! Comments or corrections very welcome via <a class="reference external" href="http://timstaley.co.uk/#contact-details">Twitter</a>.</p>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+  </div>
+</div>
+<div class="col-sm-6 col-sm-offset-3 col-md-3 col-md-offset-0 ">
+  <div class="panel">
+      <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default"><i class="fa fa-calendar-o"></i> Published</span>
+    <br>
+    <span class="published">
+        <time datetime="2017-02-19T00:00:00+01:00"> Sun 19 February 2017</time>
+    </span>
+
+
+
+    <br>
+<span class="label label-default"><i class="fa fa-tag"></i> Tagged</span><br>
+	<a href="http://timstaley.co.uk/tag/git">git</a>
+        /
+	<a href="http://timstaley.co.uk/tag/jupyter">jupyter</a>
+        /
+	<a href="http://timstaley.co.uk/tag/ipython">ipython</a>
+        /
+	<a href="http://timstaley.co.uk/tag/notebooks">notebooks</a>
+        /
+	<a href="http://timstaley.co.uk/tag/jq">jq</a>
+        /
+	<a href="http://timstaley.co.uk/tag/json">JSON</a>
+        /
+	<a href="http://timstaley.co.uk/tag/best-practices">best practices</a>
+    
+</footer><!-- /.post-info -->      </div>
+  </div>
+</div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 Tim Staley
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://timstaley.co.uk/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://timstaley.co.uk/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://timstaley.co.uk/theme/js/respond.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-46485279-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+</body>
+</html>

@@ -299,7 +299,7 @@ First of all, let's check that we don't have any connection issues,
 by polling the master gmond daemon manually.
 On the machine you'll be using to serve up the web-frontend
 simply run:</p>
-<div class="highlight"><pre><span></span>$ netcat master.node.address 8649
+<div class="highlight"><pre><span></span>$ netcat master.node.address <span class="m">8649</span>
 </pre></div>
 <p>(Assuming your gmond is configured with the default <tt class="docutils literal">tcp_accept_channel</tt>
 port, as above.)
@@ -398,7 +398,7 @@ see a bunch of performance stats.</p>
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2015 Tim Staley
+         <div class="col-xs-10">&copy; 2017 Tim Staley
             &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>

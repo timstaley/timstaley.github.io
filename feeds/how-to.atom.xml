@@ -1,5 +1,267 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tim Staley - how-to</title><link href="http://timstaley.co.uk/" rel="alternate"></link><link href="http://timstaley.co.uk/feeds/how-to.atom.xml" rel="self"></link><id>http://timstaley.co.uk/</id><updated>2015-07-01T00:00:00+02:00</updated><entry><title>Why is Ansible better than shell scripting?</title><link href="http://timstaley.co.uk/posts/why-ansible" rel="alternate"></link><published>2015-07-01T00:00:00+02:00</published><updated>2015-07-01T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2015-07-01:/posts/why-ansible</id><summary type="html">&lt;p&gt;Recently, I've been using &lt;a class="reference external" href="http://docs.ansible.com/"&gt;Ansible&lt;/a&gt; to set up some new &lt;a class="reference external" href="https://github.com/timstaley/voevent-node-deploy/"&gt;VOEvent-node deployment scripts&lt;/a&gt;.
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tim Staley - how-to</title><link href="http://timstaley.co.uk/" rel="alternate"></link><link href="http://timstaley.co.uk/feeds/how-to.atom.xml" rel="self"></link><id>http://timstaley.co.uk/</id><updated>2017-02-19T00:00:00+01:00</updated><entry><title>Making Git and Jupyter Notebooks play nice</title><link href="http://timstaley.co.uk/posts/making-git-and-jupyter-notebooks-play-nice" rel="alternate"></link><published>2017-02-19T00:00:00+01:00</published><updated>2017-02-19T00:00:00+01:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2017-02-19:/posts/making-git-and-jupyter-notebooks-play-nice</id><summary type="html">&lt;p&gt;&lt;strong&gt;Summary:&lt;/strong&gt; &lt;a class="reference external" href="https://stedolan.github.io/jq/"&gt;jq&lt;/a&gt; rocks for speedy JSON mangling. Use it to make powerful git
+clean filters, e.g. when stripping out unwanted cached-data from Jupyter notebooks.
+You can find the documentation of git 'clean' and 'smudge' filters buried
+in
+&lt;a class="reference external" href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes#filters_a"&gt;the page on git-attributes&lt;/a&gt;,
+or see my example setup below.&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;div class="section" id="the-trouble-with-notebooks"&gt;
+&lt;h2&gt;The trouble …&lt;/h2&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Summary:&lt;/strong&gt; &lt;a class="reference external" href="https://stedolan.github.io/jq/"&gt;jq&lt;/a&gt; rocks for speedy JSON mangling. Use it to make powerful git
+clean filters, e.g. when stripping out unwanted cached-data from Jupyter notebooks.
+You can find the documentation of git 'clean' and 'smudge' filters buried
+in
+&lt;a class="reference external" href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes#filters_a"&gt;the page on git-attributes&lt;/a&gt;,
+or see my example setup below.&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;div class="section" id="the-trouble-with-notebooks"&gt;
+&lt;h2&gt;The trouble with notebooks&lt;/h2&gt;
+&lt;p&gt;For a year or so now I've been using &lt;a class="reference external" href="https://jupyter.readthedocs.io/en/latest/tryjupyter.html"&gt;Jupter&lt;/a&gt; notebooks as a means to produce
+tutorials and other documentation (see e.g. the &lt;a class="reference external" href="http://voeventdbremote.readthedocs.io"&gt;voeventdb.remote&lt;/a&gt; &lt;a class="reference external" href="http://voeventdbremote.readthedocs.io/en/latest/tutorial/quickstart.html"&gt;tutorial&lt;/a&gt;).
+It's a powerful medium, providing
+a good compromise between ease-of-editing and the capability to
+interleave text, code, intermediate results, plots, and even nicely-typeset
+LaTeX-encoded equations. I've even gone to far as to urge its adoption in
+recent &lt;a class="reference external" href="https://github.com/timstaley/sustainable-software-in-astro/blob/master/README.md"&gt;conference talks&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;However, this powerful interface inherits the age-old curse
+of &lt;a class="reference external" href="https://en.wikipedia.org/wiki/WYSIWYG"&gt;WYSIWYG&lt;/a&gt; editors - the document-files tend to contain more than just
+plain-text, and therefore are not-so-easy to handle with standard version-control
+tools. In the case of Jupyter, the format doesn't stray too far from
+comfortable plain-text territory - the &lt;a class="reference external" href="https://nbformat.readthedocs.io/"&gt;ipynb format&lt;/a&gt; is just a custom JSON
+data-structure, with the occasional base-64 encoded blob for images and other
+binary data. Which means version-control systems such as Git &lt;em&gt;can&lt;/em&gt; handle it
+quite well, but diff-comparing different versions of a complex notebook
+quickly becomes a chore as you scroll past long blocks of unintelligible base-64
+gibberish.&lt;/p&gt;
+&lt;p&gt;This is a problem when working with long-lived, multiple-revision
+or (especially) multiple-coauthor projects. What can we do about this? First,
+it's worth mentioning the initial &amp;quot;I'll figure this out later&amp;quot; solution which
+has served many users sufficiently well for a while - if you're typically only
+working from one machine, and you just want to keep your notebooks vaguely
+manageable, you can get by for a long time by manually hitting
+&lt;em&gt;Cell -&amp;gt; All Output -&amp;gt; Clear&lt;/em&gt;
+(followed by a Save) before you commit your notebooks.
+This wipes the slate clean with regards to cell
+outputs (plots, prints, whatver), so you'll need to re-run any computation next
+time you run the notebook.&lt;/p&gt;
+&lt;p&gt;The problems with this approach are that&lt;/p&gt;
+&lt;p&gt;A. it's &lt;em&gt;manual&lt;/em&gt;, so you'll have to painstakingly open up every notebook you
+recently re-ran and clear it before you commit, and&lt;/p&gt;
+&lt;p&gt;B. it doesn't even fully solve the 'noise-in-the-diffs' problem, since
+every notebook also contains a 'metadata' section, which looks a bit like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nt"&gt;&amp;quot;metadata&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;kernelspec&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;quot;display_name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Python 2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;quot;language&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;python&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;python2&amp;quot;&lt;/span&gt;
+  &lt;span class="p"&gt;},&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;language_info&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;quot;codemirror_mode&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ipython&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+   &lt;span class="p"&gt;},&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;quot;file_extension&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;.py&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;quot;mimetype&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;text/x-python&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;python&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;quot;nbconvert_exporter&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;python&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;quot;pygments_lexer&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ipython2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;2.7.12&amp;quot;&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Note the metadata section is
+&lt;a class="reference external" href="https://nbformat.readthedocs.io/en/latest/format_description.html#metadata"&gt;effectively a blank slate&lt;/a&gt;,
+and has a myriad of possible uses, but for most users it will just contain
+the above. This is useful for checking a previously run notebook, but is
+unwanted information when checking-in files to a multi-user project where
+everyone's using a slightly different Python version - it just generates
+more diff-noise.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="possible-pythonic-solutions"&gt;
+&lt;h2&gt;Possible Pythonic solutions&lt;/h2&gt;
+&lt;div class="section" id="nbdime-an-nbformat-diff-gui"&gt;
+&lt;h3&gt;nbdime - an nbformat diff-GUI&lt;/h3&gt;
+&lt;p&gt;We clearly need some tooling, and there are some Python projects out there
+trying to address exactly this problem. First, it's worth mentioning
+&lt;a class="reference external" href="https://nbdime.readthedocs.io"&gt;nbdime&lt;/a&gt;, which picks up the ball from where the (now defunct) &lt;a class="reference external" href="https://github.com/tarmstrong/nbdiff"&gt;nbdiff&lt;/a&gt; project
+left off and attempts to provide “content-aware” diffing and merging of Jupyter
+notebooks - a &lt;a class="reference external" href="http://meldmerge.org/"&gt;meld&lt;/a&gt; (GUI) diff-tool equivalent for the nbformat, if you will.
+I think nbdime has the potential to be a really good beginner-friendly,
+general purpose notebook-handling tool and I want to see it succeed. However;
+it's currently somewhat of a beta, and more importantly it only fills
+one role in the notebook editing toolbox - viewing crufty diffs. What I really
+want to do is automatically clear out all the cruft and
+&lt;em&gt;minimize the diffs in the first place&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="nbstripout-does-what-it-says-on-the-tin"&gt;
+&lt;h3&gt;nbstripout - does what it says on the tin&lt;/h3&gt;
+&lt;p&gt;A little searching then leads to &lt;a class="reference external" href="https://github.com/kynan/nbstripout"&gt;nbstripout&lt;/a&gt;, which is a one-module Python
+script wrapping the nbformat processing functions, and adding some automagic
+for setting up your git config (on which more in a moment). So this is
+effectively a strip automating the 'clear all output' manual process described
+above. However, this doesn't suit me for a couple of reasons; it leaves in
+that problematic 'metadata' section and also its &lt;strong&gt;slowww&lt;/strong&gt;.
+&lt;a class="reference external" href="https://github.com/kynan/nbstripout/issues/33"&gt;https://github.com/kynan/nbstripout/issues/33&lt;/a&gt;
+Running a script
+manually and expecting a short delay is fine, but we're going to integrate
+this into our git setup. That means it will run every time we hit
+&lt;tt class="docutils literal"&gt;git status&lt;/tt&gt;! One of the few things I love about git is that it's typically
+blazing fast; so a delay of nearly a fifth of a second every time I try to
+interact with it gets old pretty quickly:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;time&lt;/span&gt; nbstripout &lt;span class="m"&gt;01&lt;/span&gt;-parsing.ipynb
+real        0m0.174s
+user        0m0.152s
+sys         0m0.016s
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;(Note, this is a small notebook-file, on a fairly beefy laptop with an SSD).
+This not a criticism of nbstripout so much as an inherent flaw in using
+Python for low-latency tasks - that cold-startup overhead on the CPython
+interpreter is a killer. (Which in turn harks back to ancient history of
+mercurial vs git!)&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="enter-jq"&gt;
+&lt;h2&gt;Enter jq&lt;/h2&gt;
+&lt;p&gt;Fortunately, we have another option (thanks to Jan Schulz for the
+&lt;a class="reference external" href="http://janschulz.github.io/windows-dev-environment.html"&gt;tip-off&lt;/a&gt; on this).
+Since the nbformat is just JSON,
+we can make use of &lt;a class="reference external" href="https://stedolan.github.io/jq/"&gt;jq&lt;/a&gt;, 'a lightweight and flexible command-line JSON processor'
+('sed for JSON data'). There's a modicum of set-up overhead as jq has
+its very own query / filter language, but the documentation is good and the
+hard work has been done for you already. Here's the jq invocation I'm currently
+using:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;jq --indent &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="s1"&gt;    (.cells[] | select(has(&amp;quot;outputs&amp;quot;)) | .outputs) = []&lt;/span&gt;
+&lt;span class="s1"&gt;    | (.cells[] | select(has(&amp;quot;execution_count&amp;quot;)) | .execution_count) = null&lt;/span&gt;
+&lt;span class="s1"&gt;    | .metadata = {}&lt;/span&gt;
+&lt;span class="s1"&gt;    | .cells[].metadata = {}&lt;/span&gt;
+&lt;span class="s1"&gt;    &amp;#39;&lt;/span&gt; &lt;span class="m"&gt;01&lt;/span&gt;-parsing.ipynb
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Each line inside the single-quotes defines a filter - the first selects any
+entries from the 'cells' list, and blanks any outputs. The second resets
+any execution counts, and the third blanks the notebook metadata.
+The fourth filter-line,&lt;/p&gt;
+&lt;blockquote&gt;
+.cells[].metadata = {}&lt;/blockquote&gt;
+&lt;p&gt;is a matter of preference
+and situation - in recent versions of Jupyter every cell can be marked hidden /
+collapsed / write-protected, etc. I'm not interested in that metadata
+usually but of course you may want to keep it for some projects.&lt;/p&gt;
+&lt;p&gt;We now have a fully stripped-down notebook that should contain only the common
+information needed to execute with whatever local Python installation is
+available (assuming Python2/3 compatibility, correctly set-up library installs
+and all the rest).&lt;/p&gt;
+&lt;p&gt;Note you'll need jq version 1.5 or greater, since the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;--indent&lt;/span&gt;&lt;/tt&gt; option
+was only recently implemented and is necessary to conform with the nbformat.
+Fortunately that should only be a small binary-download away, even if you're
+on ancient linux or OSX.&lt;/p&gt;
+&lt;p&gt;That's a bit of a handful to type, but you can set it up as an alias in your
+&lt;em&gt;.bashrc&lt;/em&gt; with a bit of careful quotation-escaping:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;alias&lt;/span&gt; &lt;span class="nv"&gt;nbstrip_jq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;jq --indent 1 \&lt;/span&gt;
+&lt;span class="s2"&gt;    &amp;#39;(.cells[] | select(has(\&amp;quot;outputs\&amp;quot;)) | .outputs) = []  \&lt;/span&gt;
+&lt;span class="s2"&gt;    | (.cells[] | select(has(\&amp;quot;execution_count\&amp;quot;)) | .execution_count) = null  \&lt;/span&gt;
+&lt;span class="s2"&gt;    | .metadata = {} \&lt;/span&gt;
+&lt;span class="s2"&gt;    | .cells[].metadata = {} \&lt;/span&gt;
+&lt;span class="s2"&gt;    &amp;#39;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Which can then be used conveniently like so:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;nbstrip_jq &lt;span class="m"&gt;01&lt;/span&gt;-parsing.ipynb
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Not only does this give us full control to wipe that pesky metadata, it's
+pretty damn quick, taking something like a tenth of the time of nbstripout
+in my (admittedly ad-hoc) testing:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;nbstrip_jq &lt;span class="m"&gt;01&lt;/span&gt;-parsing.ipynb
+&lt;span class="c1"&gt;# (JSON contents omitted)&lt;/span&gt;
+real        0m0.015s
+user        0m0.008s
+sys         0m0.004s
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="automation-integrating-with-git"&gt;
+&lt;h2&gt;Automation: Integrating with git&lt;/h2&gt;
+&lt;p&gt;So we're all tooled up, but the question remains - how do we get git to
+run this automatically for us? For this, we dive into 'gitattributes'
+functionality, specifically the
+&lt;a class="reference external" href="https://git-scm.com/docs/gitattributes#__code_filter_code"&gt;filter&lt;/a&gt; section.
+This describes how to define 'clean' and 'smudge' (reverse of clean) filters,
+which are operations that transform our data as its checked in or out of the
+git-repository, so that (for example) our notebook-output cells are always
+stripped away from the JSON-data before it's added to the git repository:&lt;/p&gt;
+&lt;img alt="Clean-filter illustration" src="https://git-scm.com/book/en/v2/images/clean.png" /&gt;
+&lt;p&gt;In the general case you can also define a smudge-filter to take your repository
+contents and do something with it to make it local to your system, but we'll
+not be needing that here - we'll just use the &lt;tt class="docutils literal"&gt;cat&lt;/tt&gt; command as a placeholder.
+The easiest way to explain how to configure this is
+with an example. Personally, I want notebook-cleaning behaviour to be the default
+across all my git-repositories, so I have the following entries in my
+global &lt;em&gt;~/.gitconfig&lt;/em&gt; file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[core]&lt;/span&gt;
+&lt;span class="na"&gt;attributesfile&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;~/.gitattributes_global&lt;/span&gt;
+
+&lt;span class="k"&gt;[filter &amp;quot;nbstrip_full&amp;quot;]&lt;/span&gt;
+&lt;span class="na"&gt;clean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;jq --indent 1 \&lt;/span&gt;
+&lt;span class="s"&gt;         &amp;#39;(.cells[] | select(has(\&amp;quot;outputs\&amp;quot;)) | .outputs) = []  \&lt;/span&gt;
+&lt;span class="s"&gt;         | (.cells[] | select(has(\&amp;quot;execution_count\&amp;quot;)) | .execution_count) = null  \&lt;/span&gt;
+&lt;span class="s"&gt;         | .metadata = {} \&lt;/span&gt;
+&lt;span class="s"&gt;         | .cells[].metadata = {} \&lt;/span&gt;
+&lt;span class="s"&gt;         &amp;#39;&amp;quot;&lt;/span&gt;
+&lt;span class="na"&gt;smudge&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;cat&lt;/span&gt;
+&lt;span class="na"&gt;required&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;true&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And then in &lt;em&gt;~/.gitattributes_global&lt;/em&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="na"&gt;*.ipynb filter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;nbstrip_full&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;That's it! You're all set to go version control notebooks like a champ!
+Well, almost.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="getting-started-and-gotchas"&gt;
+&lt;h2&gt;Getting started and gotchas&lt;/h2&gt;
+&lt;p&gt;Note that we're into git-powertool territory here, so things might be a little
+less polished compared to the (&lt;em&gt;cough&lt;/em&gt;) usual intuitive git interface you're
+used to.&lt;/p&gt;
+&lt;p&gt;To start off with, assuming a pre-existing set of notebooks, you'll want to
+add a 'do-nothing' commit, where you simply pull in the newly-filtered versions
+of your notebooks and trim out any unwanted metadata. Just &lt;tt class="docutils literal"&gt;git add&lt;/tt&gt; your
+notebooks and then &lt;tt class="docutils literal"&gt;git diff &lt;span class="pre"&gt;--cached&lt;/span&gt;&lt;/tt&gt; to see the patch removing all the cruft.
+Commit that, then go ahead, run your notebooks, leave uncleaned outputs all
+over the place. Unless you change the actual code-cell contents, your git diff
+should be blank! Great. Except. If you have executed a notebook since your
+last commit, &lt;tt class="docutils literal"&gt;git status&lt;/tt&gt; may show that file as 'modified', despite the
+fact that when you &lt;tt class="docutils literal"&gt;git diff&lt;/tt&gt;, the filters go into action and no
+differences-to-HEAD are found. So you have to 'tune out' these
+false-positive modified flags when reading the git-status. Another issue is
+that if you use a diff-GUI such as &lt;a class="reference external" href="http://meldmerge.org/"&gt;meld&lt;/a&gt;, then beware: unlike &lt;tt class="docutils literal"&gt;git diff&lt;/tt&gt;,
+&lt;tt class="docutils literal"&gt;git difftool&lt;/tt&gt; will &lt;strong&gt;not&lt;/strong&gt; apply filters to the working directory before
+comparing with the repo HEAD - so your command-line and GUI diffs have suddenly
+diverged! The logic behind this difference in behaviour is that GUI programs
+give the option to edit the local working-copy directly, as discussed at length
+in
+&lt;a class="reference external" href="http://git.661346.n2.nabble.com/Using-clean-smudge-filters-with-difftool-td7633427.html"&gt;this thread&lt;/a&gt;.
+This has clearly
+&lt;a class="reference external" href="http://www.softec.lu/site/DevelopersCorner/GitSmudgeCleanCorrupted"&gt;caught out others before&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If they bother you, these false-positives and diff-divergences can easily be
+resolved by manually applying the jq-filters before you run your diffs.
+For convenience, my &lt;em&gt;~/.bashrc&lt;/em&gt; also defines the following command to apply
+the filters to all notebooks in the current working directory:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt; nbstrip_all_cwd &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; nbfile in *.ipynb&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt; nbstrip_jq &lt;span class="nv"&gt;$nbfile&lt;/span&gt; &lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &amp;gt; &lt;span class="nv"&gt;$nbfile&lt;/span&gt;
+    &lt;span class="k"&gt;done&lt;/span&gt;
+    &lt;span class="nb"&gt;unset&lt;/span&gt; nbfile
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;As a parting note, if you also choose to configure your gitattributes globally,
+you may want to know how to 'whitelist' notebooks in a particular repository
+(for example, if you're checking-in executed notebooks to a github-pages
+documentation branch).
+This is dead easy, just add a local &lt;em&gt;.gitattributes&lt;/em&gt; file to the repository
+and re-blank the filter attribute, like so:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="na"&gt;*.ipynb filter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Hope that helps! Comments or corrections very welcome via &lt;a class="reference external" href="http://timstaley.co.uk/#contact-details"&gt;Twitter&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="git"></category><category term="jupyter"></category><category term="ipython"></category><category term="notebooks"></category><category term="jq"></category><category term="JSON"></category><category term="best practices"></category></entry><entry><title>Why is Ansible better than shell scripting?</title><link href="http://timstaley.co.uk/posts/why-ansible" rel="alternate"></link><published>2015-07-01T00:00:00+02:00</published><updated>2015-07-01T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2015-07-01:/posts/why-ansible</id><summary type="html">&lt;p&gt;Recently, I've been using &lt;a class="reference external" href="http://docs.ansible.com/"&gt;Ansible&lt;/a&gt; to set up some new &lt;a class="reference external" href="https://github.com/timstaley/voevent-node-deploy/"&gt;VOEvent-node deployment scripts&lt;/a&gt;.
 While I'm at it, I've also been converting a lot of messy provisioning
 shell-scripts (see &lt;a class="reference external" href="https://github.com/timstaley/SAL-build-scripts"&gt;old version&lt;/a&gt;, &lt;a class="reference external" href="https://github.com/4pisky/4pisky-cluster-config"&gt;new version&lt;/a&gt; - work in progress).
 Here are my notes on why Ansible is, IMO, much nicer than plain old shell-scripts …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Recently, I've been using &lt;a class="reference external" href="http://docs.ansible.com/"&gt;Ansible&lt;/a&gt; to set up some new &lt;a class="reference external" href="https://github.com/timstaley/voevent-node-deploy/"&gt;VOEvent-node deployment scripts&lt;/a&gt;.
@@ -619,7 +881,7 @@ First of all, let's check that we don't have any connection issues,
 by polling the master gmond daemon manually.
 On the machine you'll be using to serve up the web-frontend
 simply run:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ netcat master.node.address 8649
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ netcat master.node.address &lt;span class="m"&gt;8649&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;(Assuming your gmond is configured with the default &lt;tt class="docutils literal"&gt;tcp_accept_channel&lt;/tt&gt;
 port, as above.)

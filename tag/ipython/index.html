@@ -3,7 +3,7 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-    <title>Graphical ssh-agent prompting in Xubuntu - Tim Staley</title>
+    <title>ipython - Tim Staley</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -68,63 +68,49 @@ Tim Staley            </a>
 
 <div class="container">
     <div class="row">
-<div class="col-sm-10 col-sm-offset-1 col-md-7 col-md-offset-2 ">
-  <div class="custom-max-width">
-    <section id="content">
-        <article>
-            <header class="page-header">
-                <h1>
-                    <a href="http://timstaley.co.uk/posts/graphical-ssh-agent-prompting-in-xubuntu"
-                       rel="bookmark"
-                       title="Permalink to Graphical ssh-agent prompting in Xubuntu">
-                        Graphical ssh-agent prompting in Xubuntu
-                    </a>
-                </h1>
-            </header>
-            <div class="entry-content">
-                <p>One of the fallbacks / features (depending on your preference) of using XFCE over the standard Ubuntu interface is that you don't get per-session ssh-agent handling (via a graphical interface) out-of-the-box, meaning you must manually fire up ssh-agent every time you login on your desktop. A minor annoyance, granted, but I remember it grating slightly after migrating from a pleasingly automated Ubuntu 10.04/Gnome setup.</p>
-<p>This is easily fixed, however. The basic idea can be found
-<a class="reference external" href="http://lekv.de/blog/2012/03/15/xfce-and-the-gnome-keyring-daemon-revised/">here,</a> after some googling
-(and I think it was on one of the stack-exchange sites, but I've lost the link).
-However, what they don't mention is that <strong>this squashes ssh-agent forwarding</strong>. The SSH_AUTH_SOCK environment variable is always overwritten, so if you SSH to your desktop from elsewhere (your laptop, say), then attempt to tunnel forward to a third machine, you get a graphical prompt asking you to unlock your <em>desktop's</em> key, rather than silently forwarding the laptop's. Boo.</p>
-<p>Fortunately, we only need to be marginally more sophisticated to make it watertight.
-Try adding this to your <tt class="docutils literal">.bashrc</tt>:</p>
-<pre class="code literal-block">
-if [[ -z &quot;${SSH_CONNECTION}&quot; ]]; then
-        export $(gnome-keyring-daemon --start )
-fi
-</pre>
-<p>Tested on Xubuntu 12.04.</p>
+<div class="col-sm-9 col-md-8 col-md-offset-1">
+  <div class="page-header">
+    <h1>  Posts tagged 'ipython'
+</h1>
+  </div>
 
-            </div>
-            <!-- /.entry-content -->
-        </article>
+            <article>
+                <h2><a href="http://timstaley.co.uk/posts/making-git-and-jupyter-notebooks-play-nice">Making Git and Jupyter Notebooks play nice</a></h2>
+                <div class="summary"><p><strong>Summary:</strong> <a class="reference external" href="https://stedolan.github.io/jq/">jq</a> rocks for speedy JSON mangling. Use it to make powerful git
+clean filters, e.g. when stripping out unwanted cached-data from Jupyter notebooks.
+You can find the documentation of git 'clean' and 'smudge' filters buried
+in
+<a class="reference external" href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes#filters_a">the page on git-attributes</a>,
+or see my example setup below.</p>
+<hr class="docutils" />
+<div class="section" id="the-trouble-with-notebooks">
+<h2>The trouble …</h2></div>
+                    <a class="btn btn-default btn-xs" href="http://timstaley.co.uk/posts/making-git-and-jupyter-notebooks-play-nice">more ...</a>
+                </div>
+            </article>
+            <hr/>
+
+</div>
+<div class="col-sm-3 col-lg-2 col-lg-offset-1 well well-sm" id="sidebar">
+
+<aside>
+    <section>
+        <ul class="list-group list-group-flush">
+
+
+            <li class="list-group-item"><a href="http://timstaley.co.uk/posts/bydate"><h4><i class="fa fa-calendar fa-lg"></i><span class="icon-label">Archive</span></h4></a>
+            </li>
+
+
+                <li class="list-group-item"><a href="http://timstaley.co.uk/tag"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                    <ul class="list-group list-inline tagcloud" id="tags">
+                    </ul>
+                </li>    
+
+        </ul>
     </section>
-  </div>
-</div>
-<div class="col-sm-6 col-sm-offset-3 col-md-3 col-md-offset-0 ">
-  <div class="panel">
-      <div class="panel-body">
-<footer class="post-info">
-    <span class="label label-default"><i class="fa fa-calendar-o"></i> Published</span>
-    <br>
-    <span class="published">
-        <time datetime="2014-01-15T00:00:00+01:00"> Wed 15 January 2014</time>
-    </span>
 
-
-
-    <br>
-<span class="label label-default"><i class="fa fa-tag"></i> Tagged</span><br>
-	<a href="http://timstaley.co.uk/tag/how-to">how to</a>
-        /
-	<a href="http://timstaley.co.uk/tag/xubuntu">Xubuntu</a>
-        /
-	<a href="http://timstaley.co.uk/tag/ssh">ssh</a>
-    
-</footer><!-- /.post-info -->      </div>
-  </div>
-</div>
+</aside></div>
     </div>
 </div>
 <footer>
