@@ -16,7 +16,7 @@ or see my example setup below.&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;div class="section" id="the-trouble-with-notebooks"&gt;
 &lt;h2&gt;The trouble with notebooks&lt;/h2&gt;
-&lt;p&gt;For a year or so now I've been using &lt;a class="reference external" href="https://jupyter.readthedocs.io/en/latest/tryjupyter.html"&gt;Jupter&lt;/a&gt; notebooks as a means to produce
+&lt;p&gt;For a year or so now I've been using &lt;a class="reference external" href="https://jupyter.readthedocs.io/en/latest/tryjupyter.html"&gt;Jupyter&lt;/a&gt; notebooks as a means to produce
 tutorials and other documentation (see e.g. the &lt;a class="reference external" href="http://voeventdbremote.readthedocs.io"&gt;voeventdb.remote&lt;/a&gt; &lt;a class="reference external" href="http://voeventdbremote.readthedocs.io/en/latest/tutorial/quickstart.html"&gt;tutorial&lt;/a&gt;).
 It's a powerful medium, providing
 a good compromise between ease-of-editing and the capability to
@@ -97,15 +97,15 @@ want to do is automatically clear out all the cruft and
 &lt;h3&gt;nbstripout - does what it says on the tin&lt;/h3&gt;
 &lt;p&gt;A little searching then leads to &lt;a class="reference external" href="https://github.com/kynan/nbstripout"&gt;nbstripout&lt;/a&gt;, which is a one-module Python
 script wrapping the nbformat processing functions, and adding some automagic
-for setting up your git config (on which more in a moment). So this is
-effectively a strip automating the 'clear all output' manual process described
+for setting up your git config (on which more in a moment). This
+effectively automates the 'clear all output' manual process described
 above. However, this doesn't suit me for a couple of reasons; it leaves in
-that problematic 'metadata' section and also its &lt;strong&gt;slowww&lt;/strong&gt;.
-&lt;a class="reference external" href="https://github.com/kynan/nbstripout/issues/33"&gt;https://github.com/kynan/nbstripout/issues/33&lt;/a&gt;
+that problematic 'metadata' section and also it's
+&lt;a class="reference external" href="https://github.com/kynan/nbstripout/issues/33"&gt;**slowww**&lt;/a&gt;.
 Running a script
 manually and expecting a short delay is fine, but we're going to integrate
 this into our git setup. That means it will run every time we hit
-&lt;tt class="docutils literal"&gt;git status&lt;/tt&gt;! One of the few things I love about git is that it's typically
+&lt;tt class="docutils literal"&gt;git diff&lt;/tt&gt;! One of the few things I love about git is that it's typically
 blazing fast; so a delay of nearly a fifth of a second every time I try to
 interact with it gets old pretty quickly:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;time&lt;/span&gt; nbstripout &lt;span class="m"&gt;01&lt;/span&gt;-parsing.ipynb

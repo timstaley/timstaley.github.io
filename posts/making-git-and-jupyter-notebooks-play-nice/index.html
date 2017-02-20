@@ -91,7 +91,7 @@ or see my example setup below.</p>
 <hr class="docutils" />
 <div class="section" id="the-trouble-with-notebooks">
 <h2>The trouble with notebooks</h2>
-<p>For a year or so now I've been using <a class="reference external" href="https://jupyter.readthedocs.io/en/latest/tryjupyter.html">Jupter</a> notebooks as a means to produce
+<p>For a year or so now I've been using <a class="reference external" href="https://jupyter.readthedocs.io/en/latest/tryjupyter.html">Jupyter</a> notebooks as a means to produce
 tutorials and other documentation (see e.g. the <a class="reference external" href="http://voeventdbremote.readthedocs.io">voeventdb.remote</a> <a class="reference external" href="http://voeventdbremote.readthedocs.io/en/latest/tutorial/quickstart.html">tutorial</a>).
 It's a powerful medium, providing
 a good compromise between ease-of-editing and the capability to
@@ -172,15 +172,15 @@ want to do is automatically clear out all the cruft and
 <h3>nbstripout - does what it says on the tin</h3>
 <p>A little searching then leads to <a class="reference external" href="https://github.com/kynan/nbstripout">nbstripout</a>, which is a one-module Python
 script wrapping the nbformat processing functions, and adding some automagic
-for setting up your git config (on which more in a moment). So this is
-effectively a strip automating the 'clear all output' manual process described
+for setting up your git config (on which more in a moment). This
+effectively automates the 'clear all output' manual process described
 above. However, this doesn't suit me for a couple of reasons; it leaves in
-that problematic 'metadata' section and also its <strong>slowww</strong>.
-<a class="reference external" href="https://github.com/kynan/nbstripout/issues/33">https://github.com/kynan/nbstripout/issues/33</a>
+that problematic 'metadata' section and also it's
+<a class="reference external" href="https://github.com/kynan/nbstripout/issues/33">**slowww**</a>.
 Running a script
 manually and expecting a short delay is fine, but we're going to integrate
 this into our git setup. That means it will run every time we hit
-<tt class="docutils literal">git status</tt>! One of the few things I love about git is that it's typically
+<tt class="docutils literal">git diff</tt>! One of the few things I love about git is that it's typically
 blazing fast; so a delay of nearly a fifth of a second every time I try to
 interact with it gets old pretty quickly:</p>
 <div class="highlight"><pre><span></span><span class="nb">time</span> nbstripout <span class="m">01</span>-parsing.ipynb
