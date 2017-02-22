@@ -287,6 +287,10 @@ global <em>~/.gitconfig</em> file:</p>
 <p>And then in <em>~/.gitattributes_global</em>:</p>
 <div class="highlight"><pre><span></span><span class="na">*.ipynb filter</span><span class="o">=</span><span class="s">nbstrip_full</span>
 </pre></div>
+<p>(Note, once you've defined your filter you can just as easily assign it to
+files in a repository specific
+<a class="reference external" href="https://git-scm.com/docs/gitattributes#_description">.gitattributes</a>
+file if you prefer a fine-grained approach.)</p>
 <p>That's it! You're all set to go version control notebooks like a champ!
 Well, almost.</p>
 </div>
@@ -298,10 +302,16 @@ used to.</p>
 <p>To start off with, assuming a pre-existing set of notebooks, you'll want to
 add a 'do-nothing' commit, where you simply pull in the newly-filtered versions
 of your notebooks and trim out any unwanted metadata. Just <tt class="docutils literal">git add</tt> your
-notebooks and then <tt class="docutils literal">git diff <span class="pre">--cached</span></tt> to see the patch removing all the cruft.
+notebooks, noting that you may need to <tt class="docutils literal">touch</tt> them first, so git picks up on the
+timestamp-modification and actually looks at the files for changes.
+Then,</p>
+<div class="highlight"><pre><span></span>git diff --cached
+</pre></div>
+<p>to see the patch removing all the cruft.
 Commit that, then go ahead, run your notebooks, leave uncleaned outputs all
 over the place. Unless you change the actual code-cell contents, your git diff
-should be blank! Great. Except. If you have executed a notebook since your
+should be blank!</p>
+<p>Great. Except. If you have executed a notebook since your
 last commit, <tt class="docutils literal">git status</tt> may show that file as 'modified', despite the
 fact that when you <tt class="docutils literal">git diff</tt>, the filters go into action and no
 differences-to-HEAD are found. So you have to 'tune out' these
@@ -331,9 +341,10 @@ you may want to know how to 'whitelist' notebooks in a particular repository
 (for example, if you're checking-in executed notebooks to a github-pages
 documentation branch).
 This is dead easy, just add a local <em>.gitattributes</em> file to the repository
-and re-blank the filter attribute, like so:</p>
-<div class="highlight"><pre><span></span><span class="na">*.ipynb filter</span><span class="o">=</span>
+and 'unset' the filter attribute, like so:</p>
+<div class="highlight"><pre><span></span><span class="na">*.ipynb -filter</span>
 </pre></div>
+<p>Or you could replace the <tt class="docutils literal">*.ipynb</tt> with a path to a specific notebook, etc.</p>
 <p>Hope that helps! Comments or corrections very welcome via <a class="reference external" href="http://timstaley.co.uk/#contact-details">Twitter</a>.</p>
 </div>
 

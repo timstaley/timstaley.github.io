@@ -212,6 +212,10 @@ global &lt;em&gt;~/.gitconfig&lt;/em&gt; file:&lt;/p&gt;
 &lt;p&gt;And then in &lt;em&gt;~/.gitattributes_global&lt;/em&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="na"&gt;*.ipynb filter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;nbstrip_full&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;(Note, once you've defined your filter you can just as easily assign it to
+files in a repository specific
+&lt;a class="reference external" href="https://git-scm.com/docs/gitattributes#_description"&gt;.gitattributes&lt;/a&gt;
+file if you prefer a fine-grained approach.)&lt;/p&gt;
 &lt;p&gt;That's it! You're all set to go version control notebooks like a champ!
 Well, almost.&lt;/p&gt;
 &lt;/div&gt;
@@ -223,10 +227,16 @@ used to.&lt;/p&gt;
 &lt;p&gt;To start off with, assuming a pre-existing set of notebooks, you'll want to
 add a 'do-nothing' commit, where you simply pull in the newly-filtered versions
 of your notebooks and trim out any unwanted metadata. Just &lt;tt class="docutils literal"&gt;git add&lt;/tt&gt; your
-notebooks and then &lt;tt class="docutils literal"&gt;git diff &lt;span class="pre"&gt;--cached&lt;/span&gt;&lt;/tt&gt; to see the patch removing all the cruft.
+notebooks, noting that you may need to &lt;tt class="docutils literal"&gt;touch&lt;/tt&gt; them first, so git picks up on the
+timestamp-modification and actually looks at the files for changes.
+Then,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git diff --cached
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;to see the patch removing all the cruft.
 Commit that, then go ahead, run your notebooks, leave uncleaned outputs all
 over the place. Unless you change the actual code-cell contents, your git diff
-should be blank! Great. Except. If you have executed a notebook since your
+should be blank!&lt;/p&gt;
+&lt;p&gt;Great. Except. If you have executed a notebook since your
 last commit, &lt;tt class="docutils literal"&gt;git status&lt;/tt&gt; may show that file as 'modified', despite the
 fact that when you &lt;tt class="docutils literal"&gt;git diff&lt;/tt&gt;, the filters go into action and no
 differences-to-HEAD are found. So you have to 'tune out' these
@@ -256,9 +266,10 @@ you may want to know how to 'whitelist' notebooks in a particular repository
 (for example, if you're checking-in executed notebooks to a github-pages
 documentation branch).
 This is dead easy, just add a local &lt;em&gt;.gitattributes&lt;/em&gt; file to the repository
-and re-blank the filter attribute, like so:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="na"&gt;*.ipynb filter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+and 'unset' the filter attribute, like so:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="na"&gt;*.ipynb -filter&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Or you could replace the &lt;tt class="docutils literal"&gt;*.ipynb&lt;/tt&gt; with a path to a specific notebook, etc.&lt;/p&gt;
 &lt;p&gt;Hope that helps! Comments or corrections very welcome via &lt;a class="reference external" href="http://timstaley.co.uk/#contact-details"&gt;Twitter&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 </content><category term="git"></category><category term="jupyter"></category><category term="ipython"></category><category term="notebooks"></category><category term="jq"></category><category term="JSON"></category><category term="best practices"></category></entry><entry><title>Why is Ansible better than shell scripting?</title><link href="http://timstaley.co.uk/posts/why-ansible" rel="alternate"></link><published>2015-07-01T00:00:00+02:00</published><updated>2015-07-01T00:00:00+02:00</updated><author><name>Tim Staley</name></author><id>tag:timstaley.co.uk,2015-07-01:/posts/why-ansible</id><summary type="html">&lt;p&gt;Recently, I've been using &lt;a class="reference external" href="http://docs.ansible.com/"&gt;Ansible&lt;/a&gt; to set up some new &lt;a class="reference external" href="https://github.com/timstaley/voevent-node-deploy/"&gt;VOEvent-node deployment scripts&lt;/a&gt;.
