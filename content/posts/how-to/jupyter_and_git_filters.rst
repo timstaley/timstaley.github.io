@@ -250,6 +250,11 @@ And then in *~/.gitattributes_global*:
 
     *.ipynb filter=nbstrip_full
 
+(Note, once you've defined your filter you can just as easily assign it to
+files in a repository specific
+`.gitattributes <https://git-scm.com/docs/gitattributes#_description>`_
+file if you prefer a fine-grained approach.)
+
 That's it! You're all set to go version control notebooks like a champ!
 Well, almost.
 
@@ -262,10 +267,20 @@ used to.
 To start off with, assuming a pre-existing set of notebooks, you'll want to
 add a 'do-nothing' commit, where you simply pull in the newly-filtered versions
 of your notebooks and trim out any unwanted metadata. Just ``git add`` your
-notebooks and then ``git diff --cached`` to see the patch removing all the cruft.
+notebooks, noting that you may need to ``touch`` them first, so git picks up on the
+timestamp-modification and actually looks at the files for changes.
+Then,
+
+.. code-block:: shell
+
+    git diff --cached
+
+to see the patch removing all the cruft.
 Commit that, then go ahead, run your notebooks, leave uncleaned outputs all
 over the place. Unless you change the actual code-cell contents, your git diff
-should be blank! Great. Except. If you have executed a notebook since your
+should be blank!
+
+Great. Except. If you have executed a notebook since your
 last commit, ``git status`` may show that file as 'modified', despite the
 fact that when you ``git diff``, the filters go into action and no
 differences-to-HEAD are found. So you have to 'tune out' these
@@ -299,11 +314,13 @@ you may want to know how to 'whitelist' notebooks in a particular repository
 (for example, if you're checking-in executed notebooks to a github-pages
 documentation branch).
 This is dead easy, just add a local *.gitattributes* file to the repository
-and re-blank the filter attribute, like so:
+and 'unset' the filter attribute, like so:
 
 .. code-block:: ini
 
-    *.ipynb filter=
+    *.ipynb -filter
+
+Or you could replace the ``*.ipynb`` with a path to a specific notebook, etc.
 
 Hope that helps! Comments or corrections very welcome via Twitter_.
 
