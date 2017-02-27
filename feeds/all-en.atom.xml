@@ -73,7 +73,7 @@ every notebook also contains a 'metadata' section, which looks a bit like this:&
 &lt;a class="reference external" href="https://nbformat.readthedocs.io/en/latest/format_description.html#metadata"&gt;effectively a blank slate&lt;/a&gt;,
 and has a myriad of possible uses, but for most users it will just contain
 the above. This is useful for checking a previously run notebook, but is
-unwanted information when checking-in files to a multi-user project where
+mostly unwanted information when checking-in files to a multi-user project where
 everyone's using a slightly different Python version - it just generates
 more diff-noise.&lt;/p&gt;
 &lt;/div&gt;
@@ -134,13 +134,16 @@ using:&lt;/p&gt;
     &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;
 &lt;span class="s1"&gt;    (.cells[] | select(has(&amp;quot;outputs&amp;quot;)) | .outputs) = []&lt;/span&gt;
 &lt;span class="s1"&gt;    | (.cells[] | select(has(&amp;quot;execution_count&amp;quot;)) | .execution_count) = null&lt;/span&gt;
-&lt;span class="s1"&gt;    | .metadata = {}&lt;/span&gt;
+&lt;span class="s1"&gt;    | .metadata = {&amp;quot;language_info&amp;quot;: {&amp;quot;name&amp;quot;:&amp;quot;python&amp;quot;, &amp;quot;pygments_lexer&amp;quot;: &amp;quot;ipython3&amp;quot;}}&lt;/span&gt;
 &lt;span class="s1"&gt;    | .cells[].metadata = {}&lt;/span&gt;
 &lt;span class="s1"&gt;    &amp;#39;&lt;/span&gt; &lt;span class="m"&gt;01&lt;/span&gt;-parsing.ipynb
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Each line inside the single-quotes defines a filter - the first selects any
 entries from the 'cells' list, and blanks any outputs. The second resets
-any execution counts, and the third blanks the notebook metadata.
+any execution counts.
+The third wipes the notebook metadata, replacing it with the minimum of
+required information for the notebook to still run without complaints &lt;a class="footnote-reference" href="#id2" id="id1"&gt;[*]&lt;/a&gt; and
+work correctly when formatted with &lt;a class="reference external" href="https://nbsphinx.readthedocs.io/"&gt;nbsphinx&lt;/a&gt;.
 The fourth filter-line,&lt;/p&gt;
 &lt;blockquote&gt;
 .cells[].metadata = {}&lt;/blockquote&gt;
@@ -161,12 +164,12 @@ on ancient linux or OSX.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;alias&lt;/span&gt; &lt;span class="nv"&gt;nbstrip_jq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;jq --indent 1 \&lt;/span&gt;
 &lt;span class="s2"&gt;    &amp;#39;(.cells[] | select(has(\&amp;quot;outputs\&amp;quot;)) | .outputs) = []  \&lt;/span&gt;
 &lt;span class="s2"&gt;    | (.cells[] | select(has(\&amp;quot;execution_count\&amp;quot;)) | .execution_count) = null  \&lt;/span&gt;
-&lt;span class="s2"&gt;    | .metadata = {} \&lt;/span&gt;
+&lt;span class="s2"&gt;    | .metadata = {\&amp;quot;language_info\&amp;quot;: {\&amp;quot;name\&amp;quot;: \&amp;quot;python\&amp;quot;, \&amp;quot;pygments_lexer\&amp;quot;: \&amp;quot;ipython3\&amp;quot;}} \&lt;/span&gt;
 &lt;span class="s2"&gt;    | .cells[].metadata = {} \&lt;/span&gt;
 &lt;span class="s2"&gt;    &amp;#39;&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Which can then be used conveniently like so:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;nbstrip_jq &lt;span class="m"&gt;01&lt;/span&gt;-parsing.ipynb
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;nbstrip_jq &lt;span class="m"&gt;01&lt;/span&gt;-parsing.ipynb &amp;gt; stripped.ipynb
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Not only does this give us full control to wipe that pesky metadata, it's
 pretty damn quick, taking something like a tenth of the time of nbstripout
@@ -177,6 +180,20 @@ real        0m0.015s
 user        0m0.008s
 sys         0m0.004s
 &lt;/pre&gt;&lt;/div&gt;
+&lt;table class="docutils footnote" frame="void" id="id2" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label" /&gt;&lt;col /&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id1"&gt;[*]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Note on handling the notebook-level metadata section:
+Previously I had been blanking the metadata entirely, but it turns out that
+the &lt;tt class="docutils literal"&gt;pygments_lexer&lt;/tt&gt; entry is crucial for &lt;a class="reference external" href="https://nbsphinx.readthedocs.io/"&gt;nbsphinx&lt;/a&gt; to format notebooks
+with the correct syntax highlighting, hence the slightly awkward entry you
+see here. You might want to take a more careful approach and put together a
+jq-filter which merely removes (or normalizes) the Python version numbers,
+thereby lessening the risk of inadvertently wiping useful metadata. But for
+the purposes of this blog post I wanted to keep things as simple as possible
+while actually giving a usable, working setup.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;/div&gt;
 &lt;div class="section" id="automation-integrating-with-git"&gt;
 &lt;h2&gt;Automation: Integrating with git&lt;/h2&gt;
@@ -201,11 +218,11 @@ global &lt;em&gt;~/.gitconfig&lt;/em&gt; file:&lt;/p&gt;
 
 &lt;span class="k"&gt;[filter &amp;quot;nbstrip_full&amp;quot;]&lt;/span&gt;
 &lt;span class="na"&gt;clean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;jq --indent 1 \&lt;/span&gt;
-&lt;span class="s"&gt;         &amp;#39;(.cells[] | select(has(\&amp;quot;outputs\&amp;quot;)) | .outputs) = []  \&lt;/span&gt;
-&lt;span class="s"&gt;         | (.cells[] | select(has(\&amp;quot;execution_count\&amp;quot;)) | .execution_count) = null  \&lt;/span&gt;
-&lt;span class="s"&gt;         | .metadata = {} \&lt;/span&gt;
-&lt;span class="s"&gt;         | .cells[].metadata = {} \&lt;/span&gt;
-&lt;span class="s"&gt;         &amp;#39;&amp;quot;&lt;/span&gt;
+&lt;span class="s"&gt;        &amp;#39;(.cells[] | select(has(\&amp;quot;outputs\&amp;quot;)) | .outputs) = []  \&lt;/span&gt;
+&lt;span class="s"&gt;        | (.cells[] | select(has(\&amp;quot;execution_count\&amp;quot;)) | .execution_count) = null  \&lt;/span&gt;
+&lt;span class="s"&gt;        | .metadata = {\&amp;quot;language_info\&amp;quot;: {\&amp;quot;name\&amp;quot;: \&amp;quot;python\&amp;quot;, \&amp;quot;pygments_lexer\&amp;quot;: \&amp;quot;ipython3\&amp;quot;}} \&lt;/span&gt;
+&lt;span class="s"&gt;        | .cells[].metadata = {} \&lt;/span&gt;
+&lt;span class="s"&gt;        &amp;#39;&amp;quot;&lt;/span&gt;
 &lt;span class="na"&gt;smudge&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;cat&lt;/span&gt;
 &lt;span class="na"&gt;required&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;true&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -261,6 +278,12 @@ the filters to all notebooks in the current working directory:&lt;/p&gt;
     &lt;span class="nb"&gt;unset&lt;/span&gt; nbfile
 &lt;span class="o"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Addtionally, let me note that
+&lt;strong&gt;clean/smudge filters often do not play well with rebase operations&lt;/strong&gt;. Things
+get very confusing if you try to rebase across commits before / after applying
+a clean-filter. The simplest way to work around this is to simply comment out
+the relevant filter-assignment line in &lt;em&gt;.gitattributes_global&lt;/em&gt; while performing
+a rebase, then uncomment it when done.&lt;/p&gt;
 &lt;p&gt;As a parting note, if you also choose to configure your gitattributes globally,
 you may want to know how to 'whitelist' notebooks in a particular repository
 (for example, if you're checking-in executed notebooks to a github-pages

@@ -148,7 +148,7 @@ every notebook also contains a 'metadata' section, which looks a bit like this:<
 <a class="reference external" href="https://nbformat.readthedocs.io/en/latest/format_description.html#metadata">effectively a blank slate</a>,
 and has a myriad of possible uses, but for most users it will just contain
 the above. This is useful for checking a previously run notebook, but is
-unwanted information when checking-in files to a multi-user project where
+mostly unwanted information when checking-in files to a multi-user project where
 everyone's using a slightly different Python version - it just generates
 more diff-noise.</p>
 </div>
@@ -209,13 +209,16 @@ using:</p>
     <span class="s1">&#39;</span>
 <span class="s1">    (.cells[] | select(has(&quot;outputs&quot;)) | .outputs) = []</span>
 <span class="s1">    | (.cells[] | select(has(&quot;execution_count&quot;)) | .execution_count) = null</span>
-<span class="s1">    | .metadata = {}</span>
+<span class="s1">    | .metadata = {&quot;language_info&quot;: {&quot;name&quot;:&quot;python&quot;, &quot;pygments_lexer&quot;: &quot;ipython3&quot;}}</span>
 <span class="s1">    | .cells[].metadata = {}</span>
 <span class="s1">    &#39;</span> <span class="m">01</span>-parsing.ipynb
 </pre></div>
 <p>Each line inside the single-quotes defines a filter - the first selects any
 entries from the 'cells' list, and blanks any outputs. The second resets
-any execution counts, and the third blanks the notebook metadata.
+any execution counts.
+The third wipes the notebook metadata, replacing it with the minimum of
+required information for the notebook to still run without complaints <a class="footnote-reference" href="#id2" id="id1">[*]</a> and
+work correctly when formatted with <a class="reference external" href="https://nbsphinx.readthedocs.io/">nbsphinx</a>.
 The fourth filter-line,</p>
 <blockquote>
 .cells[].metadata = {}</blockquote>
@@ -236,12 +239,12 @@ on ancient linux or OSX.</p>
 <div class="highlight"><pre><span></span><span class="nb">alias</span> <span class="nv">nbstrip_jq</span><span class="o">=</span><span class="s2">&quot;jq --indent 1 \</span>
 <span class="s2">    &#39;(.cells[] | select(has(\&quot;outputs\&quot;)) | .outputs) = []  \</span>
 <span class="s2">    | (.cells[] | select(has(\&quot;execution_count\&quot;)) | .execution_count) = null  \</span>
-<span class="s2">    | .metadata = {} \</span>
+<span class="s2">    | .metadata = {\&quot;language_info\&quot;: {\&quot;name\&quot;: \&quot;python\&quot;, \&quot;pygments_lexer\&quot;: \&quot;ipython3\&quot;}} \</span>
 <span class="s2">    | .cells[].metadata = {} \</span>
 <span class="s2">    &#39;&quot;</span>
 </pre></div>
 <p>Which can then be used conveniently like so:</p>
-<div class="highlight"><pre><span></span>nbstrip_jq <span class="m">01</span>-parsing.ipynb
+<div class="highlight"><pre><span></span>nbstrip_jq <span class="m">01</span>-parsing.ipynb &gt; stripped.ipynb
 </pre></div>
 <p>Not only does this give us full control to wipe that pesky metadata, it's
 pretty damn quick, taking something like a tenth of the time of nbstripout
@@ -252,6 +255,20 @@ real        0m0.015s
 user        0m0.008s
 sys         0m0.004s
 </pre></div>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[*]</a></td><td>Note on handling the notebook-level metadata section:
+Previously I had been blanking the metadata entirely, but it turns out that
+the <tt class="docutils literal">pygments_lexer</tt> entry is crucial for <a class="reference external" href="https://nbsphinx.readthedocs.io/">nbsphinx</a> to format notebooks
+with the correct syntax highlighting, hence the slightly awkward entry you
+see here. You might want to take a more careful approach and put together a
+jq-filter which merely removes (or normalizes) the Python version numbers,
+thereby lessening the risk of inadvertently wiping useful metadata. But for
+the purposes of this blog post I wanted to keep things as simple as possible
+while actually giving a usable, working setup.</td></tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="automation-integrating-with-git">
 <h2>Automation: Integrating with git</h2>
@@ -276,11 +293,11 @@ global <em>~/.gitconfig</em> file:</p>
 
 <span class="k">[filter &quot;nbstrip_full&quot;]</span>
 <span class="na">clean</span> <span class="o">=</span> <span class="s">&quot;jq --indent 1 \</span>
-<span class="s">         &#39;(.cells[] | select(has(\&quot;outputs\&quot;)) | .outputs) = []  \</span>
-<span class="s">         | (.cells[] | select(has(\&quot;execution_count\&quot;)) | .execution_count) = null  \</span>
-<span class="s">         | .metadata = {} \</span>
-<span class="s">         | .cells[].metadata = {} \</span>
-<span class="s">         &#39;&quot;</span>
+<span class="s">        &#39;(.cells[] | select(has(\&quot;outputs\&quot;)) | .outputs) = []  \</span>
+<span class="s">        | (.cells[] | select(has(\&quot;execution_count\&quot;)) | .execution_count) = null  \</span>
+<span class="s">        | .metadata = {\&quot;language_info\&quot;: {\&quot;name\&quot;: \&quot;python\&quot;, \&quot;pygments_lexer\&quot;: \&quot;ipython3\&quot;}} \</span>
+<span class="s">        | .cells[].metadata = {} \</span>
+<span class="s">        &#39;&quot;</span>
 <span class="na">smudge</span> <span class="o">=</span> <span class="s">cat</span>
 <span class="na">required</span> <span class="o">=</span> <span class="s">true</span>
 </pre></div>
@@ -336,6 +353,12 @@ the filters to all notebooks in the current working directory:</p>
     <span class="nb">unset</span> nbfile
 <span class="o">}</span>
 </pre></div>
+<p>Addtionally, let me note that
+<strong>clean/smudge filters often do not play well with rebase operations</strong>. Things
+get very confusing if you try to rebase across commits before / after applying
+a clean-filter. The simplest way to work around this is to simply comment out
+the relevant filter-assignment line in <em>.gitattributes_global</em> while performing
+a rebase, then uncomment it when done.</p>
 <p>As a parting note, if you also choose to configure your gitattributes globally,
 you may want to know how to 'whitelist' notebooks in a particular repository
 (for example, if you're checking-in executed notebooks to a github-pages
