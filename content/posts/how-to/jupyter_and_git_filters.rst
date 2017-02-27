@@ -82,7 +82,7 @@ Note the metadata section is
 `effectively a blank slate <https://nbformat.readthedocs.io/en/latest/format_description.html#metadata>`_,
 and has a myriad of possible uses, but for most users it will just contain
 the above. This is useful for checking a previously run notebook, but is
-unwanted information when checking-in files to a multi-user project where
+mostly unwanted information when checking-in files to a multi-user project where
 everyone's using a slightly different Python version - it just generates
 more diff-noise.
 
@@ -149,13 +149,16 @@ using:
         '
         (.cells[] | select(has("outputs")) | .outputs) = []
         | (.cells[] | select(has("execution_count")) | .execution_count) = null
-        | .metadata = {}
+        | .metadata = {"language_info": {"name":"python", "pygments_lexer": "ipython3"}}
         | .cells[].metadata = {}
         ' 01-parsing.ipynb
 
 Each line inside the single-quotes defines a filter - the first selects any
 entries from the 'cells' list, and blanks any outputs. The second resets
-any execution counts, and the third blanks the notebook metadata.
+any execution counts.
+The third wipes the notebook metadata, replacing it with the minimum of
+required information for the notebook to still run without complaints [*]_ and
+work correctly when formatted with nbsphinx_.
 The fourth filter-line,
 
      .cells[].metadata = {}
@@ -184,7 +187,7 @@ That's a bit of a handful to type, but you can set it up as an alias in your
     alias nbstrip_jq="jq --indent 1 \
         '(.cells[] | select(has(\"outputs\")) | .outputs) = []  \
         | (.cells[] | select(has(\"execution_count\")) | .execution_count) = null  \
-        | .metadata = {} \
+        | .metadata = {\"language_info\": {\"name\": \"python\", \"pygments_lexer\": \"ipython3\"}} \
         | .cells[].metadata = {} \
         '"
 
@@ -192,7 +195,7 @@ Which can then be used conveniently like so:
 
 .. code-block:: shell
 
-    nbstrip_jq 01-parsing.ipynb
+    nbstrip_jq 01-parsing.ipynb > stripped.ipynb
 
 Not only does this give us full control to wipe that pesky metadata, it's
 pretty damn quick, taking something like a tenth of the time of nbstripout
@@ -205,6 +208,17 @@ in my (admittedly ad-hoc) testing:
     real	0m0.015s
     user	0m0.008s
     sys 	0m0.004s
+
+
+.. [*] Note on handling the notebook-level metadata section:
+    Previously I had been blanking the metadata entirely, but it turns out that
+    the ``pygments_lexer`` entry is crucial for nbsphinx_ to format notebooks
+    with the correct syntax highlighting, hence the slightly awkward entry you
+    see here. You might want to take a more careful approach and put together a
+    jq-filter which merely removes (or normalizes) the Python version numbers,
+    thereby lessening the risk of inadvertently wiping useful metadata. But for
+    the purposes of this blog post I wanted to keep things as simple as possible
+    while actually giving a usable, working setup.
 
 Automation: Integrating with git
 --------------------------------
@@ -236,11 +250,11 @@ global *~/.gitconfig* file:
 
     [filter "nbstrip_full"]
     clean = "jq --indent 1 \
-             '(.cells[] | select(has(\"outputs\")) | .outputs) = []  \
-             | (.cells[] | select(has(\"execution_count\")) | .execution_count) = null  \
-             | .metadata = {} \
-             | .cells[].metadata = {} \
-             '"
+            '(.cells[] | select(has(\"outputs\")) | .outputs) = []  \
+            | (.cells[] | select(has(\"execution_count\")) | .execution_count) = null  \
+            | .metadata = {\"language_info\": {\"name\": \"python\", \"pygments_lexer\": \"ipython3\"}} \
+            | .cells[].metadata = {} \
+            '"
     smudge = cat
     required = true
 
@@ -309,6 +323,13 @@ the filters to all notebooks in the current working directory:
         unset nbfile
     }
 
+Addtionally, let me note that
+**clean/smudge filters often do not play well with rebase operations**. Things
+get very confusing if you try to rebase across commits before / after applying
+a clean-filter. The simplest way to work around this is to simply comment out
+the relevant filter-assignment line in *.gitattributes_global* while performing
+a rebase, then uncomment it when done.
+
 As a parting note, if you also choose to configure your gitattributes globally,
 you may want to know how to 'whitelist' notebooks in a particular repository
 (for example, if you're checking-in executed notebooks to a github-pages
@@ -333,6 +354,7 @@ Hope that helps! Comments or corrections very welcome via Twitter_.
 .. _nbdime: https://nbdime.readthedocs.io
 .. _nbdiff: https://github.com/tarmstrong/nbdiff
 .. _nbstripout: https://github.com/kynan/nbstripout
+.. _nbsphinx: https://nbsphinx.readthedocs.io/
 .. _tutorial: http://voeventdbremote.readthedocs.io/en/latest/tutorial/quickstart.html
 .. _voeventdb.remote: http://voeventdbremote.readthedocs.io
 .. _WYSIWYG: https://en.wikipedia.org/wiki/WYSIWYG
