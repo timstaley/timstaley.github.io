@@ -12,7 +12,7 @@ Alternatively, see my manually curated
 `ORCiD entry`_, which is less frequently updated (and limited to more traditional
 publications), but a little easier to read.
 
-.. _ADS query: http://labs.adsabs.harvard.edu/adsabs/search/?q=Staley%2C+T&year_from=2007&db_f=astronomy&no_ft=1&bigquery=&aut_f=-(%220%2FStaley%2C+A%22)&page=1
+.. _ADS query: https://ui.adsabs.harvard.edu/#search/q=author%3A"Staley%2C+T.D."
 .. _ASCL: http://ascl.net/
 .. _Atels: http://www.astronomerstelegram.org/
 .. _ORCiD entry: http://orcid.org/0000-0002-4474-5253
