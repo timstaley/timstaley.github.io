@@ -65,7 +65,6 @@ Contact Details
     </p>
 
 .. _astrophysics group: http://www2.physics.ox.ac.uk/research/astrophysics
-
 .. _4 Pi Sky project: http://4pisky.org
 .. _RSE: http://www.rse.ac.uk/who.html
 .. _research: /research
