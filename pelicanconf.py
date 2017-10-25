@@ -58,7 +58,7 @@ DEFAULT_DATE = 'fs'
 DISPLAY_CATEGORIES_ON_MENU = False
 DISPLAY_PAGES_ON_MENU = False
 MENUITEMS = [
-             ('Consulting', '/consulting', 'fa-lightbulb-o'),
+             # ('Consulting', '/consulting', 'fa-lightbulb-o'),
              ('Research', '/research', 'fa-flask'),
              ('Talks', '/talks', 'fa-comment'),
              ('Code', '/code', 'fa-code-fork'),
